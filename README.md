@@ -1,2 +1,3 @@
-Per accedere al sito usare questo comando da terminale nella cartella frontend/ del progetto: 
-_npm start_ e poi accedere a _http://localhost:4200_.
+Per accedere al sito: 
+- Entrare con il terminale nella cartella _/frontend/_ del progetto e usare il comando: _npm start_ 
+- Accedere a: _http://localhost:4200_.
