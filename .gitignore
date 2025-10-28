@@ -1,33 +1,132 @@
+##############################################################
+# 🌐 GLOBAL / SYSTEM FILES
+##############################################################
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Log files
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+##############################################################
+# ☕ BACKEND (Spring Boot / Maven / IntelliJ)
+##############################################################
+
 HELP.md
 target/
-.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
+# Maven & Java build
+.mvn/
+out/
+*.class
+*.jar
+*.war
+*.ear
+
+# Spring / Temp / PID files
+spring.log
+*.pid
+*.seed
+*.tmp
+*.bak
+
+# IntelliJ / STS
 .apt_generated
-.classpath
 .factorypath
 .project
-.settings
+.settings/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
+# NetBeans
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
+/build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### VS Code ###
-.vscode/
+# Local configuration (non condividere credenziali)
+application-local.yml
+application-local.properties
+.env
+.env.*
+
+##############################################################
+# ⚡ FRONTEND (Angular / Node.js)
+##############################################################
+
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/.sass-cache/
+frontend/.tmp/
+frontend/coverage/
+frontend/npm-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+frontend/.pnp*
+frontend/.pnp.js
+
+# Environment files Angular (verranno rigenerati)
+frontend/src/environments/environment.*.ts
+
+# Lockfile se vuoi lasciarlo locale (rimuovi il ! per committarlo)
+# !frontend/package-lock.json
+
+##############################################################
+# 🐘 DATABASE / DOCKER
+##############################################################
+
+# Docker volumes / data
+dbdata/
+postgres-data/
+volumes/
+docker-compose.override.yml
+docker-compose.local.yml
+
+# PostgreSQL dumps
+*.sql
+*.dump
+
+##############################################################
+# 🧰 MISC / UTILITY
+##############################################################
+
+# MacOS
+.AppleDouble
+.LSOverride
+
+# Windows Thumbnails
+ehthumbs.db
+Icon?
+
+# JetBrains HTTP requests
+httpRequests/
+
+# Temporary / cache / backup
+.cache/
+tmp/
+temp/
+*.bak
+*.old
