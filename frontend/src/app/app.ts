@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,3 +10,4 @@ import { RouterOutlet } from '@angular/router';
 export class App {
   protected readonly title = signal('frontend');
 }
+
