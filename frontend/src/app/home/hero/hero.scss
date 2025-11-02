@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.hero-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6rem 2rem; /* Aumentiamo lo spazio verticale per dare respiro */
+  text-align: center;
+}
+
+h1 {
+  font-size: 4.5rem; /* Titolo molto grande come da descrizione */
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.02em; /* Leggera crenatura per un look più compatto */
+}
