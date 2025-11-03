@@ -1,1 +1,8 @@
-<p>courses works!</p>
+<section class="courses-section">
+  <div class="courses-grid">
+    <div class="course-card" *ngFor="let course of courses">
+      <div class="card-icon-placeholder"></div>
+      <span class="course-name">{{ course.name }}</span>
+    </div>
+  </div>
+</section>
