@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 export class Login {
   email: string= '';
   password: string= '';
-  private location: any;
+  constructor(private location: Location) {}
   goBack(){
     this.location.back();
   }

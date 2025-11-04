@@ -7,6 +7,19 @@
   background-color: #f4f7f6;
 }
 
+.logo-placeholder {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+  /* Spazio sotto, come prima avevi per "Accedi" */
+  margin-bottom: 1.5rem;
+}
+
 /* La "card" del form */
 .login-form {
   width: 100%;
@@ -16,13 +29,6 @@
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
-}
-
-.login-form h2 {
-  text-align: center;
-  color: #333;
-  margin-bottom: 1.5rem;
-  margin-top: 0;
 }
 
 /* Contenitore per ogni coppia label-input */
