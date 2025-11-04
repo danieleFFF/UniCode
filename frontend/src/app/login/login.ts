@@ -1,10 +1,19 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterLink],
+  imports: [CommonModule, FormsModule],
   templateUrl: './login.html',
+  styleUrls: ['./login.scss']
 })
-export class Login {}
+export class Login {
+  email: string= '';
+  password: string= '';
+  private location: any;
+  goBack(){
+    this.location.back();
+  }
+}
