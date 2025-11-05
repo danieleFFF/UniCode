@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { Header } from '../layout/header/header';
+import { Navbar } from '../layout/navbar/navbar';
 import { Hero } from './hero/hero';
 import { Courses} from './courses/courses';
 
 @Component({
   selector: 'app-home',
-  imports: [Header, Hero,Courses],
+  imports: [Navbar, Hero,Courses],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
