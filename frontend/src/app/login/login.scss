@@ -1,14 +1,10 @@
-<<<<<<< Updated upstream
-=======
-//Contenitore principale per centrare il form.
+// Contenitore principale per centrare il form
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(to bottom, #0e0d0f 0%, #1a0f1f 40%, #A21CBC 100%);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  background: linear-gradient(to bottom, #0e0d0f 0%, #1a0f1f 40%, #A21CBC 100%) no-repeat fixed;
 }
 
 .login-logo {
@@ -24,7 +20,7 @@
   display: block;
 }
 
-//La "card" del form.
+// Card del form
 .login-form {
   width: 100%;
   max-width: 400px;
@@ -35,7 +31,7 @@
   box-sizing: border-box;
 }
 
-//Contenitore per ogni coppia label-input.
+// Campi e label
 .form-group {
   margin-bottom: 1.25rem;
 }
@@ -47,7 +43,6 @@
   color: #a0a0a0;
 }
 
-//Campi di input.
 .form-group input {
   width: 100%;
   padding: 0.75rem;
@@ -58,13 +53,19 @@
   font-size: 0.95rem;
 }
 
-//Pulsante di submit.
+.form-group input:focus {
+  outline: none;
+  border-color: #8b5cf6;
+  box-shadow: 0 0 5px rgba(139, 92, 246, 0.5);
+}
+
+// Pulsante Sign in
 .submit-btn {
   width: 100%;
   padding: 0.75rem;
   border: none;
   border-radius: 6px;
-  background: linear-gradient(90deg, #7e22ce, #A21CBC); /* viola sfumato */
+  background: linear-gradient(90deg, #7e22ce, #A21CBC);
   color: white;
   font-size: 1rem;
   font-weight: 600;
@@ -78,8 +79,8 @@
   transform: scale(1.02);
 }
 
+// Freccia indietro
 .back-link-container {
-  //Posiziona il link sopra il titolo.
   width: 100%;
   margin-bottom: 1rem;
   text-align: left;
@@ -91,6 +92,8 @@
   transition: transform 0.3s ease, color 0.3s ease;
   cursor: pointer;
   font-size: 1.2rem;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .back-link:hover {
@@ -98,6 +101,7 @@
   transform: translateX(-3px) rotate(180deg);
 }
 
+// Icone input
 .icon-input {
   position: relative;
 }
@@ -112,8 +116,8 @@
   opacity: 0.7;
   color: #b8b8b8;
   font-size: 1rem;
-  pointer-events: none;   //Non si può cliccare le icone.
-  user-select: none;      //Non si può draggare le icone.
+  pointer-events: none;
+  user-select: none;
 }
 
 .icon-input input {
@@ -124,11 +128,8 @@
   font-size: 1rem;
   box-sizing: border-box;
 }
-.form-group input:focus {
-  outline: none;
-  border-color: #8b5cf6; /* viola luminoso */
-  box-shadow: 0 0 5px rgba(139, 92, 246, 0.5);
-}
+
+// Campo password
 .password-group {
   position: relative;
 }
@@ -143,6 +144,7 @@
   cursor: pointer;
   opacity: 0.8;
   filter: brightness(2);
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .password-eye:hover {
@@ -150,12 +152,13 @@
   transform: translateY(-50%) scale(1.1);
 }
 
+// Disabilita drag immagini
 img {
   user-select: none;
   -webkit-user-drag: none;
 }
 
-//Per registrarsi.
+// Register
 .register-container {
   margin-top: 1rem;
   text-align: center;
@@ -179,19 +182,36 @@ img {
   text-decoration: underline;
 }
 
-
-//Queste righe disabilitano l'icona dell'occhio di default accanto la password, così da poter usare un'icona personalizzata.
+// Disattiva icone browser
 input::-ms-reveal,
-input::-ms-clear { display: none !important; }
+input::-ms-clear {
+  display: none !important;
+}
 input[type="password"]::-webkit-textfield-decoration-container,
 input[type="password"]::-webkit-clear-button,
 input[type="password"]::-webkit-inner-spin-button,
 input[type="password"]::-webkit-calendar-picker-indicator,
 input[type="password"]::-webkit-search-cancel-button,
-input[type="password"]::-webkit-search-decoration { display: none !important; }
-input[type="password"]::-webkit-credentials-auto-fill-button {
-  visibility: hidden !important;
+input[type="password"]::-webkit-search-decoration {
   display: none !important;
-  pointer-events: none !important;
 }
->>>>>>> Stashed changes
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+:root {
+  --background-main: #1A1A1F;
+  --background-card: #2E2B36;
+  --button-primary: #3A324D;
+  --text-primary: #FFFFFF;
+  --text-secondary: #A0A0A0;
+  --border-color: #2a2a30;
+}
+
+body {
+  margin: 0;
+  background-color: var(--background-main);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

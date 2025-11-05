@@ -1,9 +1,3 @@
-<<<<<<< Updated upstream
-<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-  <button routerLink="/home" style="padding: 1rem 2rem; font-size: 1.5rem; cursor: pointer;">
-    Home
-  </button>
-=======
 <div class="login-container">
   <form class="login-form">
     <div class="back-link-container">
@@ -16,9 +10,7 @@
 
     <div class="form-group">
       <div class="form-group icon-input">
-
         <img src="assets/images/emailicon.png" class="input-icon" alt="Email icon">
-
         <input
           type="email"
           id="email"
@@ -33,7 +25,7 @@
       <div class="form-group icon-input password-group">
         <img src="assets/images/lockicon.png" class="input-icon" alt="Password icon">
 
-        <!-- Blocca l'utente dal copiare la password con Ctrl+C. -->
+        <!-- Campo password con blocco copia/incolla -->
         <input
           [type]="showPassword ? 'text' : 'password'"
           id="password"
@@ -60,5 +52,4 @@
       <a routerLink="/register" class="register-link">Register</a>
     </div>
   </form>
->>>>>>> Stashed changes
 </div>
