@@ -1,5 +1,64 @@
+<<<<<<< Updated upstream
 <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
   <button routerLink="/home" style="padding: 1rem 2rem; font-size: 1.5rem; cursor: pointer;">
     Home
   </button>
+=======
+<div class="login-container">
+  <form class="login-form">
+    <div class="back-link-container">
+      <a (click)="goBack()" class="back-link">➔</a>
+    </div>
+
+    <div class="logo-container">
+      <img src="assets/images/logo.png" alt="Logo" class="login-logo">
+    </div>
+
+    <div class="form-group">
+      <div class="form-group icon-input">
+
+        <img src="assets/images/emailicon.png" class="input-icon" alt="Email icon">
+
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="email"
+          [(ngModel)]="email"
+          required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="form-group icon-input password-group">
+        <img src="assets/images/lockicon.png" class="input-icon" alt="Password icon">
+
+        <!-- Blocca l'utente dal copiare la password con Ctrl+C. -->
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          id="password"
+          name="password"
+          placeholder="password"
+          [(ngModel)]="password"
+          required
+          (copy)="disableCopy($event)"
+          (cut)="disableCopy($event)"
+          autocomplete="off">
+
+        <img
+          [src]="showPassword ? 'assets/images/openedeyeicon.png' : 'assets/images/closedeyeicon.png'"
+          class="password-eye"
+          alt="Toggle password visibility"
+          (click)="togglePassword()">
+      </div>
+    </div>
+
+    <button type="submit" class="submit-btn">Sign in</button>
+
+    <div class="register-container">
+      <span>Don't have an account?</span>
+      <a routerLink="/register" class="register-link">Register</a>
+    </div>
+  </form>
+>>>>>>> Stashed changes
 </div>
