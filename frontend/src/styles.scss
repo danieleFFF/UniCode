@@ -17,22 +17,19 @@ body {
   }
 
   .hero-title {
-    /* Questi stili verranno applicati al selettore .hero-title in hero.component */
+
     font-size: 2.2rem;
   }
 
   .section-info {
-    /* Questi stili verranno applicati al selettore .section-info in info-cards.component */
     gap: 1.5rem;
   }
 
   .info-card {
-    /* Questi stili verranno applicati al selettore .info-card in info-cards.component */
     width: 90%;
   }
 
   .section-languages {
-    /* Questi stili verranno applicati al selettore .section-languages in courses.component */
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   }
 }

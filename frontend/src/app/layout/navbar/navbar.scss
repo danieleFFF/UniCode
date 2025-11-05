@@ -3,17 +3,12 @@
   align-items: center;
   padding: 1.2rem 4rem;
   background: transparent;
-  position: sticky;
-  top: 0;
-  z-index: 100;
 }
 
 .navbar-links {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Questo fa sì che il contenitore dei link occupi tutto lo spazio
-     disponibile, permettendo la centratura dei suoi figli. */
   flex-grow: 1;
 }
 
@@ -33,14 +28,18 @@
 }
 
 
-/* Stile specifico per il pulsante di login */
 .login-btn {
-  /* La magia è qui: spinge il pulsante tutto a destra */
-  margin-left: auto;
+  margin-top: 0.5rem;
+  position: absolute;
+  top: 1.2rem;
+  right: 4rem;
+  z-index: 101;
+  border-radius: 8px;
 }
 
 .logo {
   font-size: 1.5rem;
-  font-weight: 700;
-  color: #fff; /* Lo rendiamo bianco per farlo risaltare */
+  font-weight: 150;
+  color: #fff;
+  margin-left: 1.5rem;
 }
