@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 
 export interface Course {
+  iconPath: string;
   name: string;
 }
 
@@ -16,9 +17,19 @@ export interface Course {
 export class Courses{
 
   courses: Course[] = [
-    { name: 'Python' },
-    { name: 'C++' },
-    { name: 'Java' },
-    { name: 'C' },
+    {
+      name: 'Python',
+      iconPath: ""
+    },
+    {
+      name: 'C++',
+      iconPath: ""
+    },
+    {
+      name: 'Java',
+      iconPath: ""
+    },
+    { name: 'C' ,
+    iconPath:""},
   ];
 }

@@ -1,23 +1,38 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
-:root {
-  --background-main: #1A1A1F;
-  --background-card: #2E2B36;
-  --button-primary: #3A324D;
-  --text-primary: #FFFFFF;
-  --text-secondary: #A0A0A0;
-  --border-color: #2a2a30;
-}
 
 body {
   margin: 0;
-  background-color: var(--background-main);
-  color: var(--text-primary);
-  font-family: 'Inter', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
+
+/* =============== RESPONSIVE =============== */
+/* Mettiamo qui le regole responsive globali per manutenibilità */
+@media (max-width: 768px) {
+  .navbar {
+    /* Questi stili verranno applicati al selettore .navbar in navbar.component */
+    padding: 1rem 2rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .hero-title {
+    /* Questi stili verranno applicati al selettore .hero-title in hero.component */
+    font-size: 2.2rem;
+  }
+
+  .section-info {
+    /* Questi stili verranno applicati al selettore .section-info in info-cards.component */
+    gap: 1.5rem;
+  }
+
+  .info-card {
+    /* Questi stili verranno applicati al selettore .info-card in info-cards.component */
+    width: 90%;
+  }
+
+  .section-languages {
+    /* Questi stili verranno applicati al selettore .section-languages in courses.component */
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
 }

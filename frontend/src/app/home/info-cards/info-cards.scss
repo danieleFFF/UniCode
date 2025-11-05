@@ -1,0 +1,37 @@
+/* =============== INFO SECTION =============== */
+.section-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 6rem;
+  padding: 0 2rem;
+}
+
+.info-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 300px;
+  text-align: left;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px rgba(150, 0, 255, 0.4);
+}
+
+.info-card h3 {
+  color: #fff;
+  margin-bottom: 0.8rem;
+  font-size: 1.2rem;
+}
+
+.info-card p {
+  font-size: 0.9rem;
+  color: #ccc;
+  line-height: 1.5;
+}
