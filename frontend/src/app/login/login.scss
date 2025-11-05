@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;600;700&display=swap');
+
 // Contenitore principale per centrare il form
 .login-container {
   display: flex;
@@ -33,7 +35,7 @@
 
 // Campi e label
 .form-group {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.2rem;
 }
 
 .form-group label {
@@ -50,7 +52,7 @@
   border-radius: 6px;
   background-color: #3b3b3b;
   color: #e0e0e0;
-  font-size: 0.95rem;
+  font-family: "Inconsolata";
 }
 
 .form-group input:focus {
@@ -67,8 +69,9 @@
   border-radius: 6px;
   background: linear-gradient(90deg, #7e22ce, #A21CBC);
   color: white;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 600;
+  font-family: "Inconsolata";
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 1rem;
@@ -88,6 +91,7 @@
 
 .back-link {
   display: inline-block;
+  color: #FFFFFF;
   transform: rotate(180deg);
   transition: transform 0.3s ease, color 0.3s ease;
   cursor: pointer;
@@ -164,6 +168,7 @@ img {
   text-align: center;
   color: #a0a0a0;
   font-size: 0.9rem;
+  font-family: "Inconsolata";
 }
 
 .register-link {
@@ -206,12 +211,13 @@ input[type="password"]::-webkit-search-decoration {
   --text-secondary: #A0A0A0;
   --border-color: #2a2a30;
 }
-
+/*
 body {
   margin: 0;
   background-color: var(--background-main);
   color: var(--text-primary);
-  font-family: 'Inter', sans-serif;
+  font-family: "Inconsolata";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+*/
