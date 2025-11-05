@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;600;700&display=swap');
+
 .section-hero {
   display: flex;
   justify-content: center;
@@ -6,6 +8,7 @@
   text-align: center;
   margin-top: 8rem;
   padding: 0 2rem;
+  font-family: "Inconsolata";
 }
 
 .hero-title {

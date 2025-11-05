@@ -1,29 +1,55 @@
 <div class="login-container">
   <form class="login-form">
     <div class="back-link-container">
-      <a (click)="goBack()" class="back-link">&larr;</a>
+      <a (click)="goBack()" class="back-link">➔</a>
     </div>
-    <img src="assets/images/logo.png" alt="Logo" class="logo-placeholder">
+
+    <div class="logo-container">
+      <img src="assets/images/logo.png" alt="Logo" class="login-logo">
+    </div>
+
     <div class="form-group">
-      <label for="email">Email</label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        placeholder="latuaemail@dominio.com"
-        [(ngModel)]="email"
-        required>
+      <div class="form-group icon-input">
+        <img src="assets/images/emailicon.png" class="input-icon" alt="Email icon">
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="email"
+          [(ngModel)]="email"
+          required>
+      </div>
     </div>
+
     <div class="form-group">
-      <label for="password">Password</label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        placeholder="La tua password"
-        [(ngModel)]="password"
-        required>
+      <div class="form-group icon-input password-group">
+        <img src="assets/images/lockicon.png" class="input-icon" alt="Password icon">
+
+        <!-- Campo password con blocco copia/incolla -->
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          id="password"
+          name="password"
+          placeholder="password"
+          [(ngModel)]="password"
+          required
+          (copy)="disableCopy($event)"
+          (cut)="disableCopy($event)"
+          autocomplete="off">
+
+        <img
+          [src]="showPassword ? 'assets/images/openedeyeicon.png' : 'assets/images/closedeyeicon.png'"
+          class="password-eye"
+          alt="Toggle password visibility"
+          (click)="togglePassword()">
+      </div>
     </div>
-    <button type="submit" class="submit-btn">Accedi</button>
+
+    <button type="submit" class="submit-btn">Sign in</button>
+
+    <div class="register-container">
+      <span>Don't have an account?</span>
+      <a routerLink="/register" class="register-link">Register</a>
+    </div>
   </form>
 </div>

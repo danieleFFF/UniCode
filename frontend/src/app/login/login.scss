@@ -1,70 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;600;700&display=swap');
+
+// Contenitore principale per centrare il form
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90vh;
-  background-color: #f4f7f6;
+  height: 100vh;
+  background: linear-gradient(to bottom, #0e0d0f 0%, #1a0f1f 40%, #A21CBC 100%) no-repeat fixed;
 }
 
-.logo-placeholder {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: #e0e0e0;
+.login-logo {
+  margin-bottom: 1rem;
+  margin-left: 7rem;
+  width: 120px;
+  height: auto;
+  object-fit: contain;
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
-
-  margin-bottom: 1.5rem;
 }
 
+// Card del form
 .login-form {
   width: 100%;
   max-width: 400px;
   padding: 2rem;
-  background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  background: #2b2b2b;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   box-sizing: border-box;
 }
 
+// Campi e label
 .form-group {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.2rem;
 }
 
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 600;
-  color: #555;
+  color: #a0a0a0;
 }
 
 .form-group input {
   width: 100%;
   padding: 0.75rem;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-size: 1rem;
+  border-radius: 6px;
+  background-color: #3b3b3b;
+  color: #e0e0e0;
+  font-family: "Inconsolata";
 }
 
+.form-group input:focus {
+  outline: none;
+  border-color: #8b5cf6;
+  box-shadow: 0 0 5px rgba(139, 92, 246, 0.5);
+}
+
+// Pulsante Sign in
 .submit-btn {
   width: 100%;
   padding: 0.75rem;
   border: none;
-  border-radius: 4px;
-  background-color: #007bff;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #7e22ce, #A21CBC);
   color: white;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 600;
+  font-family: "Inconsolata";
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
 }
 
 .submit-btn:hover {
-  background-color: #0056b3;
+  background: linear-gradient(90deg, #9333ea, #A21CBC);
+  transform: scale(1.02);
 }
 
+// Freccia indietro
 .back-link-container {
   width: 100%;
   margin-bottom: 1rem;
@@ -72,14 +90,134 @@
 }
 
 .back-link {
-  font-size: 0.9rem;
-  color: #555;
+  display: inline-block;
+  color: #FFFFFF;
+  transform: rotate(180deg);
+  transition: transform 0.3s ease, color 0.3s ease;
   cursor: pointer;
-  text-decoration: none;
-  font-weight: 600;
+  font-size: 1.2rem;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .back-link:hover {
-  color: #007bff;
+  color: #8b5cf6;
+  transform: translateX(-3px) rotate(180deg);
+}
+
+// Icone input
+.icon-input {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  opacity: 0.7;
+  color: #b8b8b8;
+  font-size: 1rem;
+  pointer-events: none;
+  user-select: none;
+}
+
+.icon-input input {
+  width: 100%;
+  padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+// Campo password
+.password-group {
+  position: relative;
+}
+
+.password-eye {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  opacity: 0.8;
+  filter: brightness(2);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.password-eye:hover {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.1);
+}
+
+// Disabilita drag immagini
+img {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+// Register
+.register-container {
+  margin-top: 1rem;
+  text-align: center;
+  color: #a0a0a0;
+  font-size: 0.9rem;
+  font-family: "Inconsolata";
+}
+
+.register-link {
+  user-drag: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  color: #d1d1d1;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 0.25rem;
+  transition: color 0.2s ease;
+}
+
+.register-link:hover {
+  color: #a855f7;
   text-decoration: underline;
 }
+
+// Disattiva icone browser
+input::-ms-reveal,
+input::-ms-clear {
+  display: none !important;
+}
+input[type="password"]::-webkit-textfield-decoration-container,
+input[type="password"]::-webkit-clear-button,
+input[type="password"]::-webkit-inner-spin-button,
+input[type="password"]::-webkit-calendar-picker-indicator,
+input[type="password"]::-webkit-search-cancel-button,
+input[type="password"]::-webkit-search-decoration {
+  display: none !important;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+:root {
+  --background-main: #1A1A1F;
+  --background-card: #2E2B36;
+  --button-primary: #3A324D;
+  --text-primary: #FFFFFF;
+  --text-secondary: #A0A0A0;
+  --border-color: #2a2a30;
+}
+/*
+body {
+  margin: 0;
+  background-color: var(--background-main);
+  color: var(--text-primary);
+  font-family: "Inconsolata";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+*/
