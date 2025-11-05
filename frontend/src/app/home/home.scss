@@ -1,0 +1,8 @@
+/* Stile per il contenitore principale della homepage */
+.home-container {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #0a0a0a 0%, #3c0078 100%);
+  color: #ddd;
+  font-family: 'Inter', monospace;
+  overflow-x: hidden;
+}

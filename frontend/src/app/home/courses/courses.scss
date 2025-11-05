@@ -1,44 +1,38 @@
-:host {
-  display: block;
-  width: 100%;
-}
-
-.courses-section {
-  display: flex;
-  justify-content: center;
-  padding: 2rem;
-}
-
-.courses-grid {
+/* =============== LANGUAGE GRID =============== */
+.section-languages {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 2rem;
-  max-width: 800px;
-  width: 100%;
+  justify-items: center;
+  margin-top: 6rem;
+  padding: 0 4rem 5rem;
 }
 
-.course-card {
-  position: relative;
-  background-color: var(--background-card);
-  border-radius: 16px;
-  padding: 1.5rem;
-  aspect-ratio: 16 / 9;
+.lang-card {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 1rem;
+  width: 120px;
+  height: 120px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
 }
 
-.card-icon-placeholder {
+.lang-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 20px rgba(150, 0, 255, 0.3);
+}
+
+.lang-card img {
   width: 50px;
   height: 50px;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
+  margin-bottom: 0.5rem;
 }
 
-.course-name {
-  align-self: flex-end;
-  font-size: 1.75rem;
-  font-weight: 600;
+.lang-card span {
+  font-size: 0.9rem;
+  color: #ddd;
 }

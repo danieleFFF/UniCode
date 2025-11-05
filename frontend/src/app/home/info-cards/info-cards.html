@@ -1,1 +1,6 @@
-<p>info-cards works!</p>
+<section class="section-info">
+  <div class="info-card" *ngFor="let card of infoCards">
+    <h3>{{ card.title }}</h3>
+    <p [innerHTML]="card.text"></p>
+  </div>
+</section>

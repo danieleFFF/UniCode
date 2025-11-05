@@ -1,22 +1,26 @@
-:host {
-  display: block;
-  width: 100%;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.hero-section {
+/* =============== HERO SECTION =============== */
+.section-hero {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 6rem 2rem; /* Aumentiamo lo spazio verticale per dare respiro */
+  flex-direction: column;
   text-align: center;
+  margin-top: 8rem;
+  padding: 0 2rem;
 }
 
-h1 {
-  font-size: 4.5rem; /* Titolo molto grande come da descrizione */
+.hero-title {
+  font-size: 4.5rem;
+  background: linear-gradient(90deg, #b06cff, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1.2rem;
   font-weight: 700;
-  color: var(--text-primary);
-  margin: 0;
-  line-height: 1.1;
-  letter-spacing: -0.02em; /* Leggera crenatura per un look più compatto */
+}
+
+.hero-subtitle {
+  color: #bbb;
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 600px;
 }
