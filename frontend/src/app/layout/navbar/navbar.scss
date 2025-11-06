@@ -42,7 +42,7 @@
 }
 
 .nav-icon {
-  width: 24px;   /* Ingrandiamo l'icona */
+  width: 24px;
   height: 24px;
   margin-right: 0.5rem;
 }
@@ -55,7 +55,7 @@
   z-index: 101;
   border-radius: 8px;
 
-  padding: 0.8rem 1.5rem; /* Applichiamo lo stesso padding dei nav-item */
+  padding: 0.8rem 1.5rem;
   transition: transform 0.3s, box-shadow 0.3s;
 }
 .login-btn:hover {

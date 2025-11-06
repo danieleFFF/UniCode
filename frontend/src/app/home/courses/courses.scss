@@ -1,19 +1,19 @@
 .section-languages {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 2rem;
   justify-items: center;
   margin-top: 6rem;
   padding: 0 4rem 5rem;
-}
 
+}
+.section-languages-container{
+}
 .lang-card {
   background: rgba(0, 0, 0, 0.4);
   border-radius: 1rem;
   width: 120px;
   height: 120px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   transition: transform 0.3s, box-shadow 0.3s;
@@ -26,12 +26,7 @@
 }
 
 .lang-card img {
-  width: 50px;
-  height: 50px;
+  width: 75px;
+  height: 75px;
   margin-bottom: 0.5rem;
-}
-
-.lang-card span {
-  font-size: 0.9rem;
-  color: #ddd;
 }

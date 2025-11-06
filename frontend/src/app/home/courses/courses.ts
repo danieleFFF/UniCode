@@ -19,17 +19,27 @@ export class Courses{
   courses: Course[] = [
     {
       name: 'Python',
-      iconPath: ""
+      iconPath: "assets/images/pythonimage.png"
     },
     {
       name: 'C++',
-      iconPath: ""
+      iconPath: "assets/images/cppimage.png"
     },
     {
       name: 'Java',
-      iconPath: ""
+      iconPath: "assets/images/javaimage.png"
     },
-    { name: 'C' ,
-    iconPath:""},
+    { name: 'Javascript' ,
+    iconPath:"assets/images/javascriptimage.png"
+    },
+    {
+      name: 'html',
+      iconPath: "assets/images/htmlimage.png"
+    }
+    ,
+    {
+      name: 'sql',
+      iconPath: "assets/images/sqlimage.png"
+    }
   ];
 }

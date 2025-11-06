@@ -1,6 +1,19 @@
 <section class="section-info">
-  <div class="info-card" *ngFor="let card of infoCards">
-    <h3>{{ card.title }}</h3>
-    <p [innerHTML]="card.text"></p>
+  @if (tallCard) {
+    <div class="info-card info-card-tall">
+      <h3 class="info-card-text-big">{{ tallCard.title }}</h3>
+      <p class="info-card-text-small" [innerHTML]="tallCard.text"></p>
+      <img [src]="tallCard.iconPath" class="card-background-icon" alt="">
+    </div>
+  }
+
+  <div class="short-cards-column">
+    @for (card of shortCards; track card.title) {
+      <div class="info-card info-card-short">
+        <h3 class="info-card-text-big">{{ card.title }}</h3>
+        <p class="info-card-text-small" [innerHTML]="card.text"></p>
+        <img [src]="card.iconPath" class="card-background-icon" alt="">
+      </div>
+    }
   </div>
 </section>
