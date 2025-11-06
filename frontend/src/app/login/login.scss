@@ -33,7 +33,6 @@
   box-sizing: border-box;
 }
 
-// Campi e label
 .form-group {
   margin-bottom: 1.2rem;
 }
@@ -61,7 +60,6 @@
   box-shadow: 0 0 5px rgba(139, 92, 246, 0.5);
 }
 
-// Pulsante Sign in
 .submit-btn {
   width: 100%;
   padding: 0.75rem;
@@ -82,7 +80,6 @@
   transform: scale(1.02);
 }
 
-// Freccia indietro
 .back-link-container {
   width: 100%;
   margin-bottom: 1rem;
@@ -105,7 +102,6 @@
   transform: translateX(-3px) rotate(180deg);
 }
 
-// Icone input
 .icon-input {
   position: relative;
 }
@@ -133,7 +129,6 @@
   box-sizing: border-box;
 }
 
-// Campo password
 .password-group {
   position: relative;
 }
@@ -156,13 +151,12 @@
   transform: translateY(-50%) scale(1.1);
 }
 
-// Disabilita drag immagini
 img {
   user-select: none;
   -webkit-user-drag: none;
 }
 
-// Register
+
 .register-container {
   margin-top: 1rem;
   text-align: center;
@@ -187,7 +181,6 @@ img {
   text-decoration: underline;
 }
 
-// Disattiva icone browser
 input::-ms-reveal,
 input::-ms-clear {
   display: none !important;
