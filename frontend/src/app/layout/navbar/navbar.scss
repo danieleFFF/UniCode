@@ -3,44 +3,65 @@
   align-items: center;
   padding: 1.2rem 4rem;
   background: transparent;
-  position: sticky;
-  top: 0;
-  z-index: 100;
 }
 
 .navbar-links {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Questo fa sì che il contenitore dei link occupi tutto lo spazio
-     disponibile, permettendo la centratura dei suoi figli. */
   flex-grow: 1;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 0.75rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.nav-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 20px rgba(150, 0, 255, 0.3);
 }
 
 .nav-link {
   color: #aaa;
-  margin: 0 1.2rem;
+  font-size: 1.1rem;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s;
   cursor: pointer;
 }
 
-.nav-link:hover {
+.nav-item:hover .nav-link {
   background: linear-gradient(90deg, #a56cff, #d892ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-
-/* Stile specifico per il pulsante di login */
-.login-btn {
-  /* La magia è qui: spinge il pulsante tutto a destra */
-  margin-left: auto;
+.nav-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 0.5rem;
 }
 
-.logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #fff; /* Lo rendiamo bianco per farlo risaltare */
+.login-btn {
+  position: absolute;
+  color: #aaa;
+  top: 1.2rem;
+  right: 4rem;
+  z-index: 101;
+  border-radius: 8px;
+
+  padding: 0.8rem 1.5rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.login-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 20px rgba(150, 0, 255, 0.3);
+  background: linear-gradient(90deg, #a56cff, #d892ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

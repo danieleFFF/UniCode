@@ -1,6 +1,9 @@
-<section class="section-languages">
-  <div class="lang-card" *ngFor="let course of courses">
-    <img [src]="course.iconPath" [alt]="course.name" />
-    <span>{{ course.name }}</span>
-  </div>
-</section>
+<div class="section-languages-container">
+  <section class="section-languages">
+    @for(course of courses; track course.name){
+      <div class="lang-card" >
+        <img [src]="course.iconPath" />
+      </div>
+    }
+  </section>
+</div>
