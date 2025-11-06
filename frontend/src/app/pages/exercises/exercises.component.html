@@ -1,0 +1,28 @@
+<div class="filters">
+  <select [(ngModel)]="selectedLanguage" (change)="onLanguageChange()">
+    <option *ngFor="let lang of languages">{{ lang }}</option>
+  </select>
+
+  <div class="dropdown">
+    <button class="filter-btn">Filtro</button>
+    <div class="dropdown-content">
+      <button (click)="changeSort('difficulty')">Difficoltà</button>
+      <button (click)="changeSort('title')">Alfabeto</button>
+      <button (click)="changeSort('points')">Punti</button>
+    </div>
+  </div>
+</div>
+
+<div class="exercise-list">
+  <div *ngFor="let ex of exercises" class="exercise-card">
+    <div class="difficulty" [style.color]="getXpColor(ex.difficulty)">
+      ● {{ ex.difficulty }}
+    </div>
+    <div class="xp">{{ ex.points }} XP</div>
+    <h3>{{ ex.title }}</h3>
+    <p>{{ ex.description }}</p>
+    <button class="solve-btn">Solve</button>
+  </div>
+</div>
+
+<div *ngIf="loading" class="loading">Caricamento...</div>
