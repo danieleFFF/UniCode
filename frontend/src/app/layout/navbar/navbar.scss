@@ -26,6 +26,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 1rem;
 }
 
 .dropdown-menu {
@@ -33,7 +34,6 @@
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  margin-top: 1rem;
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
