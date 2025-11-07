@@ -1,5 +1,7 @@
 package it.unical.unicode.dao;
 
-public interface UtenteDAO {
+import it.unical.unicode.model.Utente;
 
+public interface UtenteDAO {
+    Utente findByEmail(String email);
 }
