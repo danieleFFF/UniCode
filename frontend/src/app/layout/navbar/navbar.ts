@@ -23,7 +23,7 @@ export class Navbar {
 
   // Dati per il menu a tendina "Exercises"
   exerciseItems: DropdownItem[] = [
-    { name: 'All Challenges', path: '/exercises', iconPath: 'assets/images/exerciseimage.png' },
+    { name: 'Mix Challenges', path: '/exercises', iconPath: 'assets/images/exerciseimage.png' },
     { name: 'Easy', path: '/exercises/easy', iconPath: 'assets/images/rankingimage.png' },
     { name: 'Medium', path: '/exercises/medium', iconPath: 'assets/images/rankingimage.png' },
     { name: 'Hard', path: '/exercises/hard', iconPath: 'assets/images/rankingimage.png' }
