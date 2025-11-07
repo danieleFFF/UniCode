@@ -1,0 +1,8 @@
+<div class="dropdown-container">
+  @for(item of items; track item.name){
+    <a [routerLink]="item.path" class="dropdown-item">
+      <img *ngIf="item.iconPath" [src]="item.iconPath" [alt]="item.name" class="dropdown-item-icon" />
+      <span class="dropdown-item-text">{{ item.name }}</span>
+    </a>
+  }
+</div>

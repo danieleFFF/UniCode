@@ -1,13 +1,15 @@
-.section-languages {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  justify-items: center;
+.section-languages-container {
   margin-top: 6rem;
-  padding: 0 4rem 5rem;
+  padding: 0 2rem 5rem;
+}
 
+.section-languages-container .section-languages {
+  display: flex;
+  justify-items: center;
+  justify-content: center;
+  gap: 5.2rem;
 }
-.section-languages-container{
-}
+
 .lang-card {
   background: rgba(0, 0, 0, 0.4);
   border-radius: 1rem;

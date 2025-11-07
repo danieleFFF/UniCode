@@ -4,14 +4,16 @@ import {ExercisesComponent} from './pages/exercises/exercises.component';
 export const routes: Routes = [
   {
     path: 'login',
-    loadComponent: () => import('./login/login').then(m => m.Login)
+    loadComponent: () => import('./pages/login/login').then(m => m.Login)
   },
   {
     path: '',
-    loadComponent: () => import('./home/home').then(m => m.Home),
+    loadComponent: () => import('./pages/home/home').then(m => m.Home),
     pathMatch: 'full'
   },
-  { path: 'exercises', component: ExercisesComponent },
+  { path: 'exercises',
+    loadComponent: () => import('./pages/exercises/exercises.component').then(m => m.ExercisesComponent)
+  },
   {
     path: '**',
     redirectTo: ''
