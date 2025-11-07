@@ -17,4 +17,5 @@ export interface DropdownItem {
 })
 export class DropdownMenu {
   @Input() items: DropdownItem[] = [];
+
 }

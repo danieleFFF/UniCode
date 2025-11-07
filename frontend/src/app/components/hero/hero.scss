@@ -6,17 +6,16 @@
   align-items: center;
   flex-direction: column;
   text-align: center;
-  margin-top: 5rem;
+  margin-top: 2rem;
   padding: 0 2rem;
 }
 
 .hero-title {
   font-size: 4.5rem;
   background: linear-gradient(
-      to top,
-      rgba(84, 42, 92, 0.8) 20%,
-      rgba(162, 28, 188, 0.8) 40%,
-      rgba(255, 255, 255, 1) 60%
+      to right,
+      rgba(195, 79, 219, 0.8) 0%,
+      rgba(143, 28, 166, 0.8) 85%,
   );
 
   -webkit-background-clip: text;
