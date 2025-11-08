@@ -106,7 +106,7 @@ docker-compose.override.yml
 docker-compose.local.yml
 
 # PostgreSQL dumps
-*.sql
+#*.sql
 *.dump
 
 ##############################################################
