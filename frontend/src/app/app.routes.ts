@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import {ExercisesComponent} from './pages/exercises/exercises.component';
 
 export const routes: Routes = [
   {
@@ -18,5 +17,4 @@ export const routes: Routes = [
     path: '**',
     redirectTo: ''
   }
-
 ];

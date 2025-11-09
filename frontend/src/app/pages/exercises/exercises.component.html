@@ -1,28 +1,46 @@
-<div class="filters">
-  <select [(ngModel)]="selectedLanguage" (change)="onLanguageChange()">
-    <option *ngFor="let lang of languages">{{ lang }}</option>
-  </select>
+<div class="exercise-container">
+  <div class="top-bar">
+    <div class="controls">
+      <label for="language">Language:</label>
+      <select id="language" [(ngModel)]="selectedLanguage" (change)="onLanguageChange()" class="language-select">
+        <option *ngFor="let lang of languages" [value]="lang">{{ lang }}</option>
+      </select>
 
-  <div class="dropdown">
-    <button class="filter-btn">Filtro</button>
-    <div class="dropdown-content">
-      <button (click)="changeSort('difficulty')">Difficoltà</button>
-      <button (click)="changeSort('title')">Alfabeto</button>
-      <button (click)="changeSort('points')">Punti</button>
+      <div class="filter-group">
+        <button (click)="toggleFilterMenu()" class="filter-btn">Filter ▾</button>
+        <div class="dropdown" *ngIf="showFilterMenu">
+          <button (click)="applySort('title')">Alphabetic</button>
+          <button (click)="applySort('difficulty')">Difficulty</button>
+          <button (click)="applySort('points')">Points</button>
+        </div>
+
+        <button (click)="toggleOrder()" class="order-btn">
+          {{ sortOrder === 'asc' ? 'Asc ↑' : 'Desc ↓' }}
+        </button>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="exercise-list">
-  <div *ngFor="let ex of exercises" class="exercise-card">
-    <div class="difficulty" [style.color]="getXpColor(ex.difficulty)">
-      ● {{ ex.difficulty }}
+  <div *ngIf="exercises.length > 0; else noExercises" class="exercise-list">
+    <div class="exercise-card" *ngFor="let ex of exercises">
+      <div class="exercise-content">
+        <div class="exercise-header">
+        <span class="difficulty" [style.color]="getXpColor(ex.difficulty)">
+          ({{ ex.difficulty }})
+        </span>
+          <span class="title">{{ ex.title }}</span>
+        </div>
+        <div class="points">(Max points: {{ ex.points }})</div>
+        <div class="description">
+          <p>{{ ex.description }}</p>
+        </div>
+      </div>
+
+      <button class="solve-btn">SOLVE</button>
     </div>
-    <div class="xp">{{ ex.points }} XP</div>
-    <h3>{{ ex.title }}</h3>
-    <p>{{ ex.description }}</p>
-    <button class="solve-btn">Solve</button>
   </div>
-</div>
 
-<div *ngIf="loading" class="loading">Caricamento...</div>
+  <ng-template #noExercises>
+    <div class="no-results">Nessun esercizio trovato per {{ selectedLanguage }}.</div>
+  </ng-template>
+</div>

@@ -1,114 +1,167 @@
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
 
-* {
+.exercise-container {
+  padding: 20px;
   font-family: 'Inconsolata', monospace;
+  color: #f0f0f0;
+  background-color: #181818;
+  min-height: 100vh;
 }
 
-body {
-  background-color: #2b2b2b;
-}
-
-.filters {
+.top-bar {
   display: flex;
+  align-items: center;
   justify-content: flex-start;
+  background-color: #222;
+  padding: 10px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.controls {
+  display: flex;
   align-items: center;
   gap: 10px;
-  margin: 20px;
 }
 
-select, .filter-btn {
-  background: #3b3b3b;
-  color: #fff;
+/* Dropdown stile unificato */
+.language-select,
+.filter-btn,
+.order-btn {
+  background-color: #2e2e2e;
+  color: #f0f0f0;
   border: none;
-  padding: 8px 14px;
   border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 15px;
+  font-family: 'Inconsolata', monospace;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  transition: background-color 0.2s ease;
+}
+
+.language-select:hover,
+.filter-btn:hover,
+.order-btn:hover {
+  background-color: #3a3a3a;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
 }
 
 .dropdown {
-  position: relative;
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background: #3b3b3b;
-    border-radius: 6px;
-    flex-direction: column;
-    top: 35px;
-    z-index: 10;
+  position: absolute;
+  left: 0;
+  top: 40px;
+  background-color: #2b2b2b;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+  z-index: 10;
+}
 
-    button {
-      background: none;
-      border: none;
-      color: white;
-      padding: 8px 14px;
-      text-align: left;
-      cursor: pointer;
-      &:hover {
-        background: #4a4a4a;
-      }
-    }
-  }
-  &:hover .dropdown-content {
-    display: flex;
-  }
+.dropdown button {
+  background: none;
+  color: #f0f0f0;
+  border: none;
+  padding: 8px 12px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 15px;
+  font-family: 'Inconsolata', monospace;
+}
+
+.dropdown button:hover {
+  background-color: #3d3d3d;
 }
 
 .exercise-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 0 20px 50px;
+  gap: 16px;
 }
 
 .exercise-card {
-  background: #3b3b3b;
-  border-radius: 12px;
-  padding: 20px;
-  color: #fff;
-  box-shadow: 0 0 10px #00000044;
-  position: relative;
-  transition: 0.3s;
-
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 15px #00000066;
-  }
-
-  .difficulty {
-    font-weight: bold;
-  }
-
-  .xp {
-    font-size: 0.9em;
-    color: #bfbfbf;
-    margin-bottom: 8px;
-  }
-
-  h3 {
-    margin: 4px 0;
-  }
-
-  p {
-    font-size: 0.95em;
-    color: #e5e5e5;
-  }
-
-  .solve-btn {
-    margin-top: 10px;
-    background: #7a3aed;
-    border: none;
-    padding: 6px 16px;
-    color: white;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.2s;
-    &:hover {
-      background: #9565ff;
-    }
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #222;
+  border-radius: 8px;
+  padding: 16px 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  transition: transform 0.15s ease;
 }
 
-.loading {
+.exercise-card:hover {
+  transform: scale(1.01);
+}
+
+.exercise-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: calc(100% - 200px);
+}
+
+.exercise-header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.difficulty {
+  color: #6eff7f;
+  font-size: 17px;
+}
+
+.title {
+  color: #ffffff;
+  font-size: 17px;
+}
+
+.points {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.description {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.solve-btn {
+  font-family: 'Inconsolata', monospace;
+  background-color: #3b3b3b;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  width: 160px;
+  height: 50px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  align-self: center;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.solve-btn:hover {
+  background-color: #3a3a3a;
+  transform: scale(1.03);
+}
+
+.no-results {
   text-align: center;
   color: #aaa;
-  margin-top: 20px;
+  font-size: 14px;
+  margin-top: 30px;
 }
