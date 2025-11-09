@@ -1,24 +1,40 @@
 package it.unical.unicode.service;
 
-import it.unical.unicode.dao.ExerciseDao;
-import it.unical.unicode.model.Exercise;
-import it.unical.unicode.proxy.XpCalculatorProxy;
+import it.unical.unicode.dao.EsercizioDAO;
+import it.unical.unicode.model.Esercizio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Comparator;
 import java.util.List;
 
 @Service
 public class ExerciseService {
-    @Autowired
-    private ExerciseDao dao;
-    @Autowired
-    private XpCalculatorProxy xpProxy;
 
-    public List<Exercise> getExercises(String language, String sortBy, int page) {
-        return dao.findByLanguageSorted(language, sortBy, page);
+    @Autowired
+    private EsercizioDAO esercizioDAO;
+
+    public List<Esercizio> findByLanguage(Integer idLanguage, String sortBy, String order) {
+        List<Esercizio> esercizi = esercizioDAO.findByLanguage(idLanguage);
+
+        // --- Ordinamento lato Java ---
+        Comparator<Esercizio> comparator = switch (sortBy) {
+            case "difficulty" -> Comparator.comparing(Esercizio::getDifficulty, String.CASE_INSENSITIVE_ORDER);
+            case "points" -> Comparator.comparing(Esercizio::getPoints);
+            default -> Comparator.comparing(Esercizio::getTitle, String.CASE_INSENSITIVE_ORDER);
+        };
+
+        if ("desc".equalsIgnoreCase(order)) {
+            comparator = comparator.reversed();
+        }
+
+        esercizi.sort(comparator);
+        return esercizi;
     }
 
-    public int getXp(Exercise exercise, long timeSeconds) {
-        return xpProxy.calculateXp(exercise, timeSeconds);
+    public List<Esercizio> findByLanguagePaged(Integer idLanguage, String sortBy, String order, int page, int size) {
+        List<Esercizio> esercizi = esercizioDAO.findByLanguagePaged(idLanguage, sortBy, order, page, size);
+        return esercizi;
     }
+
 }

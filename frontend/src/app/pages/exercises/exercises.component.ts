@@ -7,9 +7,9 @@ interface Exercise {
   id: number;
   title: string;
   difficulty: 'Easy' | 'Medium' | 'Hard';
-  language: string;
   points: number;
   description: string;
+  id_language: number;
 }
 
 @Component({
@@ -23,18 +23,28 @@ export class ExercisesComponent implements OnInit {
   exercises: Exercise[] = [];
   languages = ['C++', 'Python', 'Java', 'JavaScript', 'HTML', 'SQL'];
   selectedLanguage = 'C++';
-  sortBy = 'title'; // default: alfabetico
-  page = 0;
+  sortBy = 'title';
+  sortOrder: 'asc' | 'desc' = 'asc';
+  showFilterMenu = false;
   loading = false;
+  page = 0;
+  size = 10;
   hasMore = true;
 
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
+    const savedLang = localStorage.getItem('selectedLanguage');
+    const savedSort = localStorage.getItem('sortBy');
+    const savedOrder = localStorage.getItem('sortOrder');
+
+    if (savedLang) this.selectedLanguage = savedLang;
+    if (savedSort) this.sortBy = savedSort;
+    if (savedOrder) this.sortOrder = savedOrder as 'asc' | 'desc';
+
     this.loadExercises(true);
   }
 
-  /** carica esercizi dal backend */
   loadExercises(reset: boolean = false) {
     if (this.loading || (!this.hasMore && !reset)) return;
     this.loading = true;
@@ -45,18 +55,19 @@ export class ExercisesComponent implements OnInit {
       this.hasMore = true;
     }
 
+    const idLang = this.getLanguageId(this.selectedLanguage);
     const params = new HttpParams()
-      .set('language', this.selectedLanguage)
+      .set('idLanguage', idLang)
       .set('sortBy', this.sortBy)
-      .set('page', this.page);
+      .set('order', this.sortOrder)
+      .set('page', this.page)
+      .set('size', this.size);
 
     this.http.get<Exercise[]>('/api/exercises', { params }).subscribe({
       next: (data) => {
-        if (data.length === 0) this.hasMore = false;
-        else {
-          this.exercises = [...this.exercises, ...data];
-          this.page++;
-        }
+        if (data.length < this.size) this.hasMore = false;
+        this.exercises = [...this.exercises, ...data];
+        this.page++;
         this.loading = false;
       },
       error: (err) => {
@@ -66,35 +77,52 @@ export class ExercisesComponent implements OnInit {
     });
   }
 
-  /** cambia linguaggio */
-  onLanguageChange() {
-    this.loadExercises(true);
-  }
-
-  /** cambia tipo di filtro */
-  changeSort(sortType: string) {
-    this.sortBy = sortType;
-    this.loadExercises(true);
-  }
-
-  /** caricamento automatico scroll */
   @HostListener('window:scroll', [])
   onScroll() {
     if (
-      window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 200 &&
       !this.loading
     ) {
       this.loadExercises();
     }
   }
 
-  /** calcolo XP visualizzato */
+  onLanguageChange() {
+    localStorage.setItem('selectedLanguage', this.selectedLanguage);
+    this.loadExercises(true);
+  }
+
+  applySort(type: string) {
+    this.sortBy = type;
+    localStorage.setItem('sortBy', type);
+    this.showFilterMenu = false;
+    this.loadExercises(true);
+  }
+
+  toggleOrder() {
+    this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+    localStorage.setItem('sortOrder', this.sortOrder);
+    this.loadExercises(true);
+  }
+
   getXpColor(difficulty: string): string {
     switch (difficulty) {
       case 'Easy': return '#6eff7f';
       case 'Medium': return '#ffe769';
       case 'Hard': return '#ff6f6f';
       default: return '#fff';
+    }
+  }
+
+  getLanguageId(name: string): number {
+    switch (name) {
+      case 'Python': return 1;
+      case 'C++': return 2;
+      case 'Java': return 3;
+      case 'JavaScript': return 4;
+      case 'HTML': return 5;
+      case 'SQL': return 6;
+      default: return 0;
     }
   }
 }
