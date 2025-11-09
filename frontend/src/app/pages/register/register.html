@@ -1,0 +1,80 @@
+<div class="register-container">
+  <div class="left-section">
+    <div class="icons-grid">
+      <div class="icon-tile"><img src="../../../assets/images/pythonimage.png" alt="Python"></div>
+      <div class="icon-tile empty"></div>
+      <div class="icon-tile"><img src="../../../assets/images/cppimage.png" alt="C++"></div>
+      <div class="icon-tile empty"></div>
+      <div class="icon-tile"><img src="../../../assets/images/htmlimage.png" alt="HTML"></div>
+      <div class="icon-tile empty"></div>
+      <div class="icon-tile"><img src="../../../assets/images/javaimage.png" alt="Java"></div>
+      <div class="icon-tile empty"></div>
+      <div class="icon-tile empty"></div>
+      <div class="icon-tile"><img src="../../../assets/images/sqlimage.png" alt="SQL"></div>
+      <div class="icon-tile empty"></div>
+      <div class="icon-tile"><img src="../../../assets/images/javascriptimage.png" alt="JavaScript"></div>
+      <div class="icon-tile empty"></div>
+      <div class="icon-tile"><img src="../../../assets/images/pythonimage.png" alt="Python"></div>
+      <div class="icon-tile empty"></div>
+      <div class="icon-tile"><img src="../../../assets/images/cppimage.png" alt="C++"></div>
+    </div>
+  </div>
+
+  <div class="right-section">
+    <img src="../../../assets/images/logo.png" alt="UniCode Logo" class="logo">
+    <form class="form-container">
+      <div class="input-group">
+        <img src="../../../assets/images/loginimage.png" class="input-icon" alt="User icon">
+        <input type="text" class="input-field" placeholder="Username" name="username" [(ngModel)]="username" required>
+      </div>
+      <div class="input-group">
+        <img src="../../../assets/images/emailicon.png" class="input-icon" alt="Email icon">
+        <input type="email" class="input-field" placeholder="Email" name="email" [(ngModel)]="email" required>
+      </div>
+      <div class="input-group">
+        <img src="../../../assets/images/lockicon.png" class="input-icon" alt="Password icon">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          class="input-field"
+          placeholder="Password"
+          name="password"
+          [(ngModel)]="password"
+          required
+          (copy)="disableCopy($event)"
+          (cut)="disableCopy($event)"
+          autocomplete="new-password"
+        >
+        <img
+          [src]="showPassword ? 'assets/images/openedeyeicon.png' : 'assets/images/closedeyeicon.png'"
+          class="password-eye"
+          alt="Toggle password visibility"
+          (click)="togglePassword()">
+      </div>
+      <div class="input-group">
+        <img src="../../../assets/images/lockicon.png" class="input-icon" alt="Password icon">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          class="input-field"
+          placeholder="Repeat Password"
+          name="confirmPassword"
+          [(ngModel)]="confirmPassword"
+          required
+          (copy)="disableCopy($event)"
+          (cut)="disableCopy($event)"
+          autocomplete="new-password"
+        >
+        <img
+          [src]="showPassword ? 'assets/images/openedeyeicon.png' : 'assets/images/closedeyeicon.png'"
+          class="password-eye"
+          alt="Toggle password visibility"
+          (click)="togglePassword()">
+      </div>
+      <button type="submit" class="signup-btn">Sign up</button>
+
+      <div class="login-link-container">
+        <span>Already have an account?</span>
+        <a routerLink="/login">Sign in</a>
+      </div>
+    </form>
+  </div>
+</div>

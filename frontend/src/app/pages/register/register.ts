@@ -5,13 +5,19 @@ import { RouterLink } from '@angular/router';
 import { AuthForm } from '../../shared/auth-form';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
-  templateUrl: './login.html',
-  styleUrls: ['./login.scss']
+  imports: [
+    FormsModule,
+    RouterLink,
+    CommonModule
+  ],
+  templateUrl: './register.html',
+  styleUrls: ['./register.scss'],
 })
-export class Login extends AuthForm {
+export class Register extends AuthForm{
+  username = '';
+  confirmPassword = '';
 
   constructor(location: Location) {
     super(location);
