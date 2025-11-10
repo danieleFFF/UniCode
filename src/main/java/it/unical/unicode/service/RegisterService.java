@@ -24,7 +24,6 @@ public class RegisterService {
         Utente nuovoUtente = new Utente();
         nuovoUtente.setUsername(request.getUsername());
         nuovoUtente.setEmail(request.getEmail());
-
         nuovoUtente.setPassword_hash(passwordEncoder.encode(request.getPassword()));
 
         utenteDAO.save(nuovoUtente);

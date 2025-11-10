@@ -32,9 +32,8 @@ public class UtenteDAOImpl implements UtenteDAO {
 
     @Override
     public void save(Utente utente) {
-        String sql = "INSERT INTO users (id,username, email, password_hash, punti_totali, id_avatar) VALUES (?,?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql,utente.getId(),
-                utente.getUsername(),
+        String sql = "INSERT INTO users (username, email, password_hash, total_points, id_avatar) VALUES (?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, utente.getUsername(),
                 utente.getEmail(),
                 utente.getPassword_hash(),
                 0,//Default starting points
