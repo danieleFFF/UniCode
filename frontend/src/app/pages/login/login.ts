@@ -9,7 +9,7 @@ import { AuthForm } from '../../shared/auth-form';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './login.html',
-  styleUrls: ['./login.scss']
+  styleUrl: './login.scss'
 })
 export class Login extends AuthForm {
 

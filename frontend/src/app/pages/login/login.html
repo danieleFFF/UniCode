@@ -1,17 +1,16 @@
 <div class="login-container">
-  <form class="login-form">
+  <form class="auth-form-container">
     <div class="back-link-container">
       <a (click)="goBack()" class="back-link">➔</a>
     </div>
 
-    <div class="logo-container">
-      <img src="../../../assets/images/logo.png" alt="Logo" class="login-logo">
-    </div>
+    <img src="../../../assets/images/logo.png" alt="Logo" class="auth-logo">
 
-    <div class="form-group">
-      <div class="form-group icon-input">
-        <img src="../../../assets/images/emailicon.png" class="input-icon" alt="Email icon">
+    <div class="auth-input-group">
+      <div class="auth-input-group">
+        <img src="../../../assets/images/emailicon.png" class="auth-input-icon" alt="Email icon">
         <input
+          class="auth-input-field"
           type="email"
           id="email"
           name="email"
@@ -21,12 +20,13 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <div class="form-group icon-input password-group">
-        <img src="../../../assets/images/lockicon.png" class="input-icon" alt="Password icon">
+    <div class="auth-input-group">
+      <div class="auth-input-group">
+        <img src="../../../assets/images/lockicon.png" class="auth-input-icon" alt="Password icon">
 
         <!-- Campo password con blocco copia/incolla -->
         <input
+          class="auth-input-field"
           [type]="showPassword ? 'text' : 'password'"
           id="password"
           name="password"
@@ -39,15 +39,15 @@
 
         <img
           [src]="showPassword ? 'assets/images/openedeyeicon.png' : 'assets/images/closedeyeicon.png'"
-          class="password-eye"
+          class="auth-password-eye"
           alt="Toggle password visibility"
           (click)="togglePassword()">
       </div>
     </div>
 
-    <button type="submit" class="submit-btn">Sign in</button>
+    <button type="submit" class="auth-submit-btn">Sign in</button>
 
-    <div class="register-container">
+    <div class="register-link-container">
       <span>Don't have an account?</span>
       <a routerLink="/register" class="register-link">Register</a>
     </div>
