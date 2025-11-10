@@ -34,24 +34,24 @@ export class Register extends AuthForm{
   onSubmit(): void {
 
     if (this.username.length < 4 || this.username.length > 16 || !/[a-zA-Z]/.test(this.username)) {
-      alert("L'username deve contenere tra 4 e 16 caratteri e almeno una lettera.");
+      alert("Username must be between 4 and 16 characters and contain at least one letter.");
       return;
     }
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(this.email)) {
-      alert("Inserisci un indirizzo email valido.");
+      alert("Please enter a valid email address.");
       return;
     }
 
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
     if (!passwordRegex.test(this.password)) {
-      alert("La password deve essere di almeno 8 caratteri e contenere una lettera maiuscola, una minuscola e un numero.");
+      alert("Password must be at least 8 characters long and contain an uppercase letter, a lowercase letter, and a number.");
       return;
     }
 
     if (this.password !== this.confirmPassword) {
-      alert("Le password non coincidono!");
+      alert("Passwords do not match!");
       return;
     }
     const userData : RegisterPayload = {
@@ -63,12 +63,12 @@ export class Register extends AuthForm{
     this.authService.register(userData).subscribe({
       next: (response) => {
         console.log('Registration successful:', response);
-        alert('Registrazione avvenuta con successo! Ora puoi effettuare il login.');
+        alert('Registration successful! You can now log in.');
         this.router.navigate(['/login']);
       },
       error: (error) => {
         console.error('Registration error:', error);
-        alert(`Errore durante la registrazione: ${error.error}`);
+        alert(`Error during registration: ${error.error}`);
       }
     });
   }
