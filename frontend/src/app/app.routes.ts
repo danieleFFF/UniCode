@@ -15,8 +15,12 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/exercises/exercises.component').then(m => m.ExercisesComponent)
   },
   {
+    path: 'ranking',
+    loadComponent: () => import('./pages/ranking/ranking').then(m => m.Ranking)
+  },
+  {
     path: '**',
     redirectTo: ''
-  }
+  },
 
 ];
