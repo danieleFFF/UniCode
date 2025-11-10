@@ -13,10 +13,13 @@ import java.util.Optional;
 
 @Repository
 public class UtenteDAOImpl implements UtenteDAO {
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
-    private class UtenteRowMapper implements RowMapper<Utente> {
+    public UtenteDAOImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    private static class UtenteRowMapper implements RowMapper<Utente> {
         @Override
         public Utente mapRow(ResultSet rs, int rowNum) throws SQLException {
             Utente utente = new Utente();
