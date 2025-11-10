@@ -27,7 +27,7 @@ public class UtenteDAOImpl implements UtenteDAO {
             utente.setUsername(rs.getString("username"));
             utente.setEmail(rs.getString("email"));
             utente.setPassword_hash(rs.getString("password_hash"));
-            utente.setPunti_totali(rs.getInt("punti_totali"));
+            utente.setPunti_totali(rs.getInt("total_points"));
             utente.setId_avatar(rs.getInt("id_avatar"));
             return utente;
         }
