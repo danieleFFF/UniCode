@@ -21,57 +21,57 @@
   </div>
 
   <div class="right-section">
-    <img src="../../../assets/images/logo.png" alt="UniCode Logo" class="logo">
-    <form class="form-container">
-      <div class="input-group">
-        <img src="../../../assets/images/loginimage.png" class="input-icon" alt="User icon">
-        <input type="text" class="input-field" placeholder="Username" name="username" [(ngModel)]="username" required>
+    <form class="auth-form-container" (ngSubmit)="onSubmit()">
+      <img src="../../../assets/images/logo.png" alt="UniCode Logo" class="auth-logo">
+      <div class="auth-input-group">
+        <img src="../../../assets/images/loginimage.png" class="auth-input-icon" alt="User icon">
+        <input type="text" class="auth-input-field" placeholder="Username" name="username" [(ngModel)]="username" required>
       </div>
-      <div class="input-group">
-        <img src="../../../assets/images/emailicon.png" class="input-icon" alt="Email icon">
-        <input type="email" class="input-field" placeholder="Email" name="email" [(ngModel)]="email" required>
+      <div class="auth-input-group">
+        <img src="../../../assets/images/emailicon.png" class="auth-input-icon" alt="Email icon">
+        <input type="email" class="auth-input-field" placeholder="Email" name="email" [(ngModel)]="email" required>
       </div>
-      <div class="input-group">
-        <img src="../../../assets/images/lockicon.png" class="input-icon" alt="Password icon">
+      <div class="auth-input-group">
+        <img src="../../../assets/images/lockicon.png" class="auth-input-icon" alt="Password icon">
         <input
           [type]="showPassword ? 'text' : 'password'"
-          class="input-field"
+          class="auth-input-field"
           placeholder="Password"
           name="password"
           [(ngModel)]="password"
           required
           (copy)="disableCopy($event)"
           (cut)="disableCopy($event)"
-          autocomplete="new-password"
+          autocomplete="disable"
         >
         <img
           [src]="showPassword ? 'assets/images/openedeyeicon.png' : 'assets/images/closedeyeicon.png'"
-          class="password-eye"
+          class="auth-password-eye"
           alt="Toggle password visibility"
           (click)="togglePassword()">
       </div>
-      <div class="input-group">
-        <img src="../../../assets/images/lockicon.png" class="input-icon" alt="Password icon">
+      <div class="auth-input-group">
+        <img src="../../../assets/images/lockicon.png" class="auth-input-icon" alt="Password icon">
         <input
           [type]="showPassword ? 'text' : 'password'"
-          class="input-field"
+          class="auth-input-field"
           placeholder="Repeat Password"
           name="confirmPassword"
           [(ngModel)]="confirmPassword"
           required
           (copy)="disableCopy($event)"
           (cut)="disableCopy($event)"
-          autocomplete="new-password"
+          autocomplete="disable"
         >
         <img
           [src]="showPassword ? 'assets/images/openedeyeicon.png' : 'assets/images/closedeyeicon.png'"
-          class="password-eye"
+          class="auth-password-eye"
           alt="Toggle password visibility"
           (click)="togglePassword()">
       </div>
-      <button type="submit" class="signup-btn">Sign up</button>
+      <button type="submit" class="auth-submit-btn">Sign up</button>
 
-      <div class="login-link-container">
+      <div class="auth-link-container">
         <span>Already have an account?</span>
         <a routerLink="/login">Sign in</a>
       </div>

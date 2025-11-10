@@ -32,8 +32,8 @@ public class UtenteDAOImpl implements UtenteDAO {
 
     @Override
     public void save(Utente utente) {
-        String sql = "INSERT INTO utenti (username, email, password_hash, punti_totali, id_avatar) VALUES (?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql,
+        String sql = "INSERT INTO users (id,username, email, password_hash, punti_totali, id_avatar) VALUES (?,?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql,utente.getId(),
                 utente.getUsername(),
                 utente.getEmail(),
                 utente.getPassword_hash(),
@@ -44,7 +44,7 @@ public class UtenteDAOImpl implements UtenteDAO {
 
     @Override
     public Optional<Utente> findByEmail(String email) {
-        String sql = "SELECT * FROM utenti WHERE email = ?";
+        String sql = "SELECT * FROM users WHERE email = ?";
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new UtenteRowMapper(), email));
         } catch (EmptyResultDataAccessException e) {
