@@ -99,6 +99,10 @@ export class ExercisesComponent implements OnInit {
     this.loadExercises(true);
   }
 
+  toggleFilterMenu(): void {
+    this.showFilterMenu = !this.showFilterMenu;
+  }
+
   toggleOrder() {
     this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
     localStorage.setItem('sortOrder', this.sortOrder);
