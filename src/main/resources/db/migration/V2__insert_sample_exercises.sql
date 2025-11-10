@@ -57,3 +57,7 @@ INSERT INTO public.test_cases (id_exercise, input, expected_output)
 VALUES
     (5, '', 'All employees with salary > 50000'),
     (6, '', 'Department with highest average salary');
+
+INSERT INTO public.avatar (url_image)
+VALUES
+    ('');
