@@ -5,5 +5,6 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class LoginRequest extends Credentials {
+public class RegisterRequest extends Credentials {
+    private String username;
 }
