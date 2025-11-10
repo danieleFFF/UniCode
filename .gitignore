@@ -1,8 +1,3 @@
-##############################################################
-# 🌐 GLOBAL / SYSTEM FILES
-##############################################################
-
-# OS / Editor
 .DS_Store
 Thumbs.db
 desktop.ini
@@ -15,7 +10,7 @@ desktop.ini
 *.ipr
 *.iws
 
-# Log files
+#Log files
 *.log
 logs/
 npm-debug.log*
@@ -23,17 +18,13 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-##############################################################
-# ☕ BACKEND (Spring Boot / Maven / IntelliJ)
-##############################################################
-
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-# Maven & Java build
+#Maven & Java build
 .mvn/
 out/
 *.class
@@ -41,14 +32,14 @@ out/
 *.war
 *.ear
 
-# Spring / Temp / PID files
+#Spring/Temp/PID files
 spring.log
 *.pid
 *.seed
 *.tmp
 *.bak
 
-# IntelliJ / STS
+#IntelliJ/STS
 .apt_generated
 .factorypath
 .project
@@ -56,7 +47,7 @@ spring.log
 .springBeans
 .sts4-cache
 
-# NetBeans
+#NetBeans
 /nbproject/private/
 /nbbuild/
 /dist/
@@ -66,15 +57,11 @@ spring.log
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-# Local configuration (non condividere credenziali)
+#Local configuration (per non condividere credenziali)
 application-local.yml
 application-local.properties
 .env
 .env.*
-
-##############################################################
-# ⚡ FRONTEND (Angular / Node.js)
-##############################################################
 
 frontend/node_modules/
 frontend/dist/
@@ -88,43 +75,25 @@ frontend/pnpm-debug.log*
 frontend/.pnp*
 frontend/.pnp.js
 
-# Environment files Angular (verranno rigenerati)
+#Environment files Angular
 frontend/src/environments/environment.*.ts
 
-# Lockfile se vuoi lasciarlo locale (rimuovi il ! per committarlo)
-# !frontend/package-lock.json
-
-##############################################################
-# 🐘 DATABASE / DOCKER
-##############################################################
-
-# Docker volumes / data
+#db
 dbdata/
 postgres-data/
-volumes/
-docker-compose.override.yml
-docker-compose.local.yml
 
-# PostgreSQL dumps
-*.sql
+#PostgreSQL
+#*.sql
 *.dump
 
-##############################################################
-# 🧰 MISC / UTILITY
-##############################################################
-
-# MacOS
-.AppleDouble
-.LSOverride
-
-# Windows Thumbnails
+#Windows Thumbnails
 ehthumbs.db
 Icon?
 
-# JetBrains HTTP requests
+#JetBrains HTTP requests
 httpRequests/
 
-# Temporary / cache / backup
+#Temporary/cache/backup
 .cache/
 tmp/
 temp/

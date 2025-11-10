@@ -1,11 +1,9 @@
 package it.unical.unicode.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-@Setter
-@Getter
-public class LoginRequest {
-    private String email;
-    private String password;
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class LoginRequest extends Credentials {
 }

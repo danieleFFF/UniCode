@@ -8,19 +8,16 @@
 }
 
 .info-card {
-  background: linear-gradient(
-      to bottom,
-      rgba(39, 39, 39, 0.9) 20%,
-      rgba(80, 80, 80, 0.5) 50%,
-      rgba(0,0,0,0) 100%
-  );
+  background:
+    rgba(39, 39, 39, 0.6);
   border-radius: 1rem;
   padding: 3rem;
   position: relative;
   width: 450px;
   text-align: left;
   backdrop-filter: blur(5px);
-  transition: box-shadow 0.3s;
+  transition: box-shadow 0.3s, transform 0.3s;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
   cursor: default;
 }
 

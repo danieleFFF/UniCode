@@ -1,0 +1,58 @@
+.wrapper {
+  margin: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.userName{
+  font-family: "Inconsolata";
+  font-size: 1.1rem;
+  margin:0;
+  color: #c0c0c0;
+  padding-left: 40px;
+}
+
+.itemContainer{
+  background-color: #2e2e2e;
+  border-radius: 20px;
+  height: 60px;
+  width: 500px;
+  margin: 20px;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  padding-left: 75px;
+}
+
+.points{
+  text-align: right;
+  font-family: "Inconsolata";
+  padding-right: 25px;
+
+  margin-left: auto;
+  margin-top:0;
+  margin-bottom:0;
+
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #c0c0c0;
+}
+
+.images{
+  height: 80px;
+  width: 80px;
+  background-color: #000000;
+  border-radius: 10px;
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}

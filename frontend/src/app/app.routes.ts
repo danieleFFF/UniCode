@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import {ExercisesComponent} from './pages/exercises/exercises.component';
 
 export const routes: Routes = [
   {
@@ -15,8 +14,15 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/exercises/exercises.component').then(m => m.ExercisesComponent)
   },
   {
+    path: 'ranking',
+    loadComponent: () => import('./pages/ranking/ranking').then(m => m.Ranking)
+  },
+  {
+    path: 'register',
+    loadComponent: () => import('./pages/register/register').then(m => m.Register)
+  },
+  {
     path: '**',
     redirectTo: ''
   }
-
 ];
