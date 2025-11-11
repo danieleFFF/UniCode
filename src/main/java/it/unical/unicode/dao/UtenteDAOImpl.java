@@ -32,7 +32,7 @@ public class UtenteDAOImpl implements UtenteDAO {
             return utente;
         }
     }
-
+    //Prova
     @Override
     public void save(Utente utente) {
         String sql = "INSERT INTO users (username, email, password_hash, total_points, id_avatar) VALUES (?, ?, ?, ?, ?)";
