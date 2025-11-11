@@ -4,7 +4,6 @@ import it.unical.unicode.dao.EsercizioDAO;
 import it.unical.unicode.model.Esercizio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Comparator;
 import java.util.List;
 

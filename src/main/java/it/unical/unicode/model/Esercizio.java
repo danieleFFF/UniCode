@@ -7,6 +7,7 @@ public class Esercizio {
     private String description;
     private String difficulty;
     private String solution_demo;
+    private int points;
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
@@ -20,13 +21,6 @@ public class Esercizio {
     public void setDifficulty(String difficulty) { this.difficulty = difficulty; }
     public String getSolution_demo() { return solution_demo; }
     public void setSolution_demo(String solution_demo) { this.solution_demo = solution_demo; }
-
-    public int getPoints() {
-        return switch (difficulty) {
-            case "Easy" -> 50;
-            case "Medium" -> 100;
-            case "Hard" -> 150;
-            default -> 0;
-        };
-    }
+    public void setPoints(int points) { this.points = points; }
+    public int getPoints() { return points; }
 }
