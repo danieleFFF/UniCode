@@ -21,6 +21,7 @@ export const routes: Routes = [
     path: 'register',
     loadComponent: () => import('./pages/register/register').then(m => m.Register)
   },
+
   {
     path: '**',
     redirectTo: ''
