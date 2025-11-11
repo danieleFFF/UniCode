@@ -31,20 +31,38 @@ public class EsercizioDAOImpl implements EsercizioDAO {
 
     @Override
     public List<Esercizio> findByLanguagePaged(Integer idLanguage, String sortBy, String order, int page, int size) {
+        String sortColumn;
+        switch (sortBy) {
+            case "difficulty":
+                sortColumn = "difficulty";
+                break;
+            case "points":
+                sortColumn = "points";
+                break;
+            case "title":
+            default:
+                sortColumn = "title";
+        }
+
+        if (!order.equalsIgnoreCase("asc") && !order.equalsIgnoreCase("desc")) {
+            order = "asc";
+        }
+
         StringBuilder sql = new StringBuilder("SELECT * FROM exercises");
         Object[] params;
 
         if (idLanguage != null && idLanguage > 0) {
             sql.append(" WHERE id_language = ?");
-            sql.append(" ORDER BY " + sortBy + " " + order);
+            sql.append(" ORDER BY " + sortColumn + " " + order);
             sql.append(" LIMIT ? OFFSET ?");
             params = new Object[]{idLanguage, size, page * size};
         } else {
-            sql.append(" ORDER BY " + sortBy + " " + order);
+            sql.append(" ORDER BY " + sortColumn + " " + order);
             sql.append(" LIMIT ? OFFSET ?");
             params = new Object[]{size, page * size};
         }
 
         return jdbcTemplate.query(sql.toString(), params, new BeanPropertyRowMapper<>(Esercizio.class));
     }
+
 }
