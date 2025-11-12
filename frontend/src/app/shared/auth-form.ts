@@ -10,10 +10,6 @@ export abstract class AuthForm {
 
   protected  constructor(private location: Location) {}
 
-  goBack() {
-    this.location.back();
-  }
-
   togglePassword() {
     this.showPassword = !this.showPassword;
   }

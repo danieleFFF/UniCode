@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DropdownMenu, DropdownItem } from '../dropdown-menu/dropdown-menu';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -11,6 +13,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './navbar.scss'
 })
 export class Navbar {
+  isLoggedIn$: Observable<boolean>;
   // Dati per il menu a tendina "Courses"
   courseItems: DropdownItem[] = [
     { name: 'Python', path: '/exercises/python', iconPath: 'assets/images/pythonimage.png' },
@@ -28,15 +31,17 @@ export class Navbar {
     { name: 'Medium', path: '/exercises/medium', iconPath: 'assets/images/rankingimage.png' },
     { name: 'Hard', path: '/exercises/hard', iconPath: 'assets/images/rankingimage.png' }
   ];
-
-  // Gestisce quale menu è visibile
-  activeDropdown: 'courses' | 'exercises' | null = null;
-
-  showDropdown(menu: 'courses' | 'exercises') {
-    this.activeDropdown = menu;
+  activeDropdown:'courses'|'exercises'|null=null;
+  constructor(private authService:AuthService){
+    this.isLoggedIn$=this.authService.isLoggedIn$;
   }
-
-  hideDropdown() {
-    this.activeDropdown = null;
+  showDropdown(menu:'courses'|'exercises'){
+    this.activeDropdown=menu;
+  }
+  hideDropdown(){
+    this.activeDropdown=null;
+  }
+  logout(): void {
+    this.authService.logout();
   }
 }
