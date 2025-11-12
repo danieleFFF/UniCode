@@ -5,11 +5,11 @@
       This action is irreversible and cannot be undone.</p>
     <p class="subTitle">To confirm your decision, please enter your password below.</p>
 
-    <input type="password" placeholder="Current Password" class="auth-input-field">
+    <input type="password" placeholder="Current Password" class="inputField">
 
-    <div class="buttonGroup">
-      <button class="confirmButton">Confirm</button>
-      <button class="cancelButton" (click)="closePopUp()">Cancel</button>
+    <div class="buttonContainer">
+      <button class="confirmButton" type="submit">Confirm</button>
+      <button class="cancelButton" type="button" (click)="closePopUp()">Cancel</button>
     </div>
 
   </div>
