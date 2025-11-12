@@ -2,6 +2,41 @@
 <html lang="en">
 
 <body>
+<div class="settings-container">
+  <div class="userSettings1">
+    <div class="avatar"></div>
+    <div class="profile-info">
+      <div class="profile-header">
+        <p class="userName">nome utente</p>
+        <button type="button" class="settingsButtonEdit">Edit</button>
+      </div>
+      <p class="dateRegistration">data iscrizione :</p>
+      <p class="points">points</p>
+    </div>
+  </div>
 
+  <div class="userSettings2">
+    <div class="settings-section">
+      <p class="settingsTitle">Activities</p>
+      <p class="settingsSubTitle">Discover your exercises and track your progress below</p>
+      <button type="button" class="settingsButton">Your Activity</button>
+
+    </div>
+
+    <div class="settings-section">
+      <p class="settingsTitle">Change Password</p>
+      <p class="settingsSubTitle">Updating your password regularly helps protect your account from unauthorized access.</p>
+      <button type="button" class="settingsButton"  (click)="changePasswordPopUp()"  >Change Password</button>
+      <app-changePasswordPopUp *ngIf="showChangePasswordPopUp" (close)="closeChangePasswordPopUp()"></app-changePasswordPopUp>
+    </div>
+
+    <div class="settings-section">
+      <p class="settingsTitle">Delete Account</p>
+      <p class="settingsSubTitle">This action is irreversible and you will lose all your progress.</p>
+      <button type="button" class="deleteAccountButton" (click)="deleteAccountPopUp()">Delete</button>
+      <app-deleteAccountPopUp *ngIf="showDeleteAccountPopUp" (close)="closeDeleteAccountPopUp()"></app-deleteAccountPopUp>
+    </div>
+  </div>
+</div>
 </body>
 </html>

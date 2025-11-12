@@ -1,0 +1,16 @@
+<div class="popUpOverlay">
+  <div class="popupContainer">
+    <p class="title">Delete Account</p>
+    <p class="subTitle">You are about to permanently delete your account.
+      This action is irreversible and cannot be undone.</p>
+    <p class="subTitle">To confirm your decision, please enter your password below.</p>
+
+    <input type="password" placeholder="Current Password" class="auth-input-field">
+
+    <div class="buttonGroup">
+      <button class="confirmButton">Confirm</button>
+      <button class="cancelButton" (click)="closePopUp()">Cancel</button>
+    </div>
+
+  </div>
+</div>
