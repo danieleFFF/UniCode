@@ -2,7 +2,6 @@
   <div class="top-bar">
     <div class="controls">
       <label for="language">Language:</label>
-
       <div class="dropdown-wrapper">
         <button class="filter-btn language-button" (click)="toggleLanguageMenu($event)">
           {{ selectedLanguage }} ▾
@@ -29,7 +28,6 @@
           {{ sortOrder === 'asc' ? 'Asc ↑' : 'Desc ↓' }}
         </button>
       </div>
-
     </div>
   </div>
 
@@ -37,9 +35,9 @@
     <div class="exercise-card" *ngFor="let ex of exercises">
       <div class="exercise-content">
         <div class="exercise-header">
-        <span class="difficulty" [style.color]="getXpColor(ex.difficulty)">
-          ({{ ex.difficulty }})
-        </span>
+          <span class="difficulty" [style.color]="getXpColor(ex.difficulty)">
+            ({{ ex.difficulty }})
+          </span>
           <span class="title">{{ ex.title }}</span>
         </div>
         <div class="points">(Max points: {{ ex.points }})</div>
@@ -48,11 +46,16 @@
         </div>
       </div>
 
-      <button class="solve-btn">SOLVE</button>
+      <button
+        class="solve-btn"
+        [routerLink]="['/solve', ex.id]"
+        [queryParams]="{ language: selectedLanguage }">
+        SOLVE
+      </button>
     </div>
   </div>
 
   <ng-template #noExercises>
-    <div class="no-results">Nessun esercizio trovato per {{ selectedLanguage }}.</div>
+    <div class="no-results">No exercises found for {{ selectedLanguage }}.</div>
   </ng-template>
 </div>
