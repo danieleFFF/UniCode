@@ -13,17 +13,25 @@ export const routes: Routes = [
   { path: 'exercises',
     loadComponent: () => import('./pages/exercises/exercises.component').then(m => m.ExercisesComponent)
   },
+
   {
     path: 'ranking',
     loadComponent: () => import('./pages/ranking/ranking').then(m => m.Ranking)
   },
+
   {
     path: 'userBoard',
     loadComponent: () => import('./pages/UserSetting&&Board/user&Board').then(m => m.UserBoard)
   },
+
   {
     path: 'register',
     loadComponent: () => import('./pages/register/register').then(m => m.Register)
+  },
+
+  {
+    path: 'password-recover',
+    loadComponent: () => import('./pages/password-recover/password-recover').then(m => m.PasswordRecover)
   },
 
   {
