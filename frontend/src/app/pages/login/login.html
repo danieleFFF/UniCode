@@ -14,7 +14,7 @@
           type="email"
           id="email"
           name="email"
-          placeholder="email"
+          placeholder="Email"
           [(ngModel)]="email"
           required>
       </div>
@@ -24,13 +24,12 @@
       <div class="auth-input-group">
         <img src="../../../assets/images/lockicon.png" class="auth-input-icon" alt="Password icon">
 
-        <!-- Campo password con blocco copia/incolla -->
         <input
           class="auth-input-field"
           [type]="showPassword ? 'text' : 'password'"
           id="password"
           name="password"
-          placeholder="password"
+          placeholder="Password"
           [(ngModel)]="password"
           required
           (copy)="disableCopy($event)"
@@ -47,9 +46,9 @@
 
     <button type="submit" class="auth-submit-btn">Sign in</button>
 
-    <div class="register-link-container">
+    <div class="auth-link-container">
       <span>Don't have an account?</span>
-      <a routerLink="/register" class="register-link">Register</a>
+      <a routerLink="/register" class="link">Register</a>
     </div>
   </form>
 </div>

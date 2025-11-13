@@ -24,7 +24,6 @@ export class Navbar {
     { name: 'SQL', path: '/exercises/sql', iconPath: 'assets/images/sqlimage.png' }
   ];
 
-  // Dati per il menu a tendina "Exercises"
   exerciseItems: DropdownItem[] = [
     { name: 'Mix Challenges', path: '/exercises', iconPath: 'assets/images/exerciseimage.png' },
     { name: 'Easy', path: '/exercises/easy', iconPath: 'assets/images/rankingimage.png' },
