@@ -2,7 +2,7 @@
   <section class="section-languages">
     @for(course of courses; track course.name){
       <div class="lang-card" >
-        <img [src]="course.iconPath" />
+        <img [src]="course.iconPath" loading="lazy" />
       </div>
     }
   </section>
