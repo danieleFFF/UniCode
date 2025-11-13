@@ -30,7 +30,7 @@ export class AuthService{
     }
   }
   register(userData:RegisterPayload):Observable<any>{
-    return this.http.post(`${this.apiUrl}/register`,userData,{responseType:'text'});
+    return this.http.post(`${this.apiUrl}/users/register`,userData,{responseType:'text'});
   }
   login(credentials:{email:string,password:string}):Observable<any>{
     return this.http.post<any>(`${this.apiUrl}/auth/login`,credentials).pipe(
