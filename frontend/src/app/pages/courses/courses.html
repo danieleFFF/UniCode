@@ -11,7 +11,8 @@
     </div>
     <div class="topic-list">
       <h3>Course Topics</h3>
-      @for (topic of currentCourse.topics; track topic.name){
+
+      @for (topic of currentCourse.topics; track topic.name; let i = $index){
         <div class="topic-card">
           <div class="topic-content">
             <span class="difficulty" [style.color]="getXpColor(topic.difficulty)">
@@ -19,7 +20,8 @@
             </span>
             <span class="topic-title">{{ topic.name }}</span>
           </div>
-          <button class="start-btn">START</button>
+
+          <button class="start-btn" (click)="goToTopic(i)">START</button>
         </div>
       }
     </div>

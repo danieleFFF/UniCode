@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
+
+.course-container {
+  padding: 20px;
+  font-family: 'Inconsolata', monospace;
+  color: #f0f0f0;
+  background-color: #181818;
+  min-height: 100vh;
+}
+
+.course-details-card {
+  background-color: #222;
+  border-radius: 8px;
+  padding: 24px 28px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  margin-bottom: 30px;
+}
+
+.course-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 16px;
+}
+
+.course-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.title {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.difficulty {
+  font-size: 17px;
+  font-weight: 600;
+
+  &.easy { color: #6eff7f; }
+  &.medium { color: #ffc66e; }
+  &.hard { color: #ff6e6e; }
+}
+
+.description {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #ccc;
+
+  h3 {
+    font-size: 20px;
+    color: #f0f0f0;
+    margin-top: 28px;
+    margin-bottom: 12px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #444;
+  }
+
+  pre {
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 5px;
+    padding: 16px;
+    font-family: 'Inconsolata', monospace;
+    color: #cda1f0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-x: auto;
+  }
+
+  code {
+    font-family: 'Inconsolata', monospace;
+  }
+}

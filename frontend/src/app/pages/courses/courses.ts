@@ -117,4 +117,9 @@ export class Courses implements OnInit{
       default: return '#aaaaaa';
     }
   }
+  public goToTopic(topicIndex:number):void{
+    if(this.currentCourse){
+      this.router.navigate(['/courses', this.currentCourse.key, 'topic', topicIndex]);
+    }
+  }
 }
