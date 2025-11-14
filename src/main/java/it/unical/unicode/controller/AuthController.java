@@ -5,7 +5,6 @@ import it.unical.unicode.dto.LoginRequest;
 import it.unical.unicode.dto.JwtResponse;
 import it.unical.unicode.service.AuthService;
 import it.unical.unicode.service.PasswordRecoverService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationServiceException;

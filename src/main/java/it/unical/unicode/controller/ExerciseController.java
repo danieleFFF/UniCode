@@ -2,7 +2,6 @@ package it.unical.unicode.controller;
 
 import it.unical.unicode.model.Esercizio;
 import it.unical.unicode.service.ExerciseService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,10 +11,8 @@ import java.util.List;
 @RequestMapping("/api/exercises")
 @CrossOrigin(origins = "http://localhost:4200")
 public class ExerciseController {
-
-    @Autowired
-    private ExerciseService exerciseService;
-
+    private final ExerciseService exerciseService;
+    public ExerciseController(ExerciseService exerciseService) {this.exerciseService = exerciseService;}
     @GetMapping
     public ResponseEntity<List<Esercizio>> getExercises(
             @RequestParam(name = "idLanguage", required = false) Integer idLanguage,

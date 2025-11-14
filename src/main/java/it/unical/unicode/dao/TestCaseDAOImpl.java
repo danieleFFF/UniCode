@@ -1,7 +1,6 @@
 package it.unical.unicode.dao;
 
 import it.unical.unicode.model.TestCase;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -11,9 +10,10 @@ import java.sql.SQLException;
 
 @Repository
 public class TestCaseDAOImpl implements TestCaseDAO {
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
+    private final JdbcTemplate jdbcTemplate;
+    public TestCaseDAOImpl(JdbcTemplate jdbcTemplate){
+        this.jdbcTemplate = jdbcTemplate;
+    }
     private class TestCaseRowMapper implements RowMapper<TestCase> {
         @Override
         public TestCase mapRow(ResultSet rs, int rowNum) throws SQLException {

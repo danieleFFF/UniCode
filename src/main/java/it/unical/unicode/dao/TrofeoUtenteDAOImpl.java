@@ -1,7 +1,6 @@
 package it.unical.unicode.dao;
 
 import it.unical.unicode.model.TrofeoUtente;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -11,9 +10,10 @@ import java.sql.SQLException;
 
 @Repository
 public class TrofeoUtenteDAOImpl implements TrofeoUtenteDAO {
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
+    private final JdbcTemplate jdbcTemplate;
+    public TrofeoUtenteDAOImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
     private class TrofeoUtenteRowMapper implements RowMapper<TrofeoUtente> {
         @Override
         public TrofeoUtente mapRow(ResultSet rs, int rowNum) throws SQLException {

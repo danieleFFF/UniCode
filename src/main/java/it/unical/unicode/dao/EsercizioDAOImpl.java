@@ -1,7 +1,6 @@
 package it.unical.unicode.dao;
 
 import it.unical.unicode.model.Esercizio;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -10,9 +9,10 @@ import java.util.List;
 
 @Repository
 public class EsercizioDAOImpl implements EsercizioDAO {
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
+    private final JdbcTemplate jdbcTemplate;
+    public EsercizioDAOImpl(JdbcTemplate jdbcTemplate){
+        this.jdbcTemplate=jdbcTemplate;
+    }
     @Override
     public List<Esercizio> findByLanguage(Integer idLanguage) {
         String sql;

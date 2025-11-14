@@ -2,7 +2,6 @@ package it.unical.unicode.controller;
 
 import it.unical.unicode.dto.RegisterRequest;
 import it.unical.unicode.service.RegisterService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,6 @@ public class UserController {
 
     private final RegisterService registerService;
 
-    @Autowired
     public UserController(RegisterService registerService) {
         this.registerService = registerService;
     }

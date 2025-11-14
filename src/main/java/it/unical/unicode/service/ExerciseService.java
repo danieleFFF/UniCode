@@ -2,16 +2,16 @@ package it.unical.unicode.service;
 
 import it.unical.unicode.dao.EsercizioDAO;
 import it.unical.unicode.model.Esercizio;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.List;
 
 @Service
 public class ExerciseService {
-
-    @Autowired
-    private EsercizioDAO esercizioDAO;
+    private final EsercizioDAO esercizioDAO;
+    public ExerciseService(EsercizioDAO esercizioDAO) {
+        this.esercizioDAO = esercizioDAO;
+    }
 
     public List<Esercizio> findByLanguage(Integer idLanguage, String sortBy, String order) {
         List<Esercizio> esercizi = esercizioDAO.findByLanguage(idLanguage);
