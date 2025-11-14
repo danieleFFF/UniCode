@@ -53,4 +53,10 @@ public class UtenteDAOImpl implements UtenteDAO {
             return Optional.empty();
         }
     }
+//TODO : Even here better error handling ,mi seccava :D
+    @Override
+    public void resetPassword(String email, String newPassword) {
+        String sql = "UPDATE users SET password_hash = ? WHERE email = ?";
+        jdbcTemplate.update(sql, newPassword, email);
+    }
 }

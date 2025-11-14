@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { FieldRegex } from '../../shared/field-regex';
 import { AuthService } from '../../services/auth.service';
 import { Subscription, timer } from 'rxjs';
+import {CredentialsModel} from '../../models/credentials.model';
 
 @Component({
   selector: 'app-password-recover',
@@ -59,10 +60,22 @@ export class PasswordRecover extends AuthForm implements OnInit, OnDestroy {
       this.errorMessage = 'Please enter the secret code.';
       return;
     }
-
+    const data : CredentialsModel = {
+      email: this.email,
+      password: this.password
+    };
     console.log(`Attempting to reset password with code: ${this.secretCode}`);
-    alert('Password has been reset successfully! You can now log in with your new password.');
-    this.goBack();
+    this.authService.resetPassword(data).subscribe({
+      next: () => {
+        alert('Password has been reset successfully! You can now log in with your new password.');
+        this.goBack();
+      },
+      //TODO :Also here better erro handling
+      error: (err) => {
+        console.error('Password reset failed:', err);
+        this.errorMessage = 'Failed to reset password. Please try again later.';
+      }
+    });
   }
   toggleSecretCode():void {
     this.showCode = !this.showCode;

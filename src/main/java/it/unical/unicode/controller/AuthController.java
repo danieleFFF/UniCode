@@ -1,5 +1,6 @@
 package it.unical.unicode.controller;
 
+import it.unical.unicode.dto.Credentials;
 import it.unical.unicode.dto.LoginRequest;
 import it.unical.unicode.dto.JwtResponse;
 import it.unical.unicode.service.AuthService;
@@ -37,15 +38,15 @@ public class AuthController{
     }
 
     @PostMapping("/send-reset-code")
-    public ResponseEntity<Integer> sendPasswordRecoverEmail(@RequestParam String email) {
+    public ResponseEntity<Integer> sendPasswordRecoverEmail(@RequestBody String email) {
         Integer exists = passwordRecoverService.sendPasswordRecoverEmail(email);
         return ResponseEntity.ok(exists);
     }
-
+//TODO: Better error handling
     @PostMapping("/reset-password")
-    public ResponseEntity<Void> resetPassword (@RequestParam String email, @RequestParam String newPassword){
+    public ResponseEntity<Void> resetPassword (@RequestBody Credentials credentials){
         try {
-            authService.resetPassword(email, newPassword);
+            authService.resetPassword(credentials.getEmail(), credentials.getPassword());
             return ResponseEntity.ok().build();
         }
         catch (AuthenticationServiceException e) {

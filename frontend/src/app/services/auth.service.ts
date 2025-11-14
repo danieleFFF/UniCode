@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap, catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { RegisterPayload } from '../models/register.model';
+import {CredentialsModel} from '../models/credentials.model';
 
 @Injectable({
   providedIn:'root'
@@ -35,6 +36,10 @@ export class AuthService{
 
   sendPasswordRecoverEmail(email: string): Observable<number> {
     return this.http.post<number>(`${this.apiUrl}/auth/send-reset-code`, email);
+  }
+  //TODO : Maybe use a proper model, or json
+  resetPassword(data:CredentialsModel): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/reset-password`, data);
   }
 
   login(credentials:{email:string,password:string}):Observable<any>{

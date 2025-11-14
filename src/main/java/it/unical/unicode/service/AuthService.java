@@ -39,7 +39,7 @@ public class AuthService {
         if (optionalUtente.isEmpty()) {
             throw new AuthenticationServiceException("User not found.");
         }
-        optionalUtente.get().setPassword_hash(passwordEncoder.encode(newPassword));
-        utenteDAO.save(optionalUtente.get());
+        String hashedPassword = passwordEncoder.encode(newPassword);
+        utenteDAO.resetPassword(email, hashedPassword);
     }
 }
