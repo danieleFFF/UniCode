@@ -32,6 +32,11 @@ export class AuthService{
   register(userData:RegisterPayload):Observable<any>{
     return this.http.post(`${this.apiUrl}/users/register`,userData,{responseType:'text'});
   }
+
+  sendPasswordRecoverEmail(email: string): Observable<number> {
+    return this.http.post<number>(`${this.apiUrl}/auth/send-reset-code`, email);
+  }
+
   login(credentials:{email:string,password:string}):Observable<any>{
     return this.http.post<any>(`${this.apiUrl}/auth/login`,credentials).pipe(
       tap((response)=>{

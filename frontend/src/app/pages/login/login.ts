@@ -1,28 +1,43 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink} from '@angular/router';
 import { Location } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { FieldRegex } from '../../shared/field-regex';
+import { AuthForm } from '../../shared/auth-form';
 
 @Component({
   selector:'app-login',
   standalone:true,
   imports:[CommonModule, FormsModule, RouterLink],
   templateUrl:'./login.html',
-  styleUrls:['./login.scss']
+  styleUrls:['./login.scss', '../../shared/auth-form.scss']
 })
-export class Login{
-  email:string='';
-  password:string='';
-  showPassword:boolean=false;
+export class Login extends AuthForm {
+  errorMessage: string = '';
   constructor(
     private router:Router,
     private authService:AuthService,
-    private location:Location
-  ){}
+    location:Location
+  ){
+    super(location);
+  }
   onSubmit(){
     console.log('Tentativo di login con:',this.email,this.password);
+    this.errorMessage = '';
+
+    const emailError = FieldRegex.validateEmail(this.email);
+    if (emailError) {
+      this.errorMessage = emailError;
+      return;
+    }
+
+    if (!this.password) {
+      this.errorMessage = 'Password is required.';
+      return;
+    }
+
     const credentials={
       email:this.email,
       password:this.password
@@ -34,17 +49,28 @@ export class Login{
     },
     error:(errore)=>{
       console.error('Login Fallito (dal componente):',errore);
-      alert('Email o password errati. Riprova.');
+      this.errorMessage = 'Incorrect email or password. Please try again.';
     }
   });
   }
-  goBack():void{
-    this.location.back();
-  }
-  disableCopy(event:Event):void{
-    event.preventDefault();
-  }
-  togglePassword():void{
-    this.showPassword=!this.showPassword;
+  async passwordRecover(): Promise<void> {
+    this.errorMessage = '';
+
+    const emailError = FieldRegex.validateEmail(this.email);
+    if (emailError) {
+      this.errorMessage = "Please enter a valid email before recovering your password.";
+      return;
+    }
+
+    this.authService.sendPasswordRecoverEmail(this.email).subscribe({
+      next: (exists) => {
+        if (exists) {
+          this.router.navigate(['/password-recover'], { state: { email: this.email } });
+        } else {
+          this.errorMessage = "No account found with this email address.";
+        }
+      },
+      error: () => this.errorMessage = "Could not verify email. Please try again later."
+    });
   }
 }

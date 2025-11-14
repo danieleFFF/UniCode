@@ -3,18 +3,19 @@ package it.unical.unicode.service;
 import it.unical.unicode.dao.UtenteDAO;
 import it.unical.unicode.dto.RegisterRequest;
 import it.unical.unicode.model.Utente;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RegisterService {
 
-    @Autowired
-    private UtenteDAO utenteDAO;
+    private final UtenteDAO utenteDAO;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public RegisterService(UtenteDAO utenteDAO, PasswordEncoder passwordEncoder) {
+        this.utenteDAO = utenteDAO;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public void registerUser(RegisterRequest request) {
         if (utenteDAO.findByEmail(request.getEmail()).isPresent()) {

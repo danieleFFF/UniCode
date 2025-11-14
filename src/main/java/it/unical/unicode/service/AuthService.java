@@ -34,4 +34,12 @@ public class AuthService {
             throw new AuthenticationServiceException("Email o password errati.");
         }
     }
+    public void resetPassword(String email, String newPassword) {
+        Optional<Utente> optionalUtente = utenteDAO.findByEmail(email);
+        if (optionalUtente.isEmpty()) {
+            throw new AuthenticationServiceException("User not found.");
+        }
+        optionalUtente.get().setPassword_hash(passwordEncoder.encode(newPassword));
+        utenteDAO.save(optionalUtente.get());
+    }
 }
