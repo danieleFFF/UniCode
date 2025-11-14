@@ -8,10 +8,14 @@ export abstract class AuthForm {
   password: string = '';
   showPassword: boolean = false;
 
-  protected  constructor(private location: Location) {}
+  protected  constructor(protected location: Location) {}
 
   togglePassword() {
     this.showPassword = !this.showPassword;
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   disableCopy(event: ClipboardEvent) {

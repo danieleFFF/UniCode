@@ -44,7 +44,14 @@
       </div>
     </div>
 
-    <a routerLink="/password-recover" class="link">Forgot password?</a>
+    <div>
+      <a (click)="passwordRecover()" class="link">Forgotten password?</a>
+      @if (errorMessage){
+        <div class="error-message-container">
+          <label class="error-message">{{ errorMessage }}</label>
+        </div>s
+      }
+    </div>
 
     <button type="submit" class="auth-submit-btn">Sign in</button>
 

@@ -8,4 +8,5 @@ public interface UtenteDAO {
 
     void save(Utente utente);
     Optional<Utente> findByEmail(String email);
+    void resetPassword(String email, String newPassword);
 }
