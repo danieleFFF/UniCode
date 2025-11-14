@@ -24,6 +24,8 @@
     </a>
   </div>
 
+  <a routerLink="userBoard" class="avatar-container"></a>
+
   <a *ngIf="!(isLoggedIn$ | async)" routerLink="/login" class="nav-item login-btn">
     <img src="../../../assets/images/loginimage.png" alt="Login icon" class="nav-icon">
     <span class="nav-link">Login</span>

@@ -9,7 +9,7 @@ import {BoardComponent} from '../../components/boardComponent/boardComponent';
     imports: [UserSettings, Navbar , BoardComponent],
     templateUrl: './user&Board.html',
     styleUrls: ['./user&Board.scss','../../components/userSettings/userSettings.scss','../../layout/navbar/navbar.scss',
-      '../home/home.scss','../../components/boardComponent/boardComponent.scss']
+      '../../components/boardComponent/boardComponent.scss']
   }
 )
 
