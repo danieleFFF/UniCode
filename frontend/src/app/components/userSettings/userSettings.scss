@@ -19,6 +19,12 @@
   width: 200px;
   border-radius: 20px;
   background-color: #FFFFFF;
+  cursor: pointer;
+
+}
+
+.avatar:hover {
+  opacity: 0.8;
 }
 
 .profile-info {
