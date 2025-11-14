@@ -1,9 +1,9 @@
 <div class="section-languages-container">
   <section class="section-languages">
     @for(course of courses; track course.name){
-      <div class="lang-card" >
+      <a class="lang-card" [routerLink]="course.path">
         <img [src]="course.iconPath" loading="lazy" />
-      </div>
+      </a>
     }
   </section>
 </div>

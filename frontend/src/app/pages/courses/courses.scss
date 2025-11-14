@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
+
+.course-container {
+  padding: 20px;
+  font-family: 'Inconsolata', monospace;
+  color: #f0f0f0;
+  background-color: #181818;
+  min-height: 100vh;
+}
+
+.course-details-card {
+  background-color: #222;
+  border-radius: 8px;
+  padding: 24px 28px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  margin-bottom: 30px;
+}
+
+.course-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 16px;
+}
+
+.course-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.title {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.description {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #ccc;
+}
+
+.topic-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  h3 {
+    font-size: 20px;
+    color: #f0f0f0;
+    margin-bottom: 4px;
+  }
+}
+
+.topic-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #222;
+  border-radius: 8px;
+  padding: 16px 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  transition: transform 0.15s ease;
+}
+
+.topic-card:hover {
+  transform: scale(1.01);
+}
+
+.topic-content {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.difficulty {
+  font-size: 17px;
+}
+
+.topic-title {
+  color: #ffffff;
+  font-size: 17px;
+}
+
+.start-btn {
+  font-family: 'Inconsolata', monospace;
+  background-color: #3b3b3b;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  width: 160px;
+  height: 50px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  align-self: center;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.start-btn:hover {
+  background-color: #3a3a3a;
+  transform: scale(1.03);
+}
+
+.no-results {
+  text-align: center;
+  color: #aaa;
+  font-size: 14px;
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #222;
+  border-radius: 8px;
+}

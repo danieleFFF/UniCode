@@ -15,6 +15,11 @@ export const routes: Routes = [
   },
 
   {
+    path: 'courses/:language',
+    loadComponent: () => import('./pages/courses/courses').then(m => m.Courses)
+  },
+
+  {
     path: 'ranking',
     loadComponent: () => import('./pages/ranking/ranking').then(m => m.Ranking)
   },
