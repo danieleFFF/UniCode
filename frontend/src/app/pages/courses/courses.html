@@ -15,7 +15,7 @@
       @for (topic of currentCourse.topics; track topic.name; let i = $index){
         <div class="topic-card">
           <div class="topic-content">
-            <span class="difficulty" [style.color]="getXpColor(topic.difficulty)">
+            <span class="difficulty" [style.color]="courseService.getXpColor(topic.difficulty)">
               ({{ topic.difficulty }})
             </span>
             <span class="topic-title">{{ topic.name }}</span>
