@@ -22,6 +22,11 @@ export const routes: Routes = [
   },
 
   {
+    path: 'courses-home',
+    loadComponent: () => import('./pages/courses-home/courses-home').then(m => m.CoursesHome)
+  },
+
+  {
     path: 'courses/:language/topic/:topicIndex',
     loadComponent: () => import('./pages/theory/theory').then(m => m.Theory)
   },

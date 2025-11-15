@@ -1,0 +1,90 @@
+.courses-page-container {
+  margin: 0;
+  background: rgba(61, 60, 60, 0.9) linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.7) 31%,
+      rgba(121, 25, 142, 0.8) 67%,
+      rgba(80, 10, 96, 0.8) 86%
+  );
+  background-blend-mode: overlay;
+
+  color: white;
+  font-family: "Inconsolata";
+
+  padding: 3rem;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.courses-header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 3rem auto;
+
+  h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(90deg, #c79bff, #e8c5ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  p {
+    font-size: 1.2rem;
+    color: #ccc;
+    line-height: 1.6;
+  }
+}
+
+.courses-page-container {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.course-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background: #141414;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  padding: 2rem;
+  min-height: 150px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.course-card:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  transform: translateY(-5px);
+}
+
+.course-icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 1rem;
+}
+
+.course-name {
+  color: #ccc;
+  font-size: 1.5rem;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.course-card:hover .course-name {
+  background: linear-gradient(90deg, #a56cff, #d892ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

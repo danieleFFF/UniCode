@@ -5,8 +5,7 @@
       <span class="nav-link">Home</span>
     </a>
     <div class="nav-item-container" (mouseenter)="showDropdown('courses')" (mouseleave)="hideDropdown()">
-      <a class="nav-item">
-        <img src="../../../assets/images/coursesimage.png" alt="Courses icon" class="nav-icon">
+      <a routerLink="/courses-home" class="nav-item"> <img src="../../../assets/images/coursesimage.png" alt="Courses icon" class="nav-icon">
         <span class="nav-link">Courses</span>
       </a>
       <app-dropdown-menu *ngIf="activeDropdown === 'courses'" [items]="courseItems" class="dropdown-menu"></app-dropdown-menu>
