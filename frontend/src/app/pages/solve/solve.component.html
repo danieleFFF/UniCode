@@ -1,5 +1,4 @@
 <div class="solve-container">
-  <!-- SEZIONE SINISTRA -->
   <div class="exercise-side">
     <div class="exercise-header">
       <div class="meta">
@@ -18,7 +17,6 @@
     <h2 class="title">{{ exercise?.title }}</h2>
     <p class="desc">{{ exercise?.description }}</p>
 
-    <!-- RISULTATI -->
     <div *ngIf="showResults" class="results">
       <div class="results-header">
         <h4>Test Results</h4>
@@ -32,16 +30,20 @@
       <div *ngIf="consoleOutput" class="console-box">
         <pre>{{ consoleOutput }}</pre>
       </div>
+
+      <div *ngIf="programOutput" class="output-box">
+        <h4>Detailed Output</h4>
+        <pre>{{ programOutput }}</pre>
+      </div>
     </div>
   </div>
 
-  <!-- SEZIONE DESTRA -->
   <div class="editor-side">
     <div class="editor-topbar">
       <button class="btn" (click)="runTests()">Test</button>
       <span class="console-label">Console</span>
     </div>
 
-    <textarea [(ngModel)]="userCode" placeholder="// Write your code here..."></textarea>
+    <textarea name="code" [(ngModel)]="userCode" placeholder="// Write your code here..."></textarea>
   </div>
 </div>

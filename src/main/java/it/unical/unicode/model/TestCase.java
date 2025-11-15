@@ -2,22 +2,19 @@ package it.unical.unicode.model;
 
 public class TestCase {
     private int id;
-    private int id_esercizio;
+    private int id_exercise;
     private String input;
-    private String output_atteso;
-    private String nome;
+    private String expected_output;
     private boolean passed;
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
-    public int getId_esercizio() { return id_esercizio; }
-    public void setId_esercizio(int id_esercizio) { this.id_esercizio = id_esercizio; }
+    public int getId_exercise() { return id_exercise; }
+    public void setId_exercise(int id_exercise) { this.id_exercise = id_exercise; }
     public String getInput() { return input; }
     public void setInput(String input) { this.input = input; }
-    public String getOutput_atteso() { return output_atteso; }
-    public void setOutput_atteso(String output_atteso) { this.output_atteso = output_atteso; }
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
+    public String getExpected_output() { return expected_output; }
+    public void setExpected_output(String expected_output) { this.expected_output = expected_output; }
     public boolean isPassed() { return passed; }
     public void setPassed(boolean passed) { this.passed = passed; }
 }

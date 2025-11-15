@@ -60,17 +60,13 @@ export class ExercisesComponent implements OnInit {
 
     const idLang = this.getLanguageId(this.selectedLanguage)
     const params = new HttpParams()
-      .set('language', idLang.toString())
+      .set('idLanguage', idLang.toString())
       .set('sortBy', this.sortBy)
       .set('order', this.sortOrder)
-      .set('page', this.page)
-      .set('size', this.size)
 
     this.http.get<Exercise[]>('/api/exercises', { params }).subscribe({
       next: (data) => {
-        if (data.length < this.size) this.hasMore = false
-        this.exercises = [...this.exercises, ...data]
-        this.page++
+        this.exercises = data
         this.loading = false
       },
       error: (err) => {

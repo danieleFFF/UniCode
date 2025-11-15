@@ -8,7 +8,6 @@
   overflow: hidden;
 }
 
-/* SEZIONE SINISTRA */
 .exercise-side {
   background-color: #181818;
   padding: 24px;
@@ -49,7 +48,6 @@
   margin-bottom: 24px;
 }
 
-/* RISULTATI */
 .results {
   background: #202020;
   padding: 16px;
@@ -88,14 +86,12 @@
   overflow-x: auto;
 }
 
-/* SEZIONE DESTRA */
 .editor-side {
   background-color: #141414;
   padding: 20px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  max-width: 55vw; /* ✅ NON esce mai dal frame */
 }
 
 .editor-topbar {
@@ -133,6 +129,113 @@ textarea {
   font-size: 14px;
   padding: 12px;
   outline: none;
+  box-sizing: border-box;
+}
+.output-box {
+  background-color: #1a1d23;
+  color: #c9d1d9;
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #30363d;
+  overflow-x: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+  h4 {
+    color: #8b949e;
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  pre {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: #c9d1d9;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  }
 }
 
+.console-box {
+  background-color: #1a1d23;
+  color: #8b949e;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  border: 1px solid #30363d;
+  overflow-x: auto;
+}
 
+.results {
+  background: #161b22;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.4);
+}
+
+.results-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+
+  h4 {
+    color: #8b949e;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+
+.badge {
+  font-size: 13px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: #21262d;
+  color: #8b949e;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge.ok {
+  background: rgba(46, 160, 67, 0.15);
+  color: #3fb950;
+  border: 2px solid rgba(46, 160, 67, 0.4);
+}
+
+.badge.ko {
+  background: rgba(248, 81, 73, 0.15);
+  color: #f85149;
+  border: 2px solid rgba(248, 81, 73, 0.4);
+}
+
+.badge.ok::before {
+  content: '✓';
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.badge.ko::before {
+  content: '✗';
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.ok {
+  color: #3fb950;
+  font-size: 13px;
+  padding: 6px 0;
+}
+.fail {
+  color: #f85149;
+  font-size: 13px;
+  padding: 6px 0;
+}

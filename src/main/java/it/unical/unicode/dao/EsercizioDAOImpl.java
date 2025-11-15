@@ -78,7 +78,7 @@ public class EsercizioDAOImpl implements EsercizioDAO {
 
     @Override
     public List<TestCase> findTestsByExerciseId(Integer id) {
-        String sql = "SELECT * FROM exercise_tests WHERE exercise_id = ?";
+        String sql = "SELECT * FROM test_cases WHERE id_exercise = ?";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(TestCase.class), id);
     }
 

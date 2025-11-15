@@ -4,7 +4,6 @@ VALUES
     ('C++', 'compilable', 'Master C++ syntax and object-oriented programming.', 'https://youtube.com/cpp_intro'),
     ('SQL', 'demo', 'Understand how to query and manipulate databases using SQL.', 'https://youtube.com/sql_course');
 
-
 INSERT INTO public.exercises (id_language, title, description, difficulty, solution_demo)
 VALUES
     (1, 'Sum of Two Numbers',
