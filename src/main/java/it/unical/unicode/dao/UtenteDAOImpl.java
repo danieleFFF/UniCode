@@ -1,7 +1,6 @@
 package it.unical.unicode.dao;
 
 import it.unical.unicode.model.Utente;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -52,5 +51,11 @@ public class UtenteDAOImpl implements UtenteDAO {
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
+    }
+//TODO : Even here better error handling ,mi seccava :D
+    @Override
+    public void resetPassword(String email, String newPassword) {
+        String sql = "UPDATE users SET password_hash = ? WHERE email = ?";
+        jdbcTemplate.update(sql, newPassword, email);
     }
 }

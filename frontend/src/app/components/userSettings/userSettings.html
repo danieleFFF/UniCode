@@ -2,9 +2,10 @@
 <html lang="en">
 
 <body>
-<div class="settings-container">
+<div class="settings-container-wrapper">
   <div class="userSettings1">
-    <div class="avatar"></div>
+    <div class="avatar" (click)="avatarChoicePopUp()"></div>
+    <app-avatarChoice *ngIf="showAvatarChoicePopUp"  (close)="closeAvatarChoicePopUp()"></app-avatarChoice>
     <div class="profile-info">
       <div class="profile-header">
         <p class="userName">nome utente</p>

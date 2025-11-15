@@ -1,7 +1,6 @@
 package it.unical.unicode.dao;
 
 import it.unical.unicode.model.EsercizioSvolto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -11,8 +10,10 @@ import java.sql.SQLException;
 
 @Repository
 public class EsercizioSvoltoDAOImpl implements EsercizioSvoltoDAO {
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
+    public EsercizioSvoltoDAOImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     private class EsercizioSvoltoRowMapper implements RowMapper<EsercizioSvolto> {
         @Override

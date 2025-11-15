@@ -6,6 +6,7 @@ import { AuthForm } from '../../shared/auth-form';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { RegisterPayload } from '../../models/register.model';
+import { FieldRegex } from '../../shared/field-regex';
 
 
 @Component({
@@ -33,20 +34,21 @@ export class Register extends AuthForm{
 
   onSubmit(): void {
 
-    if (this.username.length < 4 || this.username.length > 16 || !/[a-zA-Z]/.test(this.username)) {
-      alert("Username must be between 4 and 16 characters and contain at least one letter.");
+    const usernameError = FieldRegex.validateUsername(this.username);
+    if (usernameError) {
+      alert(usernameError);
       return;
     }
 
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(this.email)) {
-      alert("Please enter a valid email address.");
+    const emailError = FieldRegex.validateEmail(this.email);
+    if (emailError) {
+      alert(emailError);
       return;
     }
 
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
-    if (!passwordRegex.test(this.password)) {
-      alert("Password must be at least 8 characters long and contain an uppercase letter, a lowercase letter, and a number.");
+    const passwordError = FieldRegex.validatePassword(this.password);
+    if (passwordError) {
+      alert(passwordError);
       return;
     }
 

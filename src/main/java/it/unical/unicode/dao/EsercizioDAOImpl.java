@@ -10,9 +10,10 @@ import java.util.List;
 
 @Repository
 public class EsercizioDAOImpl implements EsercizioDAO {
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
+    private final JdbcTemplate jdbcTemplate;
+    public EsercizioDAOImpl(JdbcTemplate jdbcTemplate){
+        this.jdbcTemplate=jdbcTemplate;
+    }
     @Override
     public List<Esercizio> findByLanguage(Integer idLanguage) {
         String sql;

@@ -10,9 +10,10 @@ import java.util.List;
 
 @Service
 public class ExerciseService {
-
-    @Autowired
-    private EsercizioDAO esercizioDAO;
+    private final EsercizioDAO esercizioDAO;
+    public ExerciseService(EsercizioDAO esercizioDAO) {
+        this.esercizioDAO = esercizioDAO;
+    }
 
     public List<Esercizio> findByLanguage(Integer idLanguage, String sortBy, String order) {
         List<Esercizio> esercizi = esercizioDAO.findByLanguage(idLanguage);

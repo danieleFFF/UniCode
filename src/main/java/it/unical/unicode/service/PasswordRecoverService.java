@@ -1,0 +1,56 @@
+package it.unical.unicode.service;
+
+import jakarta.mail.*;
+import jakarta.mail.internet.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
+
+import java.security.SecureRandom;
+
+@Service
+public class PasswordRecoverService {
+
+    private final JavaMailSender mailSender;
+    private final String senderEmail;
+    private final SecureRandom random = new SecureRandom();
+
+    public PasswordRecoverService(JavaMailSender mailSender, @Value("${app.mail.from}") String senderEmail) {
+        this.mailSender = mailSender;
+        this.senderEmail = senderEmail;
+    }
+
+    public Integer sendPasswordRecoverEmail(String recipientEmail) {
+        try {
+            int verificationCode = 100000 + random.nextInt(900000);
+
+            String subject = "Your UniCode Password Reset Code";
+            String body = String.format("""
+                Hello,
+                
+                We received a request to reset your UniCode account password.
+                
+                Your verification code is: %d
+                
+                If you did not request this, please ignore this message.
+                
+                Thank you,
+                The UniCode Team""", verificationCode);
+
+            MimeMessage message = mailSender.createMimeMessage();
+            message.setFrom(new InternetAddress(senderEmail));
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipientEmail));
+            message.setSubject(subject, "UTF-8");
+            message.setText(body, "UTF-8");
+            mailSender.send(message);
+
+            System.out.println("EmailService: Email sent successfully to " + recipientEmail);
+            return verificationCode;
+        }
+        catch (MessagingException e) {
+            System.err.println("EmailService: Failed to send email: " + e.getMessage());
+            throw new RuntimeException("Failed to send password recovery email", e);
+        }
+    }
+
+}

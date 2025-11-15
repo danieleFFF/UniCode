@@ -1,4 +1,4 @@
-.popUpOverlay{
+.popUpOverlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -11,34 +11,86 @@
   z-index: 1000;
 }
 
-
-
-.popupContainer{
-  margin: 0 auto;
-  height: 350px;
-  width: 600px;
+.popupContainer {
+  width: 90%;
+  max-width: 600px;
   background-color: #2b2b2b;
   border-radius: 20px;
   padding: 30px;
+  box-sizing: border-box;
 
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-.title{
-  font-family: Inconsolata , monospace;
+.title {
+  font-family: 'Inconsolata', monospace;
   color: #FFFFFF;
   font-size: 40px;
   margin: 0;
 }
 
-.subTitle{
-  font-family: Inconsolata , monospace;
+.subTitle {
+  font-family: 'Inconsolata', monospace;
   color: #FFFFFF;
   font-size: 20px;
   margin: 0;
 }
 
+.inputField {
+  height: 40px;
+  padding: 0 15px;
+  width: 400px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background-color: #4c4c4c;
+  color: #FFFFFF;
+  font-family: 'Inconsolata', monospace;
+  font-size: 20px;
+  border: none;
+  outline: none;
+  transition: box-shadow 0.2s;
+}
 
 
+.inputField::placeholder {
+  color: #8e8e8e;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-start;
+  margin-top: 15px;
+}
+
+
+.confirmButton,
+.cancelButton {
+  height: 36px;
+  padding: 0 20px;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Inconsolata', monospace;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s, opacity 0.2s;
+}
+
+.confirmButton {
+  background-color: #8C2E25;
+}
+
+.confirmButton:hover {
+  background-color: #a13d34;
+}
+
+.cancelButton {
+  background-color: #4c4c4c;
+}
+
+.cancelButton:hover {
+  background-color: #5e5e5e;
+}
