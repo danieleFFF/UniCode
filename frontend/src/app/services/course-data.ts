@@ -5,10 +5,10 @@ export interface CourseContent {
   title: string;
   iconPath: string;
   description: string;
-  topics: { name: string; difficulty: 'Easy' | 'Medium' | 'Hard' }[];
+  topics: { name: string; difficulty: 'Easy' | 'Medium' | 'Hard'; videoId?: string;}[];
 }
 
-export type CourseTopic = { name: string; difficulty: 'Easy' | 'Medium' | 'Hard' };
+export type CourseTopic = { name: string; difficulty: 'Easy' | 'Medium' | 'Hard', videoId?: string;};
 
 @Injectable({
   providedIn: 'root'
@@ -21,10 +21,10 @@ export class CourseDataService {
       iconPath: 'assets/images/pythonimage.png',
       description: 'Learn Python, a versatile language used in web development, data science, and automation. Start from the basics and move to advanced topics.',
       topics: [
-        { name: 'Syntax and Variables', difficulty: 'Easy' },
-        { name: 'Data Structures (Lists, Dictionaries)', difficulty: 'Easy' },
-        { name: 'Functions and Modules', difficulty: 'Medium' },
-        { name: 'Object-Oriented Programming', difficulty: 'Hard' }
+        { name: 'Syntax and Variables', difficulty: 'Easy', videoId: 'LKFrQXaoSMQ'},
+        { name: 'Data Structures (Lists, Dictionaries)', difficulty: 'Easy', videoId: 'R-HLU9Fl5ug' },
+        { name: 'Functions and Modules', difficulty: 'Medium', videoId: '89cGQjB5R4M' },
+        { name: 'Object-Oriented Programming', difficulty: 'Hard', videoId: 'q2SGW2VgwAM' }
       ]
     }],
     ['java', {
@@ -33,10 +33,10 @@ export class CourseDataService {
       iconPath: 'assets/images/javaimage.png',
       description: 'Java is a robust, object-oriented language used for enterprise applications, Android development, and large-scale backend systems.',
       topics: [
-        { name: 'JVM, Syntax, and Primitive Types', difficulty: 'Easy' },
-        { name: 'Classes and Objects', difficulty: 'Medium' },
-        { name: 'Inheritance and Polymorphism', difficulty: 'Medium' },
-        { name: 'Collections Framework', difficulty: 'Hard' }
+        { name: 'JVM, Syntax, and Primitive Types', difficulty: 'Easy', videoId: 'OmcFVHpb0v0' },
+        { name: 'Classes and Objects', difficulty: 'Medium', videoId: 'IUqKuGNasdM' },
+        { name: 'Inheritance and Polymorphism', difficulty: 'Medium', videoId: 'gc216ndOrb4' },
+        { name: 'Collections Framework', difficulty: 'Hard', videoId: 'viTHc_4XfCA' }
       ]
     }],
     ['cpp', {
@@ -45,9 +45,9 @@ export class CourseDataService {
       iconPath: 'assets/images/cppimage.png',
       description: 'Master C++, a powerful language used for operating systems, game development, and high-performance software.',
       topics: [
-        { name: 'Pointers and Memory Management', difficulty: 'Hard' },
-        { name: 'Classes and Templates', difficulty: 'Medium' },
-        { name: 'Standard Template Library (STL)', difficulty: 'Hard' }
+        { name: 'Pointers and Memory Management', difficulty: 'Hard', videoId: 'slzcWKWCMBg' },
+        { name: 'Classes and Templates', difficulty: 'Medium', videoId: 'mQqzP9EWu58' },
+        { name: 'Standard Template Library (STL)', difficulty: 'Hard', videoId: '_NlRcT5gWpo' }
       ]
     }],
     ['html', {
@@ -56,9 +56,9 @@ export class CourseDataService {
       iconPath: 'assets/images/htmlimage.png',
       description: 'Learn the basics of HTML5 to structure web pages. This is the starting point for every web developer.',
       topics: [
-        { name: 'Tags and Attributes', difficulty: 'Easy' },
-        { name: 'Forms and Inputs', difficulty: 'Easy' },
-        { name: 'Semantic HTML', difficulty: 'Medium' }
+        { name: 'Tags and Attributes', difficulty: 'Easy', videoId: 'yMX901oVtn8' },
+        { name: 'Forms and Inputs', difficulty: 'Easy', videoId: 'H9zdfZrFUp0' },
+        { name: 'Semantic HTML', difficulty: 'Medium', videoId: 'kX3TfdUqpuU' }
       ]
     }],
     ['javascript', {
@@ -67,9 +67,9 @@ export class CourseDataService {
       iconPath: 'assets/images/javascriptimage.png',
       description: 'Learn the basics of JavaScript, a programming language used to add interactivity and dynamic features to websites.',
       topics: [
-        { name: 'Variables, Data Types, and Operators', difficulty: 'Easy' },
-        { name: 'Event Handling', difficulty: 'Medium' },
-        { name: 'Asynchronous Programming', difficulty: 'Hard' }
+        { name: 'Variables, Data Types, and Operators', difficulty: 'Easy', videoId: 'g23MWKirn1c' },
+        { name: 'Event Handling', difficulty: 'Medium', videoId: '_BVkOvpyRI0' },
+        { name: 'Asynchronous Programming', difficulty: 'Hard', videoId: '670f71LTWpM' }
       ]
     }],
     ['sql', {
@@ -78,9 +78,9 @@ export class CourseDataService {
       iconPath: 'assets/images/sqlimage.png',
       description: 'Learn the basics of the SQL language, a query language used to manage and manipulate data in a database.',
       topics: [
-        { name: 'Selection and Joins', difficulty: 'Easy' },
-        { name: 'Functions and Aggregations', difficulty: 'Medium' },
-        { name: 'Tables and Views', difficulty: 'Medium' }
+        { name: 'Selection and Joins', difficulty: 'Easy', videoId: 'G3lJAxg1cy8' },
+        { name: 'Functions and Aggregations', difficulty: 'Medium', videoId: 'jcoJuc5e3RE' },
+        { name: 'Tables and Views', difficulty: 'Medium', videoId: 'eumDqVqaCT4' }
       ]
     }]
   ]);

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { CourseDataService, CourseTopic } from '../../services/course-data';
+import { CourseDataService } from '../../services/course-data';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-theory',
@@ -14,11 +15,15 @@ export class Theory implements OnInit {
   public topicTitle: string | undefined;
   public topicDifficulty: 'Easy' | 'Medium' | 'Hard' | undefined;
   public errorMessage: string | null = null;
+  public safeVideoUrl: SafeResourceUrl | null = null;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    public courseService: CourseDataService
+    public courseService: CourseDataService,
+    private sanitizer: DomSanitizer
   ) {}
+
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const languageKey = params.get('language');
@@ -37,6 +42,12 @@ export class Theory implements OnInit {
       this.topicTitle = topic.name;
       this.topicDifficulty = topic.difficulty;
       this.errorMessage = null;
+      if (topic.videoId) {
+        const videoUrl = 'https://www.youtube.com/embed/' + topic.videoId;
+        this.safeVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(videoUrl);
+      } else {
+        this.safeVideoUrl = null;
+      }
     } else {
       this.errorMessage = "Topic not found.";
       this.topicTitle = undefined;
