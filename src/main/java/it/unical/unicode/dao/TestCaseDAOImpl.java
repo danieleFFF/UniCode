@@ -20,8 +20,8 @@ public class TestCaseDAOImpl implements TestCaseDAO {
             TestCase test_case = new TestCase();
             test_case.setId(rs.getInt("id"));
             test_case.setInput(rs.getString("input"));
-            test_case.setId_esercizio(rs.getInt("id_esercizio"));
-            test_case.setOutput_atteso(rs.getString("output_atteso"));
+            test_case.setId_exercise(rs.getInt("id_exercise"));
+            test_case.setExpected_output(rs.getString("expected_output"));
             return test_case;
         }
     }

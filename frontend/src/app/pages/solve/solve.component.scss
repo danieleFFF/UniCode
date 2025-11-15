@@ -1,0 +1,241 @@
+.solve-container {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  height: 100vh;
+  background-color: #111;
+  color: #eee;
+  font-family: 'Inconsolata', monospace;
+  overflow: hidden;
+}
+
+.exercise-side {
+  background-color: #181818;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  border-right: 1px solid #222;
+}
+
+.exercise-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.meta {
+  display: flex;
+  gap: 6px;
+  font-size: 13px;
+  color: #aaa;
+}
+
+.difficulty.easy { color: #00ff91; }
+.difficulty.medium { color: #ffcc00; }
+.difficulty.hard { color: #ff5555; }
+
+.title {
+  font-size: 22px;
+  color: #00ff91;
+  margin: 8px 0;
+}
+
+.desc {
+  font-size: 15px;
+  color: #c7c7c7;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.results {
+  background: #202020;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.4);
+}
+
+.results-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.badge {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #333;
+  color: #ddd;
+}
+.badge.ok { background: #063; color: #b7ffcf; }
+.badge.ko { background: #4a1f1f; color: #ffbcbc; }
+
+.ok { color: #00ff91; }
+.fail { color: #ff4c4c; }
+
+.console-box {
+  background-color: #141414;
+  color: #ccc;
+  margin-top: 10px;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  border-top: 1px solid #333;
+  overflow-x: auto;
+}
+
+.editor-side {
+  background-color: #141414;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.editor-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.btn {
+  background-color: #2a2a2a;
+  color: #ddd;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+.btn:hover {
+  background-color: #00ff91;
+  color: #000;
+  transform: scale(1.03);
+}
+
+textarea {
+  flex: 1;
+  width: 100%;
+  background-color: #0f0f0f;
+  color: #f0f0f0;
+  border: 1px solid #333;
+  border-radius: 8px;
+  resize: none;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 12px;
+  outline: none;
+  box-sizing: border-box;
+}
+.output-box {
+  background-color: #1a1d23;
+  color: #c9d1d9;
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #30363d;
+  overflow-x: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+  h4 {
+    color: #8b949e;
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  pre {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: #c9d1d9;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  }
+}
+
+.console-box {
+  background-color: #1a1d23;
+  color: #8b949e;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  border: 1px solid #30363d;
+  overflow-x: auto;
+}
+
+.results {
+  background: #161b22;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.4);
+}
+
+.results-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+
+  h4 {
+    color: #8b949e;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+
+.badge {
+  font-size: 13px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: #21262d;
+  color: #8b949e;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge.ok {
+  background: rgba(46, 160, 67, 0.15);
+  color: #3fb950;
+  border: 2px solid rgba(46, 160, 67, 0.4);
+}
+
+.badge.ko {
+  background: rgba(248, 81, 73, 0.15);
+  color: #f85149;
+  border: 2px solid rgba(248, 81, 73, 0.4);
+}
+
+.badge.ok::before {
+  content: '✓';
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.badge.ko::before {
+  content: '✗';
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.ok {
+  color: #3fb950;
+  font-size: 13px;
+  padding: 6px 0;
+}
+.fail {
+  color: #f85149;
+  font-size: 13px;
+  padding: 6px 0;
+}

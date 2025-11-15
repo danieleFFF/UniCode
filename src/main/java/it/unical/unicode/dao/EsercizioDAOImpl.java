@@ -1,10 +1,11 @@
 package it.unical.unicode.dao;
 
 import it.unical.unicode.model.Esercizio;
+import it.unical.unicode.model.TestCase;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 @Repository
@@ -65,4 +66,26 @@ public class EsercizioDAOImpl implements EsercizioDAO {
         return jdbcTemplate.query(sql.toString(), params, new BeanPropertyRowMapper<>(Esercizio.class));
     }
 
+    @Override
+    public Esercizio findById(Integer id) {
+        String sql = "SELECT * FROM exercises WHERE id = ?";
+        List<Esercizio> result = jdbcTemplate.query(
+                sql,
+                new BeanPropertyRowMapper<>(Esercizio.class),
+                id
+        );
+        return result.isEmpty() ? null : result.get(0);
+    }
+
+    @Override
+    public List<TestCase> findTestsByExerciseId(Integer id) {
+        String sql = "SELECT * FROM test_cases WHERE id_exercise = ?";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(TestCase.class), id);
+    }
+
+    @Override
+    public List<Esercizio> findAll(String sortBy, String order) {
+        String sql = "SELECT * FROM exercises ORDER BY " + sortBy + " " + order;
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Esercizio.class));
+    }
 }

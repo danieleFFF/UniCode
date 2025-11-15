@@ -3,7 +3,15 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/db
     username: postgres
-    password: 1234
+    password: 1887
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
 
 server:
   port: 8080
