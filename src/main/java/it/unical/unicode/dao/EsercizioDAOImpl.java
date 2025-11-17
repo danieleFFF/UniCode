@@ -2,18 +2,36 @@ package it.unical.unicode.dao;
 
 import it.unical.unicode.model.Esercizio;
 import it.unical.unicode.model.TestCase;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
 public class EsercizioDAOImpl implements EsercizioDAO {
     private final JdbcTemplate jdbcTemplate;
+    private static final List<String> VALID_SORT_COLUMNS = Arrays.asList("title", "difficulty", "points");
+    private static final List<String> VALID_ORDERS = Arrays.asList("asc", "desc");
+
     public EsercizioDAOImpl(JdbcTemplate jdbcTemplate){
-        this.jdbcTemplate=jdbcTemplate;
+        this.jdbcTemplate = jdbcTemplate;
     }
+
+    private String validateSortColumn(String sortBy) {
+        if (sortBy == null || !VALID_SORT_COLUMNS.contains(sortBy.toLowerCase())) {
+            return "title";
+        }
+        return sortBy.toLowerCase();
+    }
+
+    private String validateOrder(String order) {
+        if (order == null || !VALID_ORDERS.contains(order.toLowerCase())) {
+            return "asc";
+        }
+        return order.toLowerCase();
+    }
+
     @Override
     public List<Esercizio> findByLanguage(Integer idLanguage) {
         String sql;
@@ -32,33 +50,19 @@ public class EsercizioDAOImpl implements EsercizioDAO {
 
     @Override
     public List<Esercizio> findByLanguagePaged(Integer idLanguage, String sortBy, String order, int page, int size) {
-        String sortColumn;
-        switch (sortBy) {
-            case "difficulty":
-                sortColumn = "difficulty";
-                break;
-            case "points":
-                sortColumn = "points";
-                break;
-            case "title":
-            default:
-                sortColumn = "title";
-        }
-
-        if (!order.equalsIgnoreCase("asc") && !order.equalsIgnoreCase("desc")) {
-            order = "asc";
-        }
+        String sortColumn = validateSortColumn(sortBy);
+        String validOrder = validateOrder(order);
 
         StringBuilder sql = new StringBuilder("SELECT * FROM exercises");
         Object[] params;
 
         if (idLanguage != null && idLanguage > 0) {
             sql.append(" WHERE id_language = ?");
-            sql.append(" ORDER BY " + sortColumn + " " + order);
+            sql.append(" ORDER BY ").append(sortColumn).append(" ").append(validOrder);
             sql.append(" LIMIT ? OFFSET ?");
             params = new Object[]{idLanguage, size, page * size};
         } else {
-            sql.append(" ORDER BY " + sortColumn + " " + order);
+            sql.append(" ORDER BY ").append(sortColumn).append(" ").append(validOrder);
             sql.append(" LIMIT ? OFFSET ?");
             params = new Object[]{size, page * size};
         }
@@ -85,7 +89,9 @@ public class EsercizioDAOImpl implements EsercizioDAO {
 
     @Override
     public List<Esercizio> findAll(String sortBy, String order) {
-        String sql = "SELECT * FROM exercises ORDER BY " + sortBy + " " + order;
+        String sortColumn = validateSortColumn(sortBy);
+        String validOrder = validateOrder(order);
+        String sql = "SELECT * FROM exercises ORDER BY " + sortColumn + " " + validOrder;
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Esercizio.class));
     }
 }
