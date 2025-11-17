@@ -2,12 +2,14 @@ package it.unical.unicode.dao;
 
 import it.unical.unicode.model.Utente;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -26,7 +28,7 @@ public class UtenteDAOImpl implements UtenteDAO {
             utente.setUsername(rs.getString("username"));
             utente.setEmail(rs.getString("email"));
             utente.setPassword_hash(rs.getString("password_hash"));
-            utente.setPunti_totali(rs.getInt("total_points"));
+            utente.setTotalPoints(rs.getInt("total_points"));
             utente.setId_avatar(rs.getInt("id_avatar"));
             return utente;
         }
@@ -57,5 +59,30 @@ public class UtenteDAOImpl implements UtenteDAO {
     public void resetPassword(String email, String newPassword) {
         String sql = "UPDATE users SET password_hash = ? WHERE email = ?";
         jdbcTemplate.update(sql, newPassword, email);
+    }
+
+    @Override
+    public Utente findById(int id) {
+        String sql = "SELECT * FROM users WHERE id = ?";
+        List<Utente> results = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Utente.class), id);
+        return results.isEmpty() ? null : results.get(0);
+    }
+
+    @Override
+    public List<Utente> findAll() {
+        String sql = "SELECT * FROM users";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Utente.class));
+    }
+
+    @Override
+    public void updateTotalPoints(int userId, int pointsToAdd) {
+        String sql = "UPDATE users SET total_points = total_points + ? WHERE id = ?";
+        jdbcTemplate.update(sql, pointsToAdd, userId);
+    }
+
+    @Override
+    public List<Utente> getRanking(int limit) {
+        String sql = "SELECT * FROM users ORDER BY total_points DESC LIMIT ?";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Utente.class), limit);
     }
 }

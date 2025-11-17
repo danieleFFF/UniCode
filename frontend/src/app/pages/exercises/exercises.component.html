@@ -1,61 +1,64 @@
-<div class="exercise-container">
-  <div class="top-bar">
-    <div class="controls">
-      <label for="language">Language:</label>
-      <div class="dropdown-wrapper">
-        <button class="filter-btn language-button" (click)="toggleLanguageMenu($event)">
-          {{ selectedLanguage }} ▾
-        </button>
+<div class="exercises-page-container">
+  <app-navbar></app-navbar>
 
-        <div class="dropdown language-menu" *ngIf="showLanguageMenu">
-          <button *ngFor="let lang of languages" (click)="selectLanguage(lang)">
-            {{ lang }}
+  <div class="exercise-container">
+    <div class="top-bar">
+      <div class="controls">
+        <label for="language">Language:</label>
+        <div class="dropdown-wrapper">
+          <button class="filter-btn language-button" (click)="toggleLanguageMenu($event)">
+            {{ selectedLanguage }} ▾
+          </button>
+
+          <div class="dropdown language-menu" *ngIf="showLanguageMenu">
+            <button *ngFor="let lang of languages" (click)="selectLanguage(lang)">
+              {{ lang }}
+            </button>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <button (click)="toggleFilterMenu($event)" class="filter-btn filter-button">
+            {{ selectedFilterName }} ▾
+          </button>
+          <div class="dropdown filter-menu" *ngIf="showFilterMenu">
+            <button (click)="applySort('title')">Alphabetic</button>
+            <button (click)="applySort('difficulty')">Difficulty</button>
+            <button (click)="applySort('points')">Points</button>
+          </div>
+
+          <button (click)="toggleOrder()" class="order-btn">
+            {{ sortOrder === 'asc' ? 'Asc ↑' : 'Desc ↓' }}
           </button>
         </div>
       </div>
+    </div>
 
-      <div class="filter-group">
-        <button (click)="toggleFilterMenu($event)" class="filter-btn filter-button">
-          {{ selectedFilterName }} ▾
-        </button>
-        <div class="dropdown filter-menu" *ngIf="showFilterMenu">
-          <button (click)="applySort('title')">Alphabetic</button>
-          <button (click)="applySort('difficulty')">Difficulty</button>
-          <button (click)="applySort('points')">Points</button>
+    <div *ngIf="exercises.length > 0; else noExercises" class="exercise-list">
+      <div class="exercise-card" *ngFor="let ex of exercises">
+        <div class="exercise-content">
+          <div class="exercise-header">
+            <span class="difficulty" [style.color]="getXpColor(ex.difficulty)">
+              ({{ ex.difficulty }})
+            </span>
+            <span class="title">{{ ex.title }}</span>
+          </div>
+          <div class="points">(Max points: {{ ex.points }})</div>
+          <div class="description">
+            <p>{{ ex.description }}</p>
+          </div>
         </div>
 
-        <button (click)="toggleOrder()" class="order-btn">
-          {{ sortOrder === 'asc' ? 'Asc ↑' : 'Desc ↓' }}
+        <button
+          class="solve-btn"
+          [routerLink]="['/solve', ex.id]">
+          SOLVE
         </button>
       </div>
     </div>
+
+    <ng-template #noExercises>
+      <div class="no-results">No exercises found for {{ selectedLanguage }}.</div>
+    </ng-template>
   </div>
-
-  <div *ngIf="exercises.length > 0; else noExercises" class="exercise-list">
-    <div class="exercise-card" *ngFor="let ex of exercises">
-      <div class="exercise-content">
-        <div class="exercise-header">
-          <span class="difficulty" [style.color]="getXpColor(ex.difficulty)">
-            ({{ ex.difficulty }})
-          </span>
-          <span class="title">{{ ex.title }}</span>
-        </div>
-        <div class="points">(Max points: {{ ex.points }})</div>
-        <div class="description">
-          <p>{{ ex.description }}</p>
-        </div>
-      </div>
-
-      <button
-        class="solve-btn"
-        [routerLink]="['/solve', ex.id]"
-        [queryParams]="{ language: selectedLanguage }">
-        SOLVE
-      </button>
-    </div>
-  </div>
-
-  <ng-template #noExercises>
-    <div class="no-results">No exercises found for {{ selectedLanguage }}.</div>
-  </ng-template>
 </div>

@@ -1,0 +1,66 @@
+package it.unical.unicode.controller;
+
+import it.unical.unicode.dao.SubmissionDAO;
+import it.unical.unicode.dao.UtenteDAO;
+import it.unical.unicode.model.Submission;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import java.util.*;
+
+@RestController
+@RequestMapping("/api/submissions")
+@CrossOrigin(origins = "http://localhost:4200")
+public class SubmissionController {
+
+    @Autowired
+    private SubmissionDAO submissionDAO;
+
+    @PostMapping
+    public Map<String, Object> submitSolution(@RequestBody Map<String, Object> payload) {
+        int idUser = (int) payload.get("idUser");
+        int idExercise = (int) payload.get("idExercise");
+        int pointsEarned = (int) payload.get("pointsEarned");
+        int timeTaken = (int) payload.get("timeTaken");
+        String code = (String) payload.get("code");
+
+        boolean alreadyCompleted = submissionDAO.hasUserCompletedExercise(idUser, idExercise);
+
+        if (alreadyCompleted) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", false);
+            response.put("message", "You have already completed this exercise");
+            response.put("pointsEarned", 0);
+            return response;
+        }
+
+        Submission submission = new Submission();
+        submission.setIdUser(idUser);
+        submission.setIdExercise(idExercise);
+        submission.setPointsEarned(pointsEarned);
+        submission.setTimeTakenSeconds(timeTaken);
+        submission.setCode(code);
+
+        submissionDAO.saveSubmission(submission);
+        UtenteDAO.updateTotalPoints(idUser, pointsEarned);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("message", "Congratulations! You earned " + pointsEarned + " points!");
+        response.put("pointsEarned", pointsEarned);
+        return response;
+    }
+
+    @GetMapping("/check/{idUser}/{idExercise}")
+    public Map<String, Object> checkCompletion(@PathVariable int idUser, @PathVariable int idExercise) {
+        boolean completed = submissionDAO.hasUserCompletedExercise(idUser, idExercise);
+        Map<String, Object> response = new HashMap<>();
+        response.put("completed", completed);
+
+        if (completed) {
+            Submission submission = submissionDAO.getSubmission(idUser, idExercise);
+            response.put("pointsEarned", submission.getPointsEarned());
+        }
+
+        return response;
+    }
+}

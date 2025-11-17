@@ -1,7 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
 
+.exercises-page-container {
+  min-height: 100vh;
+  background-color: #181818;
+  font-family: 'Inconsolata', monospace;
+}
+
 .exercise-container {
-  padding: 20px;
+  padding-top: 10px;
+  max-width: 1400px;
+  margin: 0 auto;
   font-family: 'Inconsolata', monospace;
   color: #f0f0f0;
   background-color: #181818;

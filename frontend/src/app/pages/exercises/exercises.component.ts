@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { HttpClient, HttpClientModule, HttpParams } from '@angular/common/http'
 import { RouterLink } from '@angular/router'
+import {Navbar} from '../../layout/navbar/navbar';
 
 interface Exercise {
   id: number
@@ -16,7 +17,7 @@ interface Exercise {
 @Component({
   selector: 'app-exercises',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule, RouterLink],
+  imports: [CommonModule, FormsModule, HttpClientModule, RouterLink, Navbar],
   templateUrl: './exercises.component.html',
   styleUrls: ['./exercises.component.scss']
 })
