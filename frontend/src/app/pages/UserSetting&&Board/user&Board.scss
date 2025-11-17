@@ -1,5 +1,6 @@
 .setting-container{
   background-color: #171717;
+  min-height: 100vh;
 }
 
 .contentWrapper{
@@ -8,4 +9,8 @@
   align-items: flex-end;
   gap: 100px;
   padding: 24px;
+}
+
+body{
+  margin: 0;
 }
