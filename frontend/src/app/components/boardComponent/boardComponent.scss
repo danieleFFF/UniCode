@@ -17,6 +17,7 @@
 }
 
 .trophyItem-20{
+  position: relative;
   height: 120px;
   width: 120px;
   background: linear-gradient(to bottom, #613287, transparent);
@@ -30,6 +31,7 @@
 }
 
 .trophyItem-50{
+  position: relative;
   height: 120px;
   width: 120px;
   background: linear-gradient(to bottom, #137731, transparent);
@@ -43,6 +45,7 @@
 }
 
 .trophyItem-100{
+  position: relative;
   height: 150px;
   width: 150px;
   background: linear-gradient(to bottom, #504954, transparent);
@@ -56,6 +59,7 @@
 }
 
 .trophyItem-codeMaster{
+  position: relative;
   height: 150px;
   width: 150px;
   background: linear-gradient(to bottom, #6C603C, transparent);
@@ -69,6 +73,7 @@
 }
 
 .trophyItem-firstPosition{
+  position: relative;
   height: 150px;
   width: 150px;
   background: linear-gradient(to bottom, #7D2B2B, transparent);
@@ -82,6 +87,7 @@
 }
 
 .trophyItem-time{
+  position: relative;
   height: 120px;
   width: 120px;
   background: linear-gradient(to bottom, #70533C, transparent);
@@ -96,6 +102,7 @@
 }
 
 .trophyItem-python{
+  position: relative;
   height: 120px;
   width: 120px;
   background: linear-gradient(to bottom, #1D242E, transparent);
@@ -121,7 +128,6 @@
   justify-content: center;
   align-items: flex-end;
   gap: 40px;
-  position: relative;
   margin-top: 90px;
 }
 
@@ -143,4 +149,31 @@
   opacity: 0.9;
   max-width: 100px;
   font-family: 'Inconsolata', monospace;
+}
+
+.topTrophyImage{
+  height: 270px;
+  width: 190px;
+  position: absolute;
+
+  object-fit: contain;
+
+  filter: grayscale(0%);
+  transition: all 0.3s ease;
+}
+
+.topTrophyImage.locked{
+  filter: grayscale(100%) brightness(60%);
+}
+
+.bottomTrophyImage{
+  height: 200px;
+  width: 160px;
+  object-fit: contain;
+  position: absolute;
+  filter: grayscale(0%);
+  transition: all 0.3s ease;
+}
+.bottomTrophyImage.locked{
+  filter: grayscale(100%) brightness(60%);
 }

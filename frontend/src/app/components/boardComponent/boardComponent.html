@@ -8,40 +8,68 @@
   <div class="trophyBoard">
 
     <div class="topRow">
-        <div class="trophyItem-100">
-          <div class="trophyIconLight-purple"></div>
-          <span class="trophyDescription">100 Excercise completed</span>
-        </div>
+          <div class="trophyItem-100">
+            <img [src] = "topRowTrophies[0].path"
+                 [alt]="topRowTrophies[0].description"
+                 class="topTrophyImage"
+                 [class.locked]="!topRowTrophies[0].unlocked"
+            >
+            <span class="trophyDescription">100 Excercise completed</span>
+          </div>
 
         <div class="trophyItem-codeMaster hightlight">
-          <div class="trophyIconGold"></div>
+          <img [src] = "topRowTrophies[1].path"
+               [alt]="topRowTrophies[1].description"
+               class="topTrophyImage"
+               [class.locked]="!topRowTrophies[1].unlocked"
+          >
           <span class="trophyDescription">Code Master</span>
         </div>
 
         <div class="trophyItem-firstPosition">
-          <div class="trophyIconDark-red"></div>
+          <img [src] = "topRowTrophies[2].path"
+               [alt]="topRowTrophies[2].description"
+               class="topTrophyImage"
+               [class.locked]="!topRowTrophies[2].unlocked"
+          >
           <span class="trophyDescription">first position</span>
         </div>
     </div>
 
     <div class="bottomRow">
         <div class="trophyItem-time">
-          <div class="trophyIconBrown"></div>
+          <img [src] = "bottomRowTrophies[3].path"
+               [alt]="bottomRowTrophies[3].description"
+               class="bottomTrophyImage"
+               [class.locked]="!bottomRowTrophies[3].unlocked"
+          >
           <p class="trophyDescription">time trophies</p>
         </div>
 
         <div class="trophyItem-50">
-          <div class="trophyIconGreen"></div>
+          <img [src] = "bottomRowTrophies[0].path"
+               [alt]="bottomRowTrophies[0].description"
+               class="bottomTrophyImage"
+               [class.locked]="!bottomRowTrophies[0].unlocked"
+          >
           <p class="trophyDescription">50 Excercise completed</p>
         </div>
 
         <div class="trophyItem-python">
-          <div class="trophyIconDark-blue"></div>
+          <img [src] = "bottomRowTrophies[2].path"
+               [alt]="bottomRowTrophies[2].description"
+               class="bottomTrophyImage"
+               [class.locked]="!bottomRowTrophies[2].unlocked"
+          >
           <p class="trophyDescription">Python Master</p>
         </div>
 
         <div class="trophyItem-20">
-          <div class="trophyIconPurple"></div>
+          <img [src] = "bottomRowTrophies[1].path"
+               [alt]="bottomRowTrophies[1].description"
+               class="bottomTrophyImage"
+               [class.locked]="!bottomRowTrophies[1].unlocked"
+          >
           <p class="trophyDescription">20 Excercise completed</p>
         </div>
     </div>
