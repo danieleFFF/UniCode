@@ -38,6 +38,7 @@
       <div class="exercise-card" *ngFor="let ex of exercises">
         <div class="exercise-content">
           <div class="exercise-header">
+
             <span class="difficulty" [style.color]="getXpColor(ex.difficulty)">
               ({{ ex.difficulty }})
             </span>
@@ -47,6 +48,7 @@
           <div class="description">
             <p>{{ ex.description }}</p>
           </div>
+
         </div>
 
         <button
@@ -61,4 +63,5 @@
       <div class="no-results">No exercises found for {{ selectedLanguage }}.</div>
     </ng-template>
   </div>
+
 </div>

@@ -13,6 +13,7 @@ import { AuthForm } from '../../shared/auth-form';
   imports:[CommonModule, FormsModule, RouterLink],
   templateUrl:'./login.html',
   styleUrls:['./login.scss', '../../shared/auth-form.scss']
+
 })
 export class Login extends AuthForm {
   errorMessage: string = '';
@@ -33,12 +34,12 @@ export class Login extends AuthForm {
       return;
     }
 
-    if (!this.password) {
+    if(!this.password){
       this.errorMessage = 'Password is required.';
       return;
     }
 
-    const credentials={
+    const credentials= {
       email:this.email,
       password:this.password
     };
@@ -53,16 +54,16 @@ export class Login extends AuthForm {
     }
   });
   }
-  async passwordRecover(): Promise<void> {
+  async passwordRecover(): Promise<void>{
     this.errorMessage = '';
 
     const emailError = FieldRegex.validateEmail(this.email);
     if (emailError) {
-      this.errorMessage = "Please enter a valid email before recovering your password.";
+      this.errorMessage ="Please enter a valid email before recovering your password.";
       return;
     }
 
-    this.authService.sendPasswordRecoverEmail(this.email).subscribe({
+    this.authService.sendPasswordRecoverEmail(this.email).subscribe ({
       next: (exists) => {
         if (exists) {
           this.router.navigate(['/password-recover'], { state: { email: this.email } });
@@ -70,7 +71,8 @@ export class Login extends AuthForm {
           this.errorMessage = "No account found with this email address.";
         }
       },
-      error: () => this.errorMessage = "Could not verify email. Please try again later."
+      error:() => this.errorMessage= "Could not verify email. Please try again later."
     });
   }
 }
+

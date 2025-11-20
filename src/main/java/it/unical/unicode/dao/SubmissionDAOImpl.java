@@ -24,8 +24,7 @@ public class SubmissionDAOImpl implements SubmissionDAO {
     @Override
     public void saveSubmission(Submission submission) {
         String sql = "INSERT INTO submissions (id_user, id_exercise, points_earned, time_taken_seconds, code) " +
-                "VALUES (?, ?, ?, ?, ?) " +
-                "ON CONFLICT (id_user, id_exercise) DO NOTHING";
+                "VALUES (?, ?, ?, ?, ?) " + "ON CONFLICT (id_user, id_exercise) DO NOTHING";
 
         jdbcTemplate.update(sql,
                 submission.getIdUser(),
@@ -37,9 +36,9 @@ public class SubmissionDAOImpl implements SubmissionDAO {
     }
 
     @Override
-    public Submission getSubmission(int idUser, int idExercise) {
+    public Submission getSubmission(int idUser, int idExercise){
         String sql = "SELECT * FROM submissions WHERE id_user = ? AND id_exercise = ?";
         List<Submission> results = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Submission.class), idUser, idExercise);
-        return results.isEmpty() ? null : results.get(0);
+        return results.isEmpty() ? null : results.getFirst();
     }
 }

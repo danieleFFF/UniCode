@@ -35,14 +35,12 @@
   gap: 4px;
   margin-bottom: 12px;
 }
-
 .meta {
   display: flex;
   gap: 6px;
   font-size: 13px;
   color: #8b949e;
 }
-
 .difficulty.easy { color: #45d058; }
 .difficulty.medium { color: #d29922; }
 .difficulty.hard { color: #f85149; }
@@ -69,7 +67,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.results-header {
+.results-header{
   display: flex;
   align-items: center;
   gap: 10px;
@@ -83,6 +81,7 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
+
 }
 
 .badge {
@@ -92,7 +91,7 @@
   background: #21262d;
   color: #8b949e;
   font-weight: 500;
-  display: flex;
+  display:  flex;
   align-items: center;
   gap: 8px;
 }
@@ -108,7 +107,6 @@
   color: #f85149;
   border: 2px solid rgba(248, 81, 73, 0.4);
 }
-
 .badge.ok::before {
   content: '✓';
   font-size: 16px;
@@ -121,7 +119,7 @@
   font-weight: bold;
 }
 
-.ok {
+.ok{
   color: #3fb950;
   font-size: 13px;
   padding: 6px 0;
@@ -158,11 +156,11 @@
   padding: 16px;
   border-radius: 8px;
   border: 1px solid #30363d;
-  overflow-x: auto;
+  overflow-x:  auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 
   h4 {
-    color: #45d058;
+    color:  #45d058;
     margin: 0 0 12px 0;
     font-size: 14px;
     font-weight: 600;
@@ -257,6 +255,7 @@ textarea {
   line-height: 1.6;
   padding: 24px;
   outline: none;
+
   box-sizing: border-box;
 
   &::placeholder {

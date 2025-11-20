@@ -12,24 +12,21 @@ public class Judge0Service {
 
         try {
             String output = simulateExecution(languageId, code, stdin);
-
             response.put("stdout", output);
             response.put("stderr", "");
             response.put("compile_output", "");
             response.put("status", Map.of("id", 3, "description", "Accepted"));
-
         } catch (Exception e) {
             response.put("stdout", "");
             response.put("stderr", e.getMessage());
             response.put("compile_output", "");
             response.put("status", Map.of("id", 6, "description", "Compilation Error"));
         }
-
         return response;
     }
 
     private String simulateExecution(String languageId, String code, String stdin) {
-        switch (languageId) {
+        switch(languageId){
             case "71":
                 return simulatePython(code, stdin);
             case "54":
@@ -55,10 +52,10 @@ public class Judge0Service {
         String[] lines = code.split("\n");
         String lastPrintValue = "";
 
-        for (String line : lines) {
+        for(String line : lines){
             line = line.trim();
 
-            if (line.isEmpty() || line.startsWith("#")) {
+            if(line.isEmpty() || line.startsWith("#")){
                 continue;
             }
 
@@ -86,13 +83,11 @@ public class Judge0Service {
                     variables.put(varName, 0);
                 }
             }
-            else if (line.startsWith("print(")) {
+            else if (line.startsWith("print(")){
                 String printContent = line.substring(line.indexOf("(") + 1, line.lastIndexOf(")")).trim();
-
                 printContent = printContent.replaceAll("\"", "").replaceAll("'", "");
 
-                if (printContent.contains("+") || printContent.contains("-") ||
-                        printContent.contains("*") || printContent.contains("/")) {
+                if (printContent.contains("+") || printContent.contains("-") || printContent.contains("*") || printContent.contains("/")) {
                     lastPrintValue = evaluateExpression(printContent, variables);
                 } else if (variables.containsKey(printContent)) {
                     lastPrintValue = String.valueOf(variables.get(printContent));
@@ -100,7 +95,7 @@ public class Judge0Service {
                     lastPrintValue = printContent;
                 }
             }
-            else if (line.contains("=") && !line.contains("input()")) {
+            else if(line.contains("=") && !line.contains("input()")){
                 Pattern pattern = Pattern.compile("(\\w+)\\s*=\\s*(.+)");
                 Matcher matcher = pattern.matcher(line);
                 if (matcher.find()) {
@@ -119,7 +114,6 @@ public class Judge0Service {
                 }
             }
         }
-
         return lastPrintValue;
     }
 
@@ -127,15 +121,14 @@ public class Judge0Service {
         expression = expression.replaceAll("\\s+", "");
 
         for (Map.Entry<String, Integer> entry : variables.entrySet()) {
-            expression = expression.replaceAll("\\b" + entry.getKey() + "\\b",
-                    String.valueOf(entry.getValue()));
+            expression = expression.replaceAll("\\b" + entry.getKey() + "\\b", String.valueOf(entry.getValue()));
         }
 
         try {
             if (expression.contains("+")) {
                 String[] parts = expression.split("\\+");
                 int sum = 0;
-                for (String part : parts) {
+                for(String part : parts){
                     sum += Integer.parseInt(part.trim());
                 }
                 return String.valueOf(sum);
@@ -143,7 +136,8 @@ public class Judge0Service {
             else if (expression.contains("-")) {
                 String[] parts = expression.split("-");
                 int result = Integer.parseInt(parts[0].trim());
-                for (int i = 1; i < parts.length; i++) {
+
+                for(int i = 1; i < parts.length; i++){
                     result -= Integer.parseInt(parts[i].trim());
                 }
                 return String.valueOf(result);
@@ -177,10 +171,9 @@ public class Judge0Service {
         String[] inputs = stdin.trim().split("\\s+");
         int inputIndex = 0;
         String lastOutput = "";
-
         String[] lines = code.split("\n");
 
-        for (String line : lines) {
+        for(String line : lines){
             line = line.trim();
 
             if (line.contains("cin >>")) {
@@ -210,21 +203,18 @@ public class Judge0Service {
                 }
             }
         }
-
         return lastOutput;
     }
 
-    private String simulateJava(String code, String stdin) {
+    private String simulateJava(String code, String stdin){
         Map<String, Integer> variables = new HashMap<>();
         String[] inputs = stdin.trim().split("\\s+");
         int inputIndex = 0;
         String lastOutput = "";
-
         String[] lines = code.split("\n");
 
         for (String line : lines) {
             line = line.trim();
-
             if (line.contains("nextInt()")) {
                 Pattern pattern = Pattern.compile("(\\w+)\\s*=\\s*\\w+\\.nextInt\\(\\)");
                 Matcher matcher = pattern.matcher(line);
@@ -250,7 +240,6 @@ public class Judge0Service {
                 }
             }
         }
-
         return lastOutput;
     }
 
@@ -259,7 +248,6 @@ public class Judge0Service {
         String[] inputs = stdin.trim().split("\\s+");
         int inputIndex = 0;
         String lastOutput = "";
-
         String[] lines = code.split("\n");
 
         for (String line : lines) {
@@ -277,7 +265,7 @@ public class Judge0Service {
                     }
                 }
             }
-            else if (line.contains("console.log")) {
+            else if(line.contains("console.log")){
                 String output = line.substring(line.indexOf("(") + 1, line.lastIndexOf(")")).trim();
                 output = output.replaceAll("\"", "").replaceAll("'", "");
 
@@ -290,7 +278,7 @@ public class Judge0Service {
                 }
             }
         }
-
         return lastOutput;
     }
 }
+

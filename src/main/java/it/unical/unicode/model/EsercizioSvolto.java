@@ -11,6 +11,5 @@ public class EsercizioSvolto {
     private int tempo_impiegato_sec;
     private int punti_ottenuti;
     private boolean is_first_try;
-
     public EsercizioSvolto() {}
 }

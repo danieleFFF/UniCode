@@ -9,7 +9,6 @@ import java.util.*;
 @RequestMapping("/api/exercises")
 @CrossOrigin(origins = "http://localhost:4200")
 public class RunController {
-
     @Autowired
     private Judge0Service judge0Service;
 
@@ -25,7 +24,7 @@ public class RunController {
             Object codeObj = payload.get("code");
             Object stdinObj = payload.get("stdin");
 
-            if (langIdObj == null || codeObj == null) {
+            if(langIdObj == null || codeObj == null){
                 Map<String, Object> errorResponse = new HashMap<>();
                 errorResponse.put("error", "Missing language_id or code");
                 errorResponse.put("stdout", "");
@@ -41,7 +40,6 @@ public class RunController {
             System.out.println("Language ID: " + languageId);
             System.out.println("Code length: " + code.length());
             System.out.println("Input: " + stdin);
-
             Map<String, Object> result = judge0Service.execute(languageId, code, stdin);
 
             System.out.println("Judge0 response: " + result);
@@ -63,3 +61,4 @@ public class RunController {
         }
     }
 }
+

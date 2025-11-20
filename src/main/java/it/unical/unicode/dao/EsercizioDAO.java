@@ -9,6 +9,5 @@ public interface EsercizioDAO {
     List<Esercizio> findByLanguagePaged(Integer idLanguage, String sortBy, String order, int page, int size);
     Esercizio findById(Integer id);
     List<TestCase> findTestsByExerciseId(Integer id);
-
     List<Esercizio> findAll(String sortBy, String order);
 }

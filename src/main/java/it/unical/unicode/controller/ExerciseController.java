@@ -22,7 +22,7 @@ public class ExerciseController {
             @RequestParam(defaultValue = "title") String sortBy,
             @RequestParam(defaultValue = "asc") String order
     ) {
-        if (idLanguage != null && idLanguage > 0) {
+        if(idLanguage != null && idLanguage > 0){
             return exerciseService.findByLanguage(idLanguage, sortBy, order);
         } else {
             return exerciseService.findAll(sortBy, order);
@@ -33,7 +33,7 @@ public class ExerciseController {
     @GetMapping("/{id}")
     public Map<String, Object> getExerciseById(@PathVariable Integer id) {
         Esercizio esercizio = exerciseService.findById(id);
-        if (esercizio == null) {
+        if (esercizio == null){
             throw new RuntimeException("Exercise not found with id: " + id);
         }
 
@@ -44,15 +44,13 @@ public class ExerciseController {
         response.put("difficulty", esercizio.getDifficulty());
         response.put("points", esercizio.getPoints());
         response.put("id_language", esercizio.getId_language());
-
         String languageName = getLanguageName(esercizio.getId_language());
         response.put("languageName", languageName);
-
         return response;
     }
 
     private String getLanguageName(int idLanguage) {
-        switch (idLanguage) {
+        switch (idLanguage){
             case 1: return "Python";
             case 2: return "C++";
             case 3: return "Java";

@@ -1,9 +1,9 @@
 #Inserire dati del proprio DB e poi runnare: mvn clean spring-boot:run
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/db
+    url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
-    password: 1887
+    password: 1234
   jpa:
     hibernate:
       ddl-auto: none
