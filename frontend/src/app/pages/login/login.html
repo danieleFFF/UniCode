@@ -16,7 +16,8 @@
           name="email"
           placeholder="Email"
           [(ngModel)]="email"
-          required>
+          required
+        >
       </div>
     </div>
 
@@ -35,7 +36,6 @@
           (copy)="disableCopy($event)"
           (cut)="disableCopy($event)"
           autocomplete="off">
-
         <img
           [src]="showPassword ? 'assets/images/openedeyeicon.png' : 'assets/images/closedeyeicon.png'"
           class="auth-password-eye"
@@ -60,4 +60,5 @@
       <a routerLink="/register" class="link">Register</a>
     </div>
   </form>
+
 </div>

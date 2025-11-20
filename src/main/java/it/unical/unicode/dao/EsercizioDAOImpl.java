@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public class EsercizioDAOImpl implements EsercizioDAO {
     private final JdbcTemplate jdbcTemplate;
-    private static final List<String> VALID_SORT_COLUMNS = Arrays.asList("title", "difficulty", "points");
+    private static final List<String> VALID_SORT_COLUMNS = Arrays.asList("title",  "difficulty",  "points");
     private static final List<String> VALID_ORDERS = Arrays.asList("asc", "desc");
 
     public EsercizioDAOImpl(JdbcTemplate jdbcTemplate){
@@ -19,7 +19,7 @@ public class EsercizioDAOImpl implements EsercizioDAO {
     }
 
     private String validateSortColumn(String sortBy) {
-        if (sortBy == null || !VALID_SORT_COLUMNS.contains(sortBy.toLowerCase())) {
+        if(sortBy == null || !VALID_SORT_COLUMNS.contains(sortBy.toLowerCase())){
             return "title";
         }
         return sortBy.toLowerCase();
@@ -33,7 +33,7 @@ public class EsercizioDAOImpl implements EsercizioDAO {
     }
 
     @Override
-    public List<Esercizio> findByLanguage(Integer idLanguage) {
+    public List<Esercizio> findByLanguage(Integer idLanguage){
         String sql;
         Object[] params;
 
@@ -41,10 +41,9 @@ public class EsercizioDAOImpl implements EsercizioDAO {
             sql = "SELECT * FROM exercises";
             params = new Object[]{};
         } else {
-            sql = "SELECT * FROM exercises WHERE id_language = ?";
+             sql = "SELECT * FROM exercises WHERE id_language = ?";
             params = new Object[]{idLanguage};
         }
-
         return jdbcTemplate.query(sql, params, new BeanPropertyRowMapper<>(Esercizio.class));
     }
 
@@ -52,11 +51,10 @@ public class EsercizioDAOImpl implements EsercizioDAO {
     public List<Esercizio> findByLanguagePaged(Integer idLanguage, String sortBy, String order, int page, int size) {
         String sortColumn = validateSortColumn(sortBy);
         String validOrder = validateOrder(order);
-
         StringBuilder sql = new StringBuilder("SELECT * FROM exercises");
         Object[] params;
 
-        if (idLanguage != null && idLanguage > 0) {
+        if(idLanguage != null && idLanguage > 0){
             sql.append(" WHERE id_language = ?");
             sql.append(" ORDER BY ").append(sortColumn).append(" ").append(validOrder);
             sql.append(" LIMIT ? OFFSET ?");
@@ -66,25 +64,20 @@ public class EsercizioDAOImpl implements EsercizioDAO {
             sql.append(" LIMIT ? OFFSET ?");
             params = new Object[]{size, page * size};
         }
-
         return jdbcTemplate.query(sql.toString(), params, new BeanPropertyRowMapper<>(Esercizio.class));
     }
 
     @Override
     public Esercizio findById(Integer id) {
         String sql = "SELECT * FROM exercises WHERE id = ?";
-        List<Esercizio> result = jdbcTemplate.query(
-                sql,
-                new BeanPropertyRowMapper<>(Esercizio.class),
-                id
-        );
+        List<Esercizio> result = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Esercizio.class), id);
         return result.isEmpty() ? null : result.get(0);
     }
 
     @Override
     public List<TestCase> findTestsByExerciseId(Integer id) {
         String sql = "SELECT * FROM test_cases WHERE id_exercise = ?";
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(TestCase.class), id);
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(TestCase.class),  id);
     }
 
     @Override

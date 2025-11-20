@@ -7,3 +7,4 @@ public interface SubmissionDAO {
     void saveSubmission(Submission submission);
     Submission getSubmission(int idUser, int idExercise);
 }
+

@@ -12,9 +12,6 @@ public class Utente {
     private String password_hash;
     private int totalPoints;
     private int id_avatar;
-
     public Utente() {}
-
     public int getTotalPoints() { return totalPoints; }
-    public void setTotalPoints(int totalPoints) { this.totalPoints = totalPoints; }
 }

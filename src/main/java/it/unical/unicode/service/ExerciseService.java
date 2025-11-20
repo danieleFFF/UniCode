@@ -20,14 +20,13 @@ public class ExerciseService {
 
         Comparator<Esercizio> comparator = switch (sortBy) {
             case "difficulty" -> Comparator.comparing(Esercizio::getDifficulty, String.CASE_INSENSITIVE_ORDER);
-            case "points" -> Comparator.comparing(Esercizio::getPoints);
-            default -> Comparator.comparing(Esercizio::getTitle, String.CASE_INSENSITIVE_ORDER);
+            case "points"  -> Comparator.comparing(Esercizio::getPoints);
+            default -> Comparator.comparing(Esercizio::getTitle,  String.CASE_INSENSITIVE_ORDER);
         };
 
         if ("desc".equalsIgnoreCase(order)) {
             comparator = comparator.reversed();
         }
-
         esercizi.sort(comparator);
         return esercizi;
     }

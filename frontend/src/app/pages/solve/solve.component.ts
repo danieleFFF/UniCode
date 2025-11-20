@@ -20,7 +20,7 @@ interface CachedResult {
   templateUrl: './solve.component.html',
   styleUrls: ['./solve.component.scss']
 })
-export class SolveComponent implements OnInit, OnDestroy {
+export class SolveComponent implements OnInit, OnDestroy{
   exercise: any
   userCode = ''
   testResults: any[] = []
@@ -41,30 +41,28 @@ export class SolveComponent implements OnInit, OnDestroy {
   private testCache: Map<string, CachedResult> = new Map();
   private readonly MAX_CACHE_SIZE = 50;
   private readonly MOCK_USER_ID = 1;
-
-  constructor(private route: ActivatedRoute, private http: HttpClient) {}
+  constructor(private route: ActivatedRoute, private http: HttpClient){}
 
   ngOnInit(): void {
     this.resetState();
     const id = this.route.snapshot.paramMap.get('id');
 
-    this.http.get(`/api/exercises/${id}`).subscribe((data: any) => {
+    this.http.get(`/api/exercises/${id}`).subscribe((data: any) =>{
       this.exercise = data;
       this.selectedLanguage = data.languageName || 'Python';
       this.currentPoints = this.exercise.points || 100;
       this.timeLeft = 600;
       this.startTime = Date.now();
       this.startTimer();
-
       this.checkIfAlreadyCompleted();
     });
   }
 
   checkIfAlreadyCompleted(): void {
     this.http.get(`/api/submissions/check/${this.MOCK_USER_ID}/${this.exercise.id}`).subscribe({
-      next: (response: any) => {
+      next: (response: any) =>{
         this.alreadyCompleted = response.completed;
-        if (this.alreadyCompleted) {
+        if(this.alreadyCompleted){
           this.consoleOutput = `You have already completed this exercise and earned ${response.pointsEarned} points!`;
         }
       },
@@ -87,14 +85,13 @@ export class SolveComponent implements OnInit, OnDestroy {
     this.timeLeft = 600;
     this.alreadyCompleted = false;
   }
-
   startTimer(): void {
     this.updateFormattedTime()
     this.timer = setInterval(() => {
-      if (this.timeLeft > 0) {
+      if (this.timeLeft > 0){
         this.timeLeft--
         this.updateFormattedTime()
-      } else {
+      } else{
         clearInterval(this.timer)
       }
     }, 1000)
@@ -133,14 +130,13 @@ export class SolveComponent implements OnInit, OnDestroy {
     const timePenalty = Math.floor(elapsedSeconds / 30);
     const basePoints = Math.floor(maxPoints * difficultyMultiplier);
     const finalPoints = Math.max(Math.floor(maxPoints * 0.3), basePoints - timePenalty);
-
     return finalPoints;
   }
 
-  private addToCache(key: string, value: CachedResult): void {
+  private addToCache(key: string, value: CachedResult):void{
     if (this.testCache.size >= this.MAX_CACHE_SIZE) {
-      const firstKey = this.testCache.keys().next().value;
-      if (typeof firstKey === "string") {
+      const firstKey =this.testCache.keys().next().value;
+      if (typeof firstKey === "string")  {
         this.testCache.delete(firstKey);
       }
     }
@@ -148,12 +144,12 @@ export class SolveComponent implements OnInit, OnDestroy {
   }
 
   runTests(): void {
-    if (!this.exercise || !this.exercise.id) {
+    if(!this.exercise || !this.exercise.id) {
       console.warn('No exercise loaded');
       return;
     }
 
-    if (!this.userCode || this.userCode.trim() === '') {
+    if(!this.userCode || this.userCode.trim() === '') {
       this.consoleOutput = 'Please write some code first';
       this.showResults = true;
       return;
@@ -163,7 +159,7 @@ export class SolveComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.alreadyCompleted) {
+    if (this.alreadyCompleted){
       this.consoleOutput = 'You have already completed this exercise! No additional points awarded.';
       this.showResults = true;
       return;
@@ -171,7 +167,7 @@ export class SolveComponent implements OnInit, OnDestroy {
 
     const cacheKey = `${this.exercise.id}_${this.userCode}`;
 
-    if (this.testCache.has(cacheKey)) {
+    if(this.testCache.has(cacheKey)) {
       const cached = this.testCache.get(cacheKey)!;
       this.showResults = cached.showResults;
       this.testResults = cached.testResults;
@@ -190,7 +186,7 @@ export class SolveComponent implements OnInit, OnDestroy {
     this.allPassed = false;
     this.earnedPoints = 0;
 
-    const languageMap: { [key: string]: number } = {
+    const languageMap: { [key: string]: number } ={
       'python': 71,
       'c++': 54,
       'java': 62,
@@ -198,7 +194,7 @@ export class SolveComponent implements OnInit, OnDestroy {
     };
 
     const lang = (this.selectedLanguage || 'python').toLowerCase();
-    const langId = languageMap[lang];
+    const langId= languageMap[lang];
 
     if (!langId) {
       this.consoleOutput = `Language ${this.selectedLanguage} not supported`;
@@ -232,7 +228,7 @@ export class SolveComponent implements OnInit, OnDestroy {
               const stdout = (res?.stdout || '').trim();
               const stderr = (res?.stderr || '').trim();
               const compileOutput = (res?.compile_output || '').trim();
-              const status = res?.status?.description || 'Unknown';
+              const status= res?.status?.description || 'Unknown';
               const expected = (test.expected_output || '').trim();
               const passed = stdout === expected;
 
@@ -244,12 +240,12 @@ export class SolveComponent implements OnInit, OnDestroy {
               detailMessage += `Expected Output:\n${expected}\n\n`;
               detailMessage += `Your Output:\n${stdout || '(no output)'}\n\n`;
               detailMessage += `Status: ${status}\n`;
-              detailMessage += `Result: ${passed ? 'PASSED' : 'FAILED'}\n`;
+              detailMessage += `Result: ${passed ? 'PASSED' :'FAILED'}\n`;
 
-              if (stderr) {
+              if (stderr){
                 detailMessage += `\nError Output:\n${stderr}\n`;
               }
-              if (compileOutput) {
+              if(compileOutput){
                 detailMessage += `\nCompilation Output:\n${compileOutput}\n`;
               }
 
@@ -263,13 +259,13 @@ export class SolveComponent implements OnInit, OnDestroy {
                 expected
               });
 
-              if (passed) passedCount++;
+              if(passed) passedCount++;
               completed++;
 
               if (completed === tests.length) {
                 this.allPassed = passedCount === tests.length;
 
-                if (this.allPassed) {
+                if (this.allPassed){
                   this.stopTimer();
                   this.earnedPoints = this.calculatePoints();
                   this.submitSolution();
@@ -315,6 +311,7 @@ export class SolveComponent implements OnInit, OnDestroy {
           });
         });
       },
+
       error: err => {
         console.error('Error loading tests:', err);
         this.consoleOutput = 'Error loading test cases';
@@ -353,7 +350,9 @@ export class SolveComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy(): void  {
     this.stopTimer();
   }
+
 }
+

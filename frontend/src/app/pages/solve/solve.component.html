@@ -1,11 +1,11 @@
 <div class="solve-page-container">
   <app-navbar></app-navbar>
-
   <div class="solve-container">
     <div class="exercise-side">
-      <div class="exercise-header">
+
+      <div class="exercise-header" >
         <div class="meta">
-          <span class="difficulty" [ngClass]="exercise?.difficulty?.toLowerCase()">
+          <span  class="difficulty" [ngClass]="exercise?.difficulty?.toLowerCase()">
             {{ exercise?.difficulty }}
           </span>
           |
@@ -18,7 +18,7 @@
       </div>
 
       <h2 class="title">{{ exercise?.title }}</h2>
-      <p class="desc">{{ exercise?.description }}</p>
+      <p class="desc">{{ exercise?.description }} </p>
 
       <div *ngIf="showResults" class="results">
         <div class="results-header">
@@ -43,11 +43,14 @@
 
     <div class="editor-side">
       <div class="editor-topbar">
-        <button class="btn" (click)="runTests()" [disabled]="alreadyCompleted || isRunning">{{ isRunning ? 'Running...' : 'Test' }}</button>
+
+        <button class="btn"  (click)="runTests()" [disabled]="alreadyCompleted || isRunning">{{ isRunning ? 'Running...' : 'Test' }}</button>
         <span class="console-label">Console</span>
+
       </div>
 
-      <textarea name="code" [(ngModel)]="userCode" placeholder="// Write your code here..."></textarea>
+      <textarea name="code" [(ngModel)]="userCode"  placeholder="// Write your code here..."></textarea>
     </div>
   </div>
 </div>
+

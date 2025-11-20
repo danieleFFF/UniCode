@@ -11,7 +11,6 @@ import java.util.*;
 @RequestMapping("/api/submissions")
 @CrossOrigin(origins = "http://localhost:4200")
 public class SubmissionController {
-
     @Autowired
     private SubmissionDAO submissionDAO;
 
@@ -28,8 +27,8 @@ public class SubmissionController {
         if (alreadyCompleted) {
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
-            response.put("message", "You have already completed this exercise");
-            response.put("pointsEarned", 0);
+            response.put("message",  "You have already completed this exercise");
+            response.put("pointsEarned",0);
             return response;
         }
 
@@ -39,9 +38,8 @@ public class SubmissionController {
         submission.setPointsEarned(pointsEarned);
         submission.setTimeTakenSeconds(timeTaken);
         submission.setCode(code);
-
         submissionDAO.saveSubmission(submission);
-        UtenteDAO.updateTotalPoints(idUser, pointsEarned);
+        //UtenteDAO.updateTotalPoints(idUser, pointsEarned);
 
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
@@ -56,11 +54,10 @@ public class SubmissionController {
         Map<String, Object> response = new HashMap<>();
         response.put("completed", completed);
 
-        if (completed) {
+        if (completed){
             Submission submission = submissionDAO.getSubmission(idUser, idExercise);
             response.put("pointsEarned", submission.getPointsEarned());
         }
-
         return response;
     }
 }
