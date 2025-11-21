@@ -25,7 +25,7 @@ export class BoardComponent {
       id:'codeMaster',
       description:'all the exercises solved',
       path:'assets/images/trophies/trhopiesCodeMaster.png',
-      unlocked:false
+      unlocked:true
     },
 
     {
