@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 public class AvatarDAOImpl implements AvatarDAO {
@@ -20,8 +21,15 @@ public class AvatarDAOImpl implements AvatarDAO {
         public Avatar mapRow(ResultSet rs, int rowNum) throws SQLException {
             Avatar avatar = new Avatar();
             avatar.setId(rs.getInt("id"));
-            avatar.setUrl_immagine(rs.getString("url_immagine"));
+            avatar.setUrl_immagine(rs.getString("url_image"));
             return avatar;
         }
     }
+    @Override
+    public List<Avatar> getAllAvatars() {
+        String query = "SELECT * FROM avatar"; // query per recuperare tutti gli avatar (sia id che percorso nel progetto )
+
+        return jdbcTemplate.query(query, new AvatarRowMapper());
+    }
+
 }

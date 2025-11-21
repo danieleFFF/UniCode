@@ -1,5 +1,9 @@
 package it.unical.unicode.dao;
 
-public interface AvatarDAO {
+import it.unical.unicode.model.Avatar;
 
+import java.util.List;
+
+public interface AvatarDAO {
+    List<Avatar> getAllAvatars();
 }
