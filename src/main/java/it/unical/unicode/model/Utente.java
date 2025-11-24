@@ -14,4 +14,5 @@ public class Utente {
     private int id_avatar;
     public Utente() {}
     public int getTotalPoints() { return totalPoints; }
+    public int getId(){return id;}
 }

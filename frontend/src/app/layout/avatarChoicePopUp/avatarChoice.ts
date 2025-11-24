@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {AvatarService} from '../../services/avatar.service';
 import {CommonModule} from '@angular/common';
+import {UserService} from '../../services/user.service';
 
 export interface Avatar {
   id: number;
@@ -38,7 +39,8 @@ export class AvatarChoice {
   avatarNum: number = 6; //numero di avatar per pagina
 
   //costruttore che serve per chiamare il backend
-  constructor(private avatarService: AvatarService) { }
+  constructor(private avatarService: AvatarService
+  , private userService: UserService) { }
 
   ngOnInit() : void { //all'avvio
 
@@ -79,5 +81,7 @@ export class AvatarChoice {
   selectAvatar(url:string) {
     this.currentAvatar = url;
   }
+
+  save() {}
 
 }
