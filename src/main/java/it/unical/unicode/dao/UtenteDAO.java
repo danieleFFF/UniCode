@@ -13,4 +13,5 @@ public interface UtenteDAO {
     List<Utente> findAll();
     void updateTotalPoints(int userId, int pointsToAdd);
     List<Utente> getRanking(int limit);
+    void updateAvatar(int userId, int avatarId);
 }

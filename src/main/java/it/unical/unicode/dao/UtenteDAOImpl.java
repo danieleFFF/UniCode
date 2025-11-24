@@ -84,4 +84,10 @@ public class UtenteDAOImpl implements UtenteDAO {
         String sql = "SELECT * FROM users ORDER BY total_points DESC LIMIT ?";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Utente.class), limit);
     }
+
+    public void updateAvatar(int userId, int avatarId){
+        String query = "UPDATE users SET id_avatar = ? WHERE id = ?";
+        jdbcTemplate.update(query, avatarId, userId);
+    }
+
 }

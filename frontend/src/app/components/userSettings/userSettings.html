@@ -4,14 +4,14 @@
 <body>
 <div class="settings-container-wrapper">
   <div class="userSettings1">
-    <div class="avatar" (click)="avatarChoicePopUp()"></div>
+    <div class="avatar" [style.background-image]="'url(assets/images/avatar/avatar' + currentAvatarId + '.png)'"
+         (click)="avatarChoicePopUp()"></div>
     <app-avatarChoice *ngIf="showAvatarChoicePopUp"  (close)="closeAvatarChoicePopUp()"></app-avatarChoice>
     <div class="profile-info">
       <div class="profile-header">
-        <p class="userName">nome utente</p>
+        <p class="userName">{{ username }} </p>
       </div>
-      <p class="dateRegistration">data iscrizione :</p>
-      <p class="points">points</p>
+      <p class="points">{{ points }}</p>
     </div>
   </div>
 
