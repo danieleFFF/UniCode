@@ -1,8 +1,12 @@
 .avatar-container{
-  height: 100px;
-  width: 100px;
-  border-radius: 10%;
-  background-color: #FFFFFF;
+  height: 60px;
+  width: 60px;
+  border-radius: 5px;
+  cursor: pointer;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 

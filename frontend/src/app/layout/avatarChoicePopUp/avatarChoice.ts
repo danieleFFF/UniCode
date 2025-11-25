@@ -82,6 +82,8 @@ export class AvatarChoice {
     this.currentAvatar = url;
   }
 
-  save() {}
+  save() {
+
+  }
 
 }

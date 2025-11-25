@@ -13,11 +13,11 @@
   </div>
 
   <div class="userSettings2">
-    <div class="settings-section">
-      <p class="settingsTitle">Activities</p>
-      <p class="settingsSubTitle">Discover your exercises and track your progress below</p>
-      <button type="button" class="settingsButton">Your Activity</button>
 
+    <div class="settings-section">
+      <p class="settingsTitle">LogOut</p>
+      <p class="settingsSubTitle">LogOut from your account</p>
+      <button *ngIf="(isLoggedIn$ | async)" (click)="logout()" class="settingsButton">LogOut</button>
     </div>
 
     <div class="settings-section">
