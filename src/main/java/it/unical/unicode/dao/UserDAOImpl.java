@@ -1,6 +1,6 @@
 package it.unical.unicode.dao;
 
-import it.unical.unicode.model.Utente;
+import it.unical.unicode.model.User;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,40 +12,40 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class UtenteDAOImpl implements UtenteDAO {
+public class UserDAOImpl implements UserDAO {
     private final JdbcTemplate jdbcTemplate;
 
-    public UtenteDAOImpl(JdbcTemplate jdbcTemplate) {
+    public UserDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private static class UtenteRowMapper implements RowMapper<Utente> {
+    private static class UtenteRowMapper implements RowMapper<User> {
         @Override
-        public Utente mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Utente utente = new Utente();
-            utente.setId(rs.getInt("id"));
-            utente.setUsername(rs.getString("username"));
-            utente.setEmail(rs.getString("email"));
-            utente.setPassword_hash(rs.getString("password_hash"));
-            utente.setTotalPoints(rs.getInt("total_points"));
-            utente.setId_avatar(rs.getInt("id_avatar"));
-            return utente;
+        public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+            User user = new User();
+            user.setId(rs.getInt("id"));
+            user.setUsername(rs.getString("username"));
+            user.setEmail(rs.getString("email"));
+            user.setPassword_hash(rs.getString("password_hash"));
+            user.setTotalPoints(rs.getInt("total_points"));
+            user.setId_avatar(rs.getInt("id_avatar"));
+            return user;
         }
     }
     //Prova
     @Override
-    public void save(Utente utente) {
+    public void save(User user) {
         String sql = "INSERT INTO users (username, email, password_hash, total_points, id_avatar) VALUES (?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, utente.getUsername(),
-                utente.getEmail(),
-                utente.getPassword_hash(),
+        jdbcTemplate.update(sql, user.getUsername(),
+                user.getEmail(),
+                user.getPassword_hash(),
                 0,//Default starting points
                 1 //Default Avatar
         );
     }
 
     @Override
-    public Optional<Utente> findByEmail(String email) {
+    public Optional<User> findByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email = ?";
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new UtenteRowMapper(), email));
@@ -61,16 +61,16 @@ public class UtenteDAOImpl implements UtenteDAO {
     }
 
     @Override
-    public Utente findById(int id) {
+    public User findById(int id) {
         String sql = "SELECT * FROM users WHERE id = ?";
-        List<Utente> results = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Utente.class), id);
+        List<User> results = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class), id);
         return results.isEmpty() ? null : results.get(0);
     }
 
     @Override
-    public List<Utente> findAll() {
+    public List<User> findAll() {
         String sql = "SELECT * FROM users";
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Utente.class));
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class));
     }
 
     @Override
@@ -80,9 +80,9 @@ public class UtenteDAOImpl implements UtenteDAO {
     }
 
     @Override
-    public List<Utente> getRanking(int limit) {
+    public List<User> getRanking(int limit) {
         String sql = "SELECT * FROM users ORDER BY total_points DESC LIMIT ?";
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Utente.class), limit);
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class), limit);
     }
 
     public void updateAvatar(int userId, int avatarId){

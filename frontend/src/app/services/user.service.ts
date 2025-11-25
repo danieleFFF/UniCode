@@ -1,46 +1,28 @@
 import { Injectable } from '@angular/core';
-import { HttpClient , HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-export interface User{
-  id: number;
-  username: string;
-  email: string;
-  total_points: number;
-  id_avatar: number;
-}
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:8080/api/users';
+  private apiUrl = 'http://localhost:8080/api/users/profile';
 
   constructor(private http: HttpClient) {}
 
-  updateAvatar(avatarId: number): Observable<any> {
-    // Prendiamo il Token
+  getProfile(): Observable<User> {
+    // 1. Recuperiamo il token salvato al momento del login
+    // (Assicurati di averlo chiamato 'authToken' nel login, altrimenti cambia il nome qui)
     const token = localStorage.getItem('authToken');
 
-    // Prepariamo l'intestazione con il pass
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
+    // 2. Creiamo l'header "Authorization: Bearer <token>"
+    let headers = new HttpHeaders();
+    if (token) {
+      headers = headers.set('Authorization', 'Bearer ' + token);
+    }
 
-    //Prepariamo il pacchetto JSON
-    const body = { avatarId: avatarId };
-
-    //  Spediamo con una PUT
-    return this.http.put(`${this.apiUrl}/update-avatar`, body, { headers });
+    // 3. Facciamo la chiamata passando gli headers
+    return this.http.get<User>(this.apiUrl, { headers: headers });
   }
-
-  getProfile(){
-
-    const token = localStorage.getItem('authToken');
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-    return this.http.get(`${this.apiUrl+"/profile"}`, { headers });
-  }
-
 }
