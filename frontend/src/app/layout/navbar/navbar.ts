@@ -1,19 +1,21 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DropdownMenu, DropdownItem } from '../dropdown-menu/dropdown-menu';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { Observable } from 'rxjs';
+import {User} from '../../models/user.model';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [RouterLink, DropdownMenu, CommonModule],
   templateUrl: './navbar.html',
-  styleUrl: './navbar.scss'
+  styleUrls: ['./navbar.scss', '../../components/userSettings/userSettings.scss']
 })
 export class Navbar {
   isLoggedIn$: Observable<boolean>;
+  @Input() user: User | null = null;
   // Dati per il menu a tendina "Courses"
   courseItems: DropdownItem[] = [
     { name: 'Python', path: '/courses/python', iconPath: 'assets/images/pythonimage.png' },
@@ -39,8 +41,5 @@ export class Navbar {
   }
   hideDropdown(){
     this.activeDropdown=null;
-  }
-  logout(): void {
-    this.authService.logout();
   }
 }

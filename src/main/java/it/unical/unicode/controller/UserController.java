@@ -1,7 +1,6 @@
 package it.unical.unicode.controller;
 
 import it.unical.unicode.dto.RegisterRequest;
-import it.unical.unicode.dto.UserDTO;
 import it.unical.unicode.model.User;
 import it.unical.unicode.security.JwtService;
 import it.unical.unicode.service.RegisterService;
@@ -10,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/users")
@@ -46,7 +44,7 @@ public class UserController {
             String token = authHeader.substring(7);
 
             // 2. Estraiamo l'ID che abbiamo messo nel token durante il login
-            Integer userId = jwtService.extractUserId(token);
+            int userId = jwtService.extractUserId(token);
 
             // 3. Cerchiamo l'utente nel DB usando l'ID estratto
             // Assicurati di avere un metodo che cerca per ID nel service
