@@ -1,32 +1,32 @@
 package it.unical.unicode.service;
 
-import it.unical.unicode.dao.UtenteDAO;
+import it.unical.unicode.dao.UserDAO;
 import it.unical.unicode.dto.RegisterRequest;
-import it.unical.unicode.model.Utente;
+import it.unical.unicode.model.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RegisterService {
 
-    private final UtenteDAO utenteDAO;
+    private final UserDAO userDAO;
     private final PasswordEncoder passwordEncoder;
 
-    public RegisterService(UtenteDAO utenteDAO, PasswordEncoder passwordEncoder) {
-        this.utenteDAO = utenteDAO;
+    public RegisterService(UserDAO userDAO, PasswordEncoder passwordEncoder) {
+        this.userDAO = userDAO;
         this.passwordEncoder = passwordEncoder;
     }
 
     public void registerUser(RegisterRequest request) {
-        if (utenteDAO.findByEmail(request.getEmail()).isPresent()) {
+        if (userDAO.findByEmail(request.getEmail()).isPresent()) {
             throw new IllegalStateException("User already registered.");
         }
 
-        Utente nuovoUtente = new Utente();
-        nuovoUtente.setUsername(request.getUsername());
-        nuovoUtente.setEmail(request.getEmail());
-        nuovoUtente.setPassword_hash(passwordEncoder.encode(request.getPassword()));
+        User nuovoUser = new User();
+        nuovoUser.setUsername(request.getUsername());
+        nuovoUser.setEmail(request.getEmail());
+        nuovoUser.setPassword_hash(passwordEncoder.encode(request.getPassword()));
 
-        utenteDAO.save(nuovoUtente);
+        userDAO.save(nuovoUser);
     }
 }

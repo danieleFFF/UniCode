@@ -1,17 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<body>
-<div class="settings-container-wrapper">
+<div class="settings-container-wrapper" *ngIf="user">
   <div class="userSettings1">
-    <div class="avatar" [style.background-image]="'url(assets/images/avatar/avatar' + currentAvatarId + '.png)'"
+    <div class="avatar" [style.background-image]="'url(assets/images/avatar/avatar' + user.id_avatar + '.png)'"
          (click)="avatarChoicePopUp()"></div>
     <app-avatarChoice *ngIf="showAvatarChoicePopUp"  (close)="closeAvatarChoicePopUp()"></app-avatarChoice>
     <div class="profile-info">
       <div class="profile-header">
-        <p class="userName">{{ username }} </p>
+        <p class="userName">{{ user.username }} </p>
       </div>
-      <p class="points">{{ points }}</p>
+      <p class="points">points : {{ user.punti }}</p>
     </div>
   </div>
 
@@ -38,5 +35,3 @@
     </div>
   </div>
 </div>
-</body>
-</html>

@@ -1,17 +1,17 @@
 package it.unical.unicode.dao;
 
-import it.unical.unicode.model.Utente;
+import it.unical.unicode.model.User;
 import java.util.List;
 import java.util.Optional;
 
-public interface UtenteDAO {
+public interface UserDAO {
 
-    void save(Utente utente);
-    Optional<Utente> findByEmail(String email);
+    void save(User user);
+    Optional<User> findByEmail(String email);
     void resetPassword(String email, String newPassword);
-    Utente findById(int id);
-    List<Utente> findAll();
+    User findById(int id);
+    List<User> findAll();
     void updateTotalPoints(int userId, int pointsToAdd);
-    List<Utente> getRanking(int limit);
+    List<User> getRanking(int limit);
     void updateAvatar(int userId, int avatarId);
 }

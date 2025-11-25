@@ -1,7 +1,6 @@
 package it.unical.unicode.controller;
 
 import it.unical.unicode.dao.SubmissionDAO;
-import it.unical.unicode.dao.UtenteDAO;
 import it.unical.unicode.model.Submission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
