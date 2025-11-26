@@ -27,7 +27,7 @@ public class UserDAOImpl implements UserDAO {
             user.setUsername(rs.getString("username"));
             user.setEmail(rs.getString("email"));
             user.setPassword_hash(rs.getString("password_hash"));
-            user.setTotalPoints(rs.getInt("total_points"));
+            user.setTotalPoints(rs.getInt("punti"));
             user.setId_avatar(rs.getInt("id_avatar"));
             return user;
         }
@@ -85,6 +85,7 @@ public class UserDAOImpl implements UserDAO {
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class), limit);
     }
 
+    @Override
     public void updateAvatar(int userId, int avatarId){
         String query = "UPDATE users SET id_avatar = ? WHERE id = ?";
         jdbcTemplate.update(query, avatarId, userId);
