@@ -4,7 +4,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,11 +16,15 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
-@RequiredArgsConstructor // Crea il costruttore per i campi final in automatico
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final UserDetailsService userDetailsService; // Serve per caricare i dati dal DB
+    private final UserDetailsService userDetailsService;
+
+    public JwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService) {
+        this.jwtService = jwtService;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void doFilterInternal(
@@ -30,33 +33,34 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
-        //  Cerchiamo l'header "Authorization"
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String userEmail;
 
-        //  Se non c'è l'header o non inizia con "Bearer ", lasciamo perdere e passiamo oltre
+        // 1. Controllo se c'è il Token nell'Header
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        //  Estraiamo il token (togliamo "Bearer " che sono 7 caratteri)
+        // 2. Estraggo il Token (tolgo "Bearer " iniziale)
         jwt = authHeader.substring(7);
 
-        //  Estraiamo la mail/username dal token usando il  Service
+        // 3. Estraggo l'email dal Token
+        // Se il token è manomesso o scaduto, qui potrebbe lanciare eccezione,
+        // ma Spring la gestirà restituendo 403.
         userEmail = jwtService.extractUsername(jwt);
 
-        // Se abbiamo trovato la mail E l'utente non è ancora autenticato nel contesto
+        // 4. Se ho trovato l'email e l'utente non è già autenticato...
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            // Carichiamo i dettagli dell'utente dal DB
+            // Carico i dettagli dell'utente dal DB (usando il Bean che abbiamo fatto in SecurityConfig!)
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
-            // Usiamo il  metodo isTokenValid per controllare se è tutto ok
+            // 5. Valido il token
             if (jwtService.isTokenValid(jwt, userDetails)) {
 
-                // Creiamo l'oggetto di autenticazione
+                // Creiamo il "Pass" per Spring Security
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
@@ -67,7 +71,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         new WebAuthenticationDetailsSource().buildDetails(request)
                 );
 
-                //  Diciamo a Spring "Questo utente è loggato!"
+                // 6. Diciamo a Spring: "Ok, questo utente è autenticato"
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
