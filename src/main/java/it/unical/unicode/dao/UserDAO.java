@@ -9,9 +9,11 @@ public interface UserDAO {
     void save(User user);
     Optional<User> findByEmail(String email);
     void resetPassword(String email, String newPassword);
-    User findById(int id);
+    Optional<User> findById(int id);
     List<User> findAll();
     void updateTotalPoints(int userId, int pointsToAdd);
     List<User> getRanking(int limit);
     void updateAvatar(int userId, int avatarId);
+    void deleteUser(int id);
+    void updatePassword(String newPassword, int id);
 }

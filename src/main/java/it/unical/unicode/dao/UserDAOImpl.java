@@ -2,7 +2,6 @@ package it.unical.unicode.dao;
 
 import it.unical.unicode.model.User;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -15,9 +14,23 @@ import java.util.Optional;
 public class UserDAOImpl implements UserDAO {
     private final JdbcTemplate jdbcTemplate;
 
+    private static final String INSERT_USER = "INSERT INTO users (username, email, password_hash, punti, id_avatar) VALUES (?, ?, ?, ?, ?)";
+    private static final String UPDATE_USER_PASSWORD = "UPDATE users SET password_hash = ? WHERE id = ?";
+    private static final String DELETE_USER = "DELETE FROM users WHERE id = ?";
+    private static final String FIND_USER_BY_EMAIL = "SELECT * FROM users WHERE email = ?";
+    private static final String RESET_PASSWORD = "UPDATE users SET password_hash = ? WHERE email = ?";
+    private static final String FIND_USER_BY_ID = "SELECT * FROM users WHERE id = ?";
+    private static final String FIND_ALL = "SELECT * FROM users";
+    private static final String UPDATE_TOT_POINTS = "UPDATE users SET punti = punti + ? WHERE id = ?";
+    private static final String UPDATE_AVATAR = "UPDATE users SET id_avatar = ? WHERE id = ?";
+    private static final String GET_RANKING = "SELECT * FROM users ORDER BY punti DESC LIMIT ?";
+
+
     public UserDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
+    private static final RowMapper<User> USER_MAP = new UtenteRowMapper();
 
     private static class UtenteRowMapper implements RowMapper<User> {
         @Override
@@ -35,8 +48,7 @@ public class UserDAOImpl implements UserDAO {
     //Prova
     @Override
     public void save(User user) {
-        String sql = "INSERT INTO users (username, email, password_hash, total_points, id_avatar) VALUES (?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, user.getUsername(),
+        jdbcTemplate.update(INSERT_USER, user.getUsername(),
                 user.getEmail(),
                 user.getPassword_hash(),
                 0,//Default starting points
@@ -46,9 +58,8 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public Optional<User> findByEmail(String email) {
-        String sql = "SELECT * FROM users WHERE email = ?";
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new UtenteRowMapper(), email));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_USER_BY_EMAIL, USER_MAP, email));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -56,39 +67,46 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void resetPassword(String email, String newPassword) {
-        String sql = "UPDATE users SET password_hash = ? WHERE email = ?";
-        jdbcTemplate.update(sql, newPassword, email);
+        jdbcTemplate.update(RESET_PASSWORD, newPassword, email);
     }
 
     @Override
-    public User findById(int id) {
-        String sql = "SELECT * FROM users WHERE id = ?";
-        List<User> results = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class), id);
-        return results.isEmpty() ? null : results.get(0);
+    public Optional<User> findById(int id) {
+        try{
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_USER_BY_ID, USER_MAP, id));
+        }catch(EmptyResultDataAccessException e){
+            return Optional.empty();
+        }
     }
 
     @Override
     public List<User> findAll() {
-        String sql = "SELECT * FROM users";
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class));
+        return jdbcTemplate.query(FIND_ALL, USER_MAP);
     }
 
     @Override
     public void updateTotalPoints(int userId, int pointsToAdd) {
-        String sql = "UPDATE users SET total_points = total_points + ? WHERE id = ?";
-        jdbcTemplate.update(sql, pointsToAdd, userId);
+        jdbcTemplate.update(UPDATE_TOT_POINTS, pointsToAdd, userId);
     }
 
     @Override
     public List<User> getRanking(int limit) {
-        String sql = "SELECT * FROM users ORDER BY total_points DESC LIMIT ?";
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class), limit);
+        return jdbcTemplate.query(GET_RANKING, USER_MAP, limit);
     }
 
     @Override
     public void updateAvatar(int userId, int avatarId){
-        String query = "UPDATE users SET id_avatar = ? WHERE id = ?";
-        jdbcTemplate.update(query, avatarId, userId);
+        jdbcTemplate.update(UPDATE_AVATAR, avatarId, userId);
+    }
+
+    @Override
+    public void deleteUser(int id) {
+        jdbcTemplate.update(DELETE_USER, id);
+    }
+
+    @Override
+    public void updatePassword(String newPassword, int id){
+        jdbcTemplate.update(UPDATE_USER_PASSWORD, newPassword, id);
     }
 
 }

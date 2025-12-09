@@ -2,11 +2,11 @@ package it.unical.unicode.controller;
 
 import it.unical.unicode.dto.RegisterRequest;
 import it.unical.unicode.model.User;
-import it.unical.unicode.security.JwtService;
 import it.unical.unicode.service.RegisterService;
 import it.unical.unicode.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -18,12 +18,10 @@ public class UserController {
 
     private final RegisterService registerService;
     private final UserService userService;
-    private final JwtService jwtService;
 
-    public UserController(RegisterService registerService , UserService userService , JwtService jwtService) {
+    public UserController(RegisterService registerService , UserService userService ) {
         this.registerService = registerService;
         this.userService = userService;
-        this.jwtService = jwtService;
     }
 
     @PostMapping("/register")
@@ -38,21 +36,55 @@ public class UserController {
 
 
     @GetMapping("/profile")
-    public ResponseEntity<User> getProfile(@RequestHeader("Authorization") String authHeader) {
+    public ResponseEntity<User> getProfile(Authentication authentication) {
         try {
-            // 1. Puliamo il token (togliamo "Bearer ")
-            String token = authHeader.substring(7);
 
-            // 2. Estraiamo l'ID che abbiamo messo nel token durante il login
-            int userId = jwtService.extractUserId(token);
-
-            // 3. Cerchiamo l'utente nel DB usando l'ID estratto
-            // Assicurati di avere un metodo che cerca per ID nel service
-            User user = userService.getUserById(userId);
-
+            String email = authentication.getName();
+            User user = userService.getUserByEmail(email);
             return ResponseEntity.ok(user);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
         }
     }
+
+
+    @PutMapping("/password")
+    public ResponseEntity<String> changePassword(@RequestBody String newPassword, Authentication authentication) {
+        try {
+            String email = authentication.getName();
+            User user = userService.getUserByEmail(email);
+
+            userService.updateUserPassword(user.getId(), newPassword);
+            return ResponseEntity.ok("Password updatet successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/avatar")
+    public ResponseEntity<String> changeAvatar(@RequestParam int avatarId, Authentication authentication) {
+        try {
+            String email = authentication.getName();
+            User user = userService.getUserByEmail(email);
+
+            userService.updateUserAvatar(user.getId(), avatarId);
+            return ResponseEntity.ok("Avatar updated successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteMyAccount(Authentication authentication) {
+        try {
+            String email = authentication.getName();
+            User user = userService.getUserByEmail(email);
+
+            userService.deleteUser(user.getId());
+            return ResponseEntity.ok("Account deleted!");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }
