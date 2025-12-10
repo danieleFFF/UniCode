@@ -3,7 +3,7 @@
   <div class="userSettings1">
     <div class="avatar" [style.background-image]="'url(assets/images/avatar/avatar' + user.id_avatar + '.png)'"
          (click)="avatarChoicePopUp()"></div>
-    <app-avatarChoice *ngIf="showAvatarChoicePopUp"  (close)="closeAvatarChoicePopUp()"></app-avatarChoice>
+    <app-avatarChoice *ngIf="showAvatarChoicePopUp"  (close)="closeAvatarChoicePopUp() " [initialAvatarId]="user.id_avatar" (avatarUpdate)="onAvatarUpdated()"></app-avatarChoice>
     <div class="profile-info">
       <div class="profile-header">
         <p class="userName">{{ user.username }} </p>
