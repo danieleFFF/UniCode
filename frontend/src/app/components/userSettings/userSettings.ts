@@ -6,6 +6,7 @@ import {AvatarChoice} from '../../layout/avatarChoicePopUp/avatarChoice';
 import { User } from '../../models/user.model';
 import {Observable} from 'rxjs';
 import {AuthService} from '../../services/auth.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-userSettings',
@@ -31,7 +32,7 @@ export class UserSettings {
   public showDeleteAccountPopUp = false;
   public showAvatarChoicePopUp = false;
 
-  constructor(private authService:AuthService) {
+  constructor(private authService:AuthService , private userService : UserService) {
     this.isLoggedIn$=this.authService.isLoggedIn$;
   }
 
@@ -63,6 +64,20 @@ export class UserSettings {
 
   logout(): void {
     this.authService.logout();
+  }
+  onAvatarUpdated() {
+    console.log("Il popup ha salvato! Ricarico i dati utente...");
+
+    this.userService.getProfile().subscribe({
+      next: (updatedUser: User) => {
+        // Sovrascriviamo l'utente attuale con quello nuovo appena scaricato
+        this.user = updatedUser;
+        console.log("Utente aggiornato, nuovo avatar ID:", this.user.id_avatar);
+      },
+      error: (err) => {
+        console.error("Errore nel ricaricare il profilo:", err);
+      }
+    });
   }
 
 

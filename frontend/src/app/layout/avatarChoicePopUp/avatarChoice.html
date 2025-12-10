@@ -1,9 +1,11 @@
 <div class="popUpOverlay">
   <div class="container">
     <div class="avatarSelectionContainer">
+
       <div class="selectedAvatar">
         <img [src]="currentAvatar" alt="Selected Avatar" class="selectedAvatarImage">
       </div>
+
       <div class="buttonContainer">
         <button class="cancelButton" type="button" (click)="closePopUp()">Cancel</button>
         <button class="saveButton" (click)="save()">Save</button>
@@ -13,11 +15,12 @@
     @if (pageIndex > 0) {
       <button class="arrow arrow-prev" (click)="prevPage()"> < </button>
     }
+
     <div class="pickAvatarContainer">
       <div *ngFor="let avatar of visibleAvatars"
            class="avatar-item"
-           (click)="selectAvatar(avatar.url_immagine)">
-        <img [src]="avatar.url_immagine" class="grid-image">
+           [class.selected]="currentAvatarId === avatar.id"
+           (click)="selectAvatar(avatar)"> <img [src]="avatar.url_immagine" class="grid-image">
       </div>
     </div>
 

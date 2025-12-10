@@ -1,28 +1,43 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { User } from '../models/user.model';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+
+
+
+export interface User{
+  id: number;
+  username: string;
+  email: string;
+  punti: number;
+  id_avatar: number;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:8080/api/users/profile';
 
-  constructor(private http: HttpClient) {}
+  private url = 'http://localhost:8080/api/users';
 
-  getProfile(): Observable<User> {
-    // 1. Recuperiamo il token salvato al momento del login
-    // (Assicurati di averlo chiamato 'authToken' nel login, altrimenti cambia il nome qui)
-    const token = localStorage.getItem('authToken');
+  constructor(private http : HttpClient) {}
 
-    // 2. Creiamo l'header "Authorization: Bearer <token>"
-    let headers = new HttpHeaders();
-    if (token) {
-      headers = headers.set('Authorization', 'Bearer ' + token);
-    }
-
-    // 3. Facciamo la chiamata passando gli headers
-    return this.http.get<User>(this.apiUrl, { headers: headers });
+  getProfile(): Observable<User>{
+    return this.http.get<User>(this.url + '/profile');
   }
+
+  changePassword(newPassword:String) : Observable<string>{
+    return this.http.put(this.url + '/password', newPassword, {responseType: 'text'});
+  }
+
+  changeAvatar(avatarId: number): Observable<string> {
+    return this.http.put(this.url+'/avatar', null, {
+      params: { avatarId: avatarId.toString() },
+      responseType: 'text'
+    });
+  }
+
+  deleteUser(): Observable<string>{
+    return this.http.delete(this.url + '/delete', {responseType: 'text'});
+  }
+
 }
