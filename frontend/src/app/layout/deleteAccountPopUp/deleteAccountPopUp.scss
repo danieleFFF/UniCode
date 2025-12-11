@@ -94,3 +94,16 @@
 .cancelButton:hover {
   background-color: #5e5e5e;
 }
+
+.error-text {
+  color: #ff4d4d;
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.9rem;
+  margin-top: 8px;
+  margin-bottom: 0;
+  font-weight: bold;
+}
+
+.input-error {
+  border: 1px solid red;
+}
