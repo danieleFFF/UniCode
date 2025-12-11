@@ -1,5 +1,6 @@
 package it.unical.unicode.controller;
 
+import it.unical.unicode.dto.Credentials;
 import it.unical.unicode.dto.RegisterRequest;
 import it.unical.unicode.model.User;
 import it.unical.unicode.service.RegisterService;
@@ -7,6 +8,7 @@ import it.unical.unicode.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -18,10 +20,12 @@ public class UserController {
 
     private final RegisterService registerService;
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(RegisterService registerService , UserService userService ) {
+    public UserController(RegisterService registerService , UserService userService, PasswordEncoder passwordEncoder) {
         this.registerService = registerService;
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/register")
@@ -75,13 +79,17 @@ public class UserController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteMyAccount(Authentication authentication) {
+    public ResponseEntity<String> deleteMyAccount(Authentication authentication ,@RequestBody Credentials credentials) {
         try {
             String email = authentication.getName();
             User user = userService.getUserByEmail(email);
-
+            String password = credentials.getPassword();
+            if (!passwordEncoder.matches(password, user.getPassword_hash())) {
+                return ResponseEntity.badRequest().body("Incorrect password");
+            }else{
             userService.deleteUser(user.getId());
             return ResponseEntity.ok("Account deleted!");
+            }
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

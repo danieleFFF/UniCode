@@ -36,8 +36,11 @@ export class UserService {
     });
   }
 
-  deleteUser(): Observable<string>{
-    return this.http.delete(this.url + '/delete', {responseType: 'text'});
+  deleteUser(password : string): Observable<string>{
+    return this.http.delete(this.url + '/delete', {
+      responseType: 'text',
+      body: {password: password}
+    });
   }
 
 }
