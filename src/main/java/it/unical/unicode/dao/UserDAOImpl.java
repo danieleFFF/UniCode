@@ -14,16 +14,17 @@ import java.util.Optional;
 public class UserDAOImpl implements UserDAO {
     private final JdbcTemplate jdbcTemplate;
 
-    private static final String INSERT_USER = "INSERT INTO users (username, email, password_hash, punti, id_avatar) VALUES (?, ?, ?, ?, ?)";
+    private static final String INSERT_USER = "INSERT INTO users (username, email, password_hash, total_points, id_avatar) VALUES (?, ?, ?, ?, ?)";
     private static final String UPDATE_USER_PASSWORD = "UPDATE users SET password_hash = ? WHERE id = ?";
     private static final String DELETE_USER = "DELETE FROM users WHERE id = ?";
     private static final String FIND_USER_BY_EMAIL = "SELECT * FROM users WHERE email = ?";
+    private static final String FIND_USER_BY_USERNAME = "SELECT * FROM users WHERE username = ?"; // Added this line
     private static final String RESET_PASSWORD = "UPDATE users SET password_hash = ? WHERE email = ?";
     private static final String FIND_USER_BY_ID = "SELECT * FROM users WHERE id = ?";
     private static final String FIND_ALL = "SELECT * FROM users";
-    private static final String UPDATE_TOT_POINTS = "UPDATE users SET punti = punti + ? WHERE id = ?";
+    private static final String UPDATE_TOT_POINTS = "UPDATE users SET total_points = total_points + ? WHERE id = ?";
     private static final String UPDATE_AVATAR = "UPDATE users SET id_avatar = ? WHERE id = ?";
-    private static final String GET_RANKING = "SELECT * FROM users ORDER BY punti DESC LIMIT ?";
+    private static final String GET_RANKING = "SELECT * FROM users ORDER BY total_points DESC LIMIT ?";
 
 
     public UserDAOImpl(JdbcTemplate jdbcTemplate) {
@@ -40,7 +41,7 @@ public class UserDAOImpl implements UserDAO {
             user.setUsername(rs.getString("username"));
             user.setEmail(rs.getString("email"));
             user.setPassword_hash(rs.getString("password_hash"));
-            user.setTotalPoints(rs.getInt("punti"));
+            user.setTotal_points(rs.getInt("total_points"));
             user.setId_avatar(rs.getInt("id_avatar"));
             return user;
         }
@@ -60,6 +61,15 @@ public class UserDAOImpl implements UserDAO {
     public Optional<User> findByEmail(String email) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_USER_BY_EMAIL, USER_MAP, email));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<User> findByUsername(String username) {
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_USER_BY_USERNAME, USER_MAP, username));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }

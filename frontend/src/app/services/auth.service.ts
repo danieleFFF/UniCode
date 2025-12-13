@@ -1,7 +1,7 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, tap, catchError, throwError } from 'rxjs';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable, BehaviorSubject, tap, catchError, throwError} from 'rxjs';
 import { Router } from '@angular/router';
 import { RegisterPayload } from '../models/register.model';
 import {CredentialsModel} from '../models/credentials.model';
@@ -21,51 +21,73 @@ export class AuthService{
   ){
     this.isBrowser=isPlatformBrowser(this.platformId);
     if(this.isBrowser){
-      this.checkInitialLoginStatus();
+      this.checkAuthStatus();
     }
   }
-  private checkInitialLoginStatus():void{
-    if(this.isBrowser){
-      const token=!!localStorage.getItem('authToken');
-      this.isLoggedInSubject.next(token);
-    }
+
+  private checkAuthStatus(): void {
+    this.http.get(`${this.apiUrl}/users/profile`, { withCredentials: true })
+      .subscribe({
+        next: () => this.isLoggedInSubject.next(true),
+        error: () => this.isLoggedInSubject.next(false)
+      });
   }
+
   register(userData:RegisterPayload):Observable<any>{
-    return this.http.post(`${this.apiUrl}/users/register`,userData,{responseType:'text'});
+    return this.http.post(`${this.apiUrl}/users/register`,userData,{responseType:'text' , withCredentials:true});
   }
 
   sendPasswordRecoverEmail(email: string): Observable<number> {
-    return this.http.post<number>(`${this.apiUrl}/auth/send-reset-code`, email);
+    return this.http.post<number>(`${this.apiUrl}/auth/send-reset-code`, email , {withCredentials:true});
   }
+
   //TODO : Maybe use a proper model, or json
   resetPassword(data:CredentialsModel): Observable<any> {
-    return this.http.post(`${this.apiUrl}/auth/reset-password`, data);
+    return this.http.post(`${this.apiUrl}/auth/reset-password`, data , {withCredentials:true});
   }
 
   login(credentials:{email:string,password:string}):Observable<any>{
-    return this.http.post<any>(`${this.apiUrl}/auth/login`,credentials).pipe(
-      tap((response)=>{
-        if(this.isBrowser){
-          localStorage.setItem('authToken', response.token);
-        }
+
+    const body = new URLSearchParams();
+    body.set('username', credentials.email);
+    body.set('password', credentials.password);
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    })
+
+    return this.http.post(`${this.apiUrl}/login`, body.toString() , {
+      headers,
+      withCredentials:true,
+      responseType:'text'
+    }).pipe(
+      tap(() => {
         this.isLoggedInSubject.next(true);
       }),
-      catchError(error=>{
-        if(this.isBrowser){
-          localStorage.removeItem('authToken');
-        }
+      catchError(error => {
         this.isLoggedInSubject.next(false);
-        console.error('Login fallito nel servizio',error);
-        return throwError(()=>error);
+        console.error('Login fallito', error);
+        return throwError(() => error);
       })
     );
   }
+
+
   logout():void{
-    if(this.isBrowser){
-      localStorage.removeItem('authToken');
-    }
-    this.isLoggedInSubject.next(false);
-    this.router.navigate(['/home']).then(()=>{});
+    this.http.post(`${this.apiUrl}/logout`, {}, {
+      withCredentials: true,
+      responseType: 'text'
+    }).subscribe({
+      next: () => {
+        this.isLoggedInSubject.next(false);
+        this.router.navigate(['/home']);
+      },
+      error: () => {
+        // Anche se fallisce, fai logout locale
+        this.isLoggedInSubject.next(false);
+        this.router.navigate(['/home']);
+      }
+    });
   }
 
   //metodo che ancora non viene utilizzato ma che servirà per le funzioni accessibili solo agli utenti loggati

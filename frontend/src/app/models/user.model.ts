@@ -5,5 +5,5 @@ export interface User {
     username: string;
     email: string;
     id_avatar: number;
-    punti : number;
+    total_points : number;
 }

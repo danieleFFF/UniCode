@@ -11,7 +11,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/exercises")
-@CrossOrigin(origins = "http://localhost:4200")
 public class ExerciseController {
     @Autowired
     private ExerciseService exerciseService;

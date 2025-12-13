@@ -8,7 +8,7 @@ export interface User{
   id: number;
   username: string;
   email: string;
-  punti: number;
+  total_points: number;
   id_avatar: number;
 }
 

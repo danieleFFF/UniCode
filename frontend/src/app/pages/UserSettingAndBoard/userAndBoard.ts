@@ -10,11 +10,11 @@ import { CommonModule } from '@angular/common';
   selector: 'app-userBoard',
   standalone: true,
   imports: [UserSettings, Navbar, BoardComponent, CommonModule],
-  templateUrl: './user&Board.html',
-  styleUrls: ['./user&Board.scss', '../../components/userSettings/userSettings.scss', '../../layout/navbar/navbar.scss',
+  templateUrl: './userAndBoard.html',
+  styleUrls: ['./userAndBoard.scss', '../../components/userSettings/userSettings.scss', '../../layout/navbar/navbar.scss',
     '../../components/boardComponent/boardComponent.scss']
 })
-export class UserBoard implements OnInit {
+export class UserAndBoard implements OnInit {
 
   currentUser: User | null = null;
 
@@ -27,7 +27,7 @@ export class UserBoard implements OnInit {
         console.log(this.currentUser)
       },
       error: (err) => {
-        console.error('Error fetching user data in UserBoard', err);
+        console.error('Error fetching user data in UserAndBoard', err);
       }
     });
   }
