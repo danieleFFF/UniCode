@@ -1,5 +1,6 @@
 package it.unical.unicode.controller;
 
+import it.unical.unicode.dto.ChangePasswordDTO;
 import it.unical.unicode.dto.Credentials;
 import it.unical.unicode.dto.RegisterRequest;
 import it.unical.unicode.model.User;
@@ -51,12 +52,15 @@ public class UserController {
 
 
     @PutMapping("/password")
-    public ResponseEntity<String> changePassword(@RequestBody String newPassword, Authentication authentication) {
+    public ResponseEntity<String> changePassword(@RequestBody ChangePasswordDTO request, Authentication authentication) {
         try {
             String email = authentication.getName();
             User user = userService.getUserByEmail(email);
 
-            userService.updateUserPassword(user.getId(), newPassword);
+            if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword_hash())) {
+                return ResponseEntity.badRequest().body("Password attuale non corretta");
+            }
+            userService.updateUserPassword(user.getId(), request.getNewPassword());
             return ResponseEntity.ok("Password updated successfully");
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());

@@ -25,8 +25,11 @@ export class UserService {
     return this.http.get<User>(this.url + '/profile');
   }
 
-  changePassword(newPassword:String) : Observable<string>{
-    return this.http.put(this.url + '/password', newPassword, {responseType: 'text'});
+  changePassword(currentPassword: string, newPassword: string): Observable<string> {
+    return this.http.put(this.url + '/password',
+      { currentPassword, newPassword },
+      { responseType: 'text' }
+    );
   }
 
   changeAvatar(avatarId: number): Observable<string> {
