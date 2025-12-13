@@ -2,8 +2,8 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: 1234
+    username: postgres #togliere username hardcoded
+    password: 1234 #togliere password hardcoded
   jpa:
     hibernate:
       ddl-auto: none
@@ -15,11 +15,12 @@ spring:
 
 server:
   port: 8080
-
-application:
-  security:
-    jwt:
-      secret-key: NDI4YjZjYWE2ZGFhYjU5MGEyNzY0MjRiYjU4YWY5MGE1NjY3MjI5ZDIzMjA0NGViYjY1ZmNkY2VkZTAyYjlmNQ==
-
-      #durata token in millisecondi
-      expiration: 86400000
+  servlet:
+    session:
+      # Sessione valida per 24 ore
+      timeout: 86400
+      cookie:
+        name: JSESSIONID
+        http-only: true
+        secure: true
+        same-site: lax

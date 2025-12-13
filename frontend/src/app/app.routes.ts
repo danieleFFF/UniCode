@@ -38,7 +38,7 @@ export const routes: Routes = [
 
   {
     path: 'userBoard',
-    loadComponent: () => import('./pages/UserSetting&&Board/user&Board').then(m => m.UserBoard)
+    loadComponent: () => import('./pages/UserSettingAndBoard/userAndBoard').then(m => m.UserAndBoard)
   },
 
   {

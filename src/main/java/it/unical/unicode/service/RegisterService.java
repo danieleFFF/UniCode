@@ -18,8 +18,11 @@ public class RegisterService {
     }
 
     public void registerUser(RegisterRequest request) {
+        if (userDAO.findByUsername(request.getUsername()).isPresent()) {
+            throw new IllegalStateException("Username already taken.");
+        }
         if (userDAO.findByEmail(request.getEmail()).isPresent()) {
-            throw new IllegalStateException("User already registered.");
+            throw new IllegalStateException("Email already registered.");
         }
 
         User nuovoUser = new User();

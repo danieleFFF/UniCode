@@ -8,6 +8,7 @@ public interface UserDAO {
 
     void save(User user);
     Optional<User> findByEmail(String email);
+    Optional<User> findByUsername(String username); // Added this line
     void resetPassword(String email, String newPassword);
     Optional<User> findById(int id);
     List<User> findAll();

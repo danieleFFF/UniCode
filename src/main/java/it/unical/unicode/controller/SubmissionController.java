@@ -8,7 +8,6 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/submissions")
-@CrossOrigin(origins = "http://localhost:4200")
 public class SubmissionController {
     @Autowired
     private SubmissionDAO submissionDAO;

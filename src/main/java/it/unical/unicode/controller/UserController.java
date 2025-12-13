@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins="http://localhost:4200")
-
 public class UserController {
 
     private final RegisterService registerService;
@@ -59,7 +57,7 @@ public class UserController {
             User user = userService.getUserByEmail(email);
 
             userService.updateUserPassword(user.getId(), newPassword);
-            return ResponseEntity.ok("Password updatet successfully");
+            return ResponseEntity.ok("Password updated successfully");
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }

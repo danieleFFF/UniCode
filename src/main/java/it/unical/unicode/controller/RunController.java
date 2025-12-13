@@ -7,7 +7,6 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/exercises")
-@CrossOrigin(origins = "http://localhost:4200")
 public class RunController {
     @Autowired
     private Judge0Service judge0Service;
