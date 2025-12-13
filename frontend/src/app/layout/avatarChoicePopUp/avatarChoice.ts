@@ -1,12 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {AvatarService} from '../../services/avatar.service';
+import {AvatarService , Avatar} from '../../services/avatar.service';
 import {CommonModule} from '@angular/common';
 import {UserService} from '../../services/user.service';
 
-export interface Avatar {
-  id: number;
-  url_immagine: string;
-}
 
 @Component({
   selector: 'app-avatarChoice',
