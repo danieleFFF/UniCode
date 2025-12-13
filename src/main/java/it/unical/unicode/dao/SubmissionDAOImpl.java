@@ -10,23 +10,25 @@ import java.util.List;
 public class SubmissionDAOImpl implements SubmissionDAO {
     private final JdbcTemplate jdbcTemplate;
 
+    private static final String SAVE_SUBMISSION = "INSERT INTO submissions (id_user, id_exercise, points_earned, time_taken_seconds, code) " +
+            "VALUES (?, ?, ?, ?, ?) " + "ON CONFLICT (id_user, id_exercise) DO NOTHING";
+    private static final String GET_SUBMISSION = "SELECT * FROM submissions WHERE id_user = ? AND id_exercise = ?";
+    private static final String COMPLETED_EXCERSIZE = "SELECT COUNT(*) FROM submissions WHERE id_user = ? AND id_exercise = ?";
+
     public SubmissionDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public boolean hasUserCompletedExercise(int idUser, int idExercise) {
-        String sql = "SELECT COUNT(*) FROM submissions WHERE id_user = ? AND id_exercise = ?";
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, idUser, idExercise);
+        Integer count = jdbcTemplate.queryForObject(COMPLETED_EXCERSIZE, Integer.class, idUser, idExercise);
         return count != null && count > 0;
     }
 
     @Override
     public void saveSubmission(Submission submission) {
-        String sql = "INSERT INTO submissions (id_user, id_exercise, points_earned, time_taken_seconds, code) " +
-                "VALUES (?, ?, ?, ?, ?) " + "ON CONFLICT (id_user, id_exercise) DO NOTHING";
 
-        jdbcTemplate.update(sql,
+        jdbcTemplate.update(SAVE_SUBMISSION,
                 submission.getIdUser(),
                 submission.getIdExercise(),
                 submission.getPointsEarned(),
@@ -37,8 +39,7 @@ public class SubmissionDAOImpl implements SubmissionDAO {
 
     @Override
     public Submission getSubmission(int idUser, int idExercise){
-        String sql = "SELECT * FROM submissions WHERE id_user = ? AND id_exercise = ?";
-        List<Submission> results = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Submission.class), idUser, idExercise);
+        List<Submission> results = jdbcTemplate.query(GET_SUBMISSION, new BeanPropertyRowMapper<>(Submission.class), idUser, idExercise);
         return results.isEmpty() ? null : results.getFirst();
     }
 }
