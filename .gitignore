@@ -61,7 +61,7 @@ spring.log
 application-local.yml
 application-local.properties
 .env
-.env.*
+!.env.example
 
 frontend/node_modules/
 frontend/dist/

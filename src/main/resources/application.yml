@@ -1,26 +1,40 @@
-#Inserire dati del proprio DB e poi runnare: mvn clean spring-boot:run
 spring:
+  application:
+    name: UniCode
+
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres #togliere username hardcoded
-    password: 1234 #togliere password hardcoded
-  jpa:
-    hibernate:
-      ddl-auto: none
-    open-in-view: false
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:1234}
+    driver-class-name: org.postgresql.Driver
 
   flyway:
     enabled: true
     locations: classpath:db/migration
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 server:
   port: 8080
   servlet:
     session:
-      # Sessione valida per 24 ore
       timeout: 86400
       cookie:
         name: JSESSIONID
         http-only: true
-        secure: true
+        secure: false
         same-site: lax
+
+app:
+  mail:
+    from: ${MAIL_USERNAME:noreply@unicode.local}
