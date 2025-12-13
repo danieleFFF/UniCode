@@ -11,7 +11,12 @@ import java.util.List;
 @Repository
 public class EsercizioDAOImpl implements EsercizioDAO {
     private final JdbcTemplate jdbcTemplate;
-    private static final List<String> VALID_SORT_COLUMNS = Arrays.asList("title",  "difficulty",  "points");
+
+    private static final String FIND_ALL = "SELECT * FROM exercises";
+    private static final String FIND_BY_LANGUAGE = "SELECT * FROM exercises WHERE id_language = ?";
+    private static final String FIND_BY_ID = "SELECT * FROM exercises WHERE id = ?";
+    private static final String FIND_TESTS_BY_EXERCISE = "SELECT * FROM test_cases WHERE id_exercise = ?";
+    private static final List<String> VALID_SORT_COLUMNS = Arrays.asList("title", "difficulty", "points");
     private static final List<String> VALID_ORDERS = Arrays.asList("asc", "desc");
 
     public EsercizioDAOImpl(JdbcTemplate jdbcTemplate){
@@ -34,24 +39,17 @@ public class EsercizioDAOImpl implements EsercizioDAO {
 
     @Override
     public List<Esercizio> findByLanguage(Integer idLanguage){
-        String sql;
-        Object[] params;
-
         if (idLanguage == null || idLanguage <= 0) {
-            sql = "SELECT * FROM exercises";
-            params = new Object[]{};
-        } else {
-             sql = "SELECT * FROM exercises WHERE id_language = ?";
-            params = new Object[]{idLanguage};
+            return jdbcTemplate.query(FIND_ALL, new BeanPropertyRowMapper<>(Esercizio.class));
         }
-        return jdbcTemplate.query(sql, params, new BeanPropertyRowMapper<>(Esercizio.class));
+        return jdbcTemplate.query(FIND_BY_LANGUAGE, new BeanPropertyRowMapper<>(Esercizio.class), idLanguage);
     }
 
     @Override
     public List<Esercizio> findByLanguagePaged(Integer idLanguage, String sortBy, String order, int page, int size) {
         String sortColumn = validateSortColumn(sortBy);
         String validOrder = validateOrder(order);
-        StringBuilder sql = new StringBuilder("SELECT * FROM exercises");
+        StringBuilder sql = new StringBuilder(FIND_ALL);
         Object[] params;
 
         if(idLanguage != null && idLanguage > 0){
@@ -69,22 +67,20 @@ public class EsercizioDAOImpl implements EsercizioDAO {
 
     @Override
     public Esercizio findById(Integer id) {
-        String sql = "SELECT * FROM exercises WHERE id = ?";
-        List<Esercizio> result = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Esercizio.class), id);
+        List<Esercizio> result = jdbcTemplate.query(FIND_BY_ID, new BeanPropertyRowMapper<>(Esercizio.class), id);
         return result.isEmpty() ? null : result.get(0);
     }
 
     @Override
     public List<TestCase> findTestsByExerciseId(Integer id) {
-        String sql = "SELECT * FROM test_cases WHERE id_exercise = ?";
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(TestCase.class),  id);
+        return jdbcTemplate.query(FIND_TESTS_BY_EXERCISE, new BeanPropertyRowMapper<>(TestCase.class), id);
     }
 
     @Override
     public List<Esercizio> findAll(String sortBy, String order) {
         String sortColumn = validateSortColumn(sortBy);
         String validOrder = validateOrder(order);
-        String sql = "SELECT * FROM exercises ORDER BY " + sortColumn + " " + validOrder;
+        String sql = FIND_ALL + " ORDER BY " + sortColumn + " " + validOrder;
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Esercizio.class));
     }
 }

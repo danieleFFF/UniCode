@@ -12,6 +12,9 @@ import java.util.List;
 @Repository
 public class AvatarDAOImpl implements AvatarDAO {
     private final JdbcTemplate jdbcTemplate;
+
+    private static final String GET_ALL_AVATARS = "SELECT * FROM avatar"; // query per recuperare tutti gli avatar (sia id che percorso nel progetto )
+
     public AvatarDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -27,9 +30,7 @@ public class AvatarDAOImpl implements AvatarDAO {
     }
     @Override
     public List<Avatar> getAllAvatars() {
-        String query = "SELECT * FROM avatar"; // query per recuperare tutti gli avatar (sia id che percorso nel progetto )
-
-        return jdbcTemplate.query(query, new AvatarRowMapper());
+        return jdbcTemplate.query(GET_ALL_AVATARS, new AvatarRowMapper());
     }
 
 }
