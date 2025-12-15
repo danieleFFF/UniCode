@@ -4,8 +4,8 @@
     <p class="subTitle">You are about to permanently delete your account.
       This action is irreversible and cannot be undone.</p>
     <p class="subTitle">To confirm your decision, please enter your password below.</p>
-    <input type="password" placeholder="Current Password" class="inputField" [(ngModel)]="verificaPass">
-    <p *ngIf="errorMess" class="error-text">{{ errorMess }}</p>
+    <input type="password" placeholder="Current Password" class="inputField" [(ngModel)]="passwordConfirmation">
+    <p *ngIf="errorMessage" class="error-text">{{ errorMessage }}</p>
     <div class="buttonContainer">
       <button class="confirmButton" type="button" (click)="confirmDeleteUser()">Confirm</button>
       <button class="cancelButton" type="button" (click)="closePopUp()">Cancel</button>

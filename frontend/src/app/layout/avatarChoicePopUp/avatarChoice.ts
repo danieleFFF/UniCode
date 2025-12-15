@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {AvatarService , Avatar} from '../../services/avatar.service';
-import {CommonModule} from '@angular/common';
-import {UserService} from '../../services/user.service';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { AvatarService, Avatar } from '../../services/avatar.service';
+import { CommonModule } from '@angular/common';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
@@ -9,10 +9,10 @@ import {UserService} from '../../services/user.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './avatarChoice.html',
-  styleUrl: './avatarChoice.scss'
+  styleUrls: ['./avatarChoice.scss']
 })
 
-export class AvatarChoice {
+export class AvatarChoice implements OnInit {
 
   @Output() close = new EventEmitter<void>(); //cosi crea l'evento di chiusura
 
@@ -42,7 +42,7 @@ export class AvatarChoice {
 
   //costruttore che serve per chiamare il backend
   constructor(private avatarService: AvatarService
-  , private userService: UserService) { }
+    , private userService: UserService) { }
 
   ngOnInit(): void {
     this.avatarService.getAvatars().subscribe({
@@ -71,20 +71,20 @@ export class AvatarChoice {
   }
 
   nextPage() {
-    if((this.pageIndex + 1) * this.avatarNum < this.allAvatars.length){
+    if ((this.pageIndex + 1) * this.avatarNum < this.allAvatars.length) {
       this.pageIndex++;
       this.updateGrid();
     }
   }
 
   prevPage() {
-    if(this.pageIndex > 0){
+    if (this.pageIndex > 0) {
       this.pageIndex--;
       this.updateGrid();
     }
   }
 
-  selectAvatar(avatar : Avatar) {
+  selectAvatar(avatar: Avatar) {
     this.currentAvatar = avatar.url_immagine;
     this.currentAvatarId = avatar.id;
   }
@@ -92,7 +92,7 @@ export class AvatarChoice {
     //dovuto mettere perche mi da problemi
     const idAvatarSelected = this.currentAvatarId;
 
-    if(idAvatarSelected === null){
+    if (idAvatarSelected === null) {
       console.error("Nessun avatar selezionato");
       return;
     }
