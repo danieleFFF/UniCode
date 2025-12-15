@@ -1,9 +1,8 @@
 
-
-        <div class="rankingContainer">
-          <app-navbar></app-navbar>
-          <app-podium></app-podium>
-          <app-listRanking></app-listRanking>
-        </div>
+<div class="rankingContainer">
+  <app-navbar></app-navbar>
+  <app-podium [users] = "users.slice(0,3)"></app-podium>
+  <app-listRanking [users] = "users.slice(3)"></app-listRanking>
+</div>
 
 

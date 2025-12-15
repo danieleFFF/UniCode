@@ -1,11 +1,10 @@
 
 
 <div>
-  <app-itemRanking></app-itemRanking>
-  <app-itemRanking></app-itemRanking>
-  <app-itemRanking></app-itemRanking>
-  <app-itemRanking></app-itemRanking>
-  <app-itemRanking></app-itemRanking>
-  <app-itemRanking></app-itemRanking>
-  <app-itemRanking></app-itemRanking>
+  <app-itemRanking
+  *ngFor="let user of users ; let i = index"
+  [user]="user"
+  [position]="i+4"
+  ></app-itemRanking>
+
 </div>

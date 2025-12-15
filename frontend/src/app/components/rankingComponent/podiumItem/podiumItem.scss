@@ -1,9 +1,9 @@
 
 .podium-item {
   display: flex;
-  flex-direction: column; /* Impila gli elementi in verticale */
-  align-items: center;    /* Centra gli elementi orizzontalmente */
-  width: 150px; /* Dà una larghezza a ogni colonna */
+  flex-direction: column;
+  align-items: center;
+  width: 150px;
 }
 
 .images {
@@ -17,7 +17,6 @@
 
 }
 
-/* --- Stili per il Testo --- */
 .position-number {
   font-size: 1.2rem;
   font-weight: 700;
@@ -41,14 +40,12 @@
 }
 
 
-/* #1 (Primo Posto) */
 :host(.position-1) {
-  order: 2; /* Ordine Flexbox: lo mette al centro (1, 2, 3) */
-  width: 150px; /* Più largo */
+  order: 2;
+  width: 150px;
 }
 :host(.position-1 .images){
   width: 150px;
-  background-color: #FFFFFF;
   height: 150px;
 }
 :host(.position-1 .userName){
@@ -58,23 +55,19 @@
   font-size: 1.8rem;
 }
 
-/* #2 (Secondo Posto) */
 :host(.position-2) {
-  order: 1; /* Ordine Flexbox: lo mette a sinistra */
+  order: 1;
 }
 :host(.position-2 .images ){
   width: 100px;
-  background-color: #000000;
   height: 100px;
 }
 
-/* #3 (Terzo Posto) */
 :host(.position-3) {
-  order: 3; /* Ordine Flexbox: lo mette a destra */
+  order: 3;
 }
 :host(.position-3 .images) {
   width: 100px;
-  background-color: #3c3c3c;
   height: 100px;
 }
 

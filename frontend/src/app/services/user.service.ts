@@ -46,4 +46,8 @@ export class UserService {
     });
   }
 
+  getRanking(numero: number): Observable<User[]> {
+    return this.http.get<User[]>(`${this.url}/leaderboard?limit=${numero}`);
+  }
+
 }

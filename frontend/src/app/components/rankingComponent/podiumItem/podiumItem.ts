@@ -1,4 +1,5 @@
-import { Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {User} from '../../../models/user.model';
 
 @Component(
   {
@@ -8,4 +9,7 @@ import { Component} from '@angular/core';
   }
 )
 
-export class PodiumItem {}
+export class PodiumItem {
+  @Input() user!: User;
+  @Input() position!: number;
+}
