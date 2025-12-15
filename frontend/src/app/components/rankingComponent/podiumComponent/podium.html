@@ -1,7 +1,11 @@
-
-  <div class="podium-wrapper">
-    <app-podium-item class="position-1"></app-podium-item>
-    <app-podium-item class="position-2"></app-podium-item>
-    <app-podium-item class="position-3"></app-podium-item>
-  </div>
-
+<div class="podium-wrapper">
+  @if (users[1]) {
+    <app-podium-item [user]="users[1]" [position]="2" class="second"></app-podium-item>
+  }
+  @if (users[0]) {
+    <app-podium-item [user]="users[0]" [position]="1" class="first"></app-podium-item>
+  }
+  @if (users[2]) {
+    <app-podium-item [user]="users[2]" [position]="3" class="third"></app-podium-item>
+  }
+</div>

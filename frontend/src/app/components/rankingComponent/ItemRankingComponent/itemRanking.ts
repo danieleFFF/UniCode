@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {User} from '../../../models/user.model';
 
 
 @Component({
@@ -7,4 +8,9 @@ import { Component } from '@angular/core';
   templateUrl: './itemRanking.html',
   styleUrl: './itemRanking.scss',
 })
-export class ItemRanking {}
+export class ItemRanking {
+
+  @Input() user!:User;
+  @Input() position!:number;
+
+}

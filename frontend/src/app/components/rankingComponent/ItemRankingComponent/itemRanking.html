@@ -1,6 +1,8 @@
-
 <div class="wrapper">
   <div class="itemContainer">
-    <div class="images"></div>   <p class="userName">Nome Utente</p>    <p class="points">Punti</p>
+    <span class="position">{{position}}</span>
+    <img class="images" [src]="'assets/images/avatar/avatar' + user.id_avatar + '.png'" alt="avatar">
+    <p class="userName">{{user.username}}</p>
+    <p class="points">{{user.total_points}}</p>
   </div>
 </div>

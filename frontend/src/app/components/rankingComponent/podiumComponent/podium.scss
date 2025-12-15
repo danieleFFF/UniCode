@@ -1,6 +1,10 @@
 .podium-wrapper {
   display: flex;
-  align-items: flex-end;
   justify-content: center;
+  align-items: flex-end;
   gap: 20px;
+}
+
+.first {
+  transform: translateY(-30px);
 }

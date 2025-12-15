@@ -1,7 +1,6 @@
 
 <div class="podium-item">
-  <p class="position-number">position</p>
-  <div class="images"></div>
-  <p class="userName">nome user</p>
-  <p class="points">Punti</p>
+  <p class="position-number">{{position}}</p>
+  <img class="images" [src]="'assets/images/avatar/avatar' + user.id_avatar + '.png'" alt="avatar">  <p class="userName">{{user.username}}</p>
+  <p class="points">{{user.total_points}}</p>
 </div>
