@@ -11,8 +11,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [UserSettings, Navbar, BoardComponent, CommonModule],
   templateUrl: './userAndBoard.html',
-  styleUrls: ['./userAndBoard.scss', '../../components/userSettings/userSettings.scss', '../../layout/navbar/navbar.scss',
-    '../../components/boardComponent/boardComponent.scss']
+  styleUrls: ['./userAndBoard.scss']
 })
 export class UserAndBoard implements OnInit {
 
