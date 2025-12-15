@@ -1,51 +1,51 @@
-import { Component , Output , EventEmitter } from '@angular/core';
-import {UserService} from '../../services/user.service';
-import {Router} from '@angular/router';
+import { Component, Output, EventEmitter } from '@angular/core';
+import { UserService } from '../../services/user.service';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {AuthService} from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-deleteAccountPopUp',
   standalone: true,
-  imports: [FormsModule , CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './deleteAccountPopUp.html',
-  styleUrl: './deleteAccountPopUp.scss'
+  styleUrls: ['./deleteAccountPopUp.scss']
 })
 
 export class DeleteAccountPopUp {
   @Output() close = new EventEmitter<void>();
 
-  verificaPass : string = "";
-  errorMess : string = "";
+  passwordConfirmation: string = '';
+  errorMessage: string = '';
 
-  constructor(private userService : UserService , private router : Router , private authService : AuthService) {}
+  constructor(private userService: UserService, private router: Router, private authService: AuthService) { }
 
   public closePopUp(): void {
     this.close.emit();
   }
 
-  public confirmDeleteUser(){
+  public confirmDeleteUser() {
 
-    this.errorMess = "";
+    this.errorMessage = '';
 
-    if(!this.verificaPass){
-      this.errorMess = "Inserisci la password";
+    if (!this.passwordConfirmation) {
+      this.errorMessage = 'Inserisci la password';
       return;
     }
 
-    this.userService.deleteUser(this.verificaPass).subscribe({
-      next : (response) => {
+    this.userService.deleteUser(this.passwordConfirmation).subscribe({
+      next: (response) => {
         console.log(response);
         this.authService.logout();
         this.router.navigate(['/login']);
         this.closePopUp()
       },
-      error : (error) => {
-        if(error.status == 401 || error.status == 403 || error.status == 400){
-          this.errorMess = "Password non corretta"
-        }else{
-          this.errorMess = "Errore";
+      error: (error) => {
+        if (error.status === 401 || error.status === 403 || error.status === 400) {
+          this.errorMessage = 'Password non corretta';
+        } else {
+          this.errorMessage = 'Errore';
         }
       }
     })
