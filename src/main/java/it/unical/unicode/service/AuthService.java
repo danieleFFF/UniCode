@@ -18,8 +18,8 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
     public void resetPassword(String email, String newPassword) {
-        Optional<User> optionalUtente = userDAO.findByEmail(email);
-        if (optionalUtente.isEmpty()) {
+        User user = userDAO.findByEmail(email);
+        if (user == null) {
             throw new AuthenticationServiceException("User not found.");
         }
         String hashedPassword = passwordEncoder.encode(newPassword);

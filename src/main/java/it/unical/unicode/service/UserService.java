@@ -19,11 +19,19 @@ public class UserService {
     }
 
     public User getUserById(int id){
-       return userDAO.findById(id).orElseThrow(() -> new RuntimeException("User not found by id"));
+        User user = userDAO.findById(id);
+        if (user == null) {
+            throw new RuntimeException("User not found by id");
+        }
+        return user;
     }
 
     public User getUserByEmail(String email){
-        return userDAO.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found by email"));
+        User user = userDAO.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("User not found by email");
+        }
+        return user;
     }
 
     public List<User> getAllUsers(){
@@ -31,28 +39,30 @@ public class UserService {
     }
 
     public void deleteUser(int id){
-        if(userDAO.findById(id).isPresent()){
+        User user = userDAO.findById(id);
+        if(user != null){
             userDAO.deleteUser(id);
         }else{
-            throw new RuntimeException("impossibile eliminare l'utente selezionato , utente non trovato");
+            throw new RuntimeException("Unable to delete the selected user: user not found.");
         }
     }
 
     public void updateUserPassword(int id , String newPassword){
-
-        if(userDAO.findById(id).isPresent()){
+        User user = userDAO.findById(id);
+        if(user != null){
             String newHashPassword = passwordEncoder.encode(newPassword);
             userDAO.updatePassword(newHashPassword,id);
         }else{
-            throw new RuntimeException("impossibile aggiornare la password , utente non trovato");
+            throw new RuntimeException("Unable to update password: user not found");
         }
     }
 
     public void updateUserAvatar(int id , int avatarId){
-        if(userDAO.findById(id).isPresent()){
+        User user = userDAO.findById(id);
+        if(user != null){
             userDAO.updateAvatar(id,avatarId);
         }else {
-            throw new RuntimeException("impossibile aggiornare l'avatar , utente non trovato");
+            throw new RuntimeException("Unable to update avatar: user not found");
         }
     }
 
@@ -61,10 +71,11 @@ public class UserService {
     }
 
     public void addPoints(int userId, int points) {
-        if (userDAO.findById(userId).isPresent()) {
+        User user = userDAO.findById(userId);
+        if (user != null) {
             userDAO.updateTotalPoints(userId, points);
         } else {
-            throw new RuntimeException("Impossibile assegnare punti: Utente non trovato");
+            throw new RuntimeException("Unable to assign points: user not found.");
         }
     }
 
