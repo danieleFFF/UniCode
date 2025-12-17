@@ -15,7 +15,3 @@ cd frontend
 ng serve
 ```
 
-Il database viene creato automaticamente. Di default usa `postgres` con password `1234`.
-
-Se vuoi usare la funzione di recupero password via email, configura le variabili `MAIL_USERNAME` e `MAIL_PASSWORD` con un account Gmail.
-
