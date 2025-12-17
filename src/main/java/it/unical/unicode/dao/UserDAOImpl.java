@@ -1,14 +1,12 @@
 package it.unical.unicode.dao;
 
 import it.unical.unicode.model.User;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -31,9 +29,9 @@ public class UserDAOImpl implements UserDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private static final RowMapper<User> USER_MAP = new UtenteRowMapper();
+    private static final RowMapper<User> USER_MAP = new UserRowMapper();
 
-    private static class UtenteRowMapper implements RowMapper<User> {
+    private static class UserRowMapper implements RowMapper<User> {
         @Override
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
             User user = new User();
@@ -58,21 +56,13 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
-        try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_USER_BY_EMAIL, USER_MAP, email));
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
+    public User findByEmail(String email) {
+       return jdbcTemplate.queryForObject(FIND_USER_BY_EMAIL, USER_MAP, email);
     }
 
     @Override
-    public Optional<User> findByUsername(String username) {
-        try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_USER_BY_USERNAME, USER_MAP, username));
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
+    public User findByUsername(String username) {
+        return jdbcTemplate.queryForObject(FIND_USER_BY_USERNAME, USER_MAP, username);
     }
 
     @Override
@@ -81,12 +71,8 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public Optional<User> findById(int id) {
-        try{
-            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_USER_BY_ID, USER_MAP, id));
-        }catch(EmptyResultDataAccessException e){
-            return Optional.empty();
-        }
+    public User findById(int id) {
+       return jdbcTemplate.queryForObject(FIND_USER_BY_ID, USER_MAP, id);
     }
 
     @Override

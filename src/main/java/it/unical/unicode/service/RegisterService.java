@@ -18,18 +18,20 @@ public class RegisterService {
     }
 
     public void registerUser(RegisterRequest request) {
-        if (userDAO.findByUsername(request.getUsername()).isPresent()) {
-            throw new IllegalStateException("Username already taken.");
-        }
-        if (userDAO.findByEmail(request.getEmail()).isPresent()) {
-            throw new IllegalStateException("Email already registered.");
+
+        if(userDAO.findByEmail(request.getEmail())!=null){
+            throw new IllegalArgumentException("Email already registered");
         }
 
-        User nuovoUser = new User();
-        nuovoUser.setUsername(request.getUsername());
-        nuovoUser.setEmail(request.getEmail());
-        nuovoUser.setPassword_hash(passwordEncoder.encode(request.getPassword()));
+        if(userDAO.findByUsername(request.getUsername())!=null){
+            throw new IllegalArgumentException("Username already registered");
+        }
 
-        userDAO.save(nuovoUser);
+        User newUser = new User();
+        newUser.setUsername(request.getUsername());
+        newUser.setEmail(request.getEmail());
+        newUser.setPassword_hash(passwordEncoder.encode(request.getPassword()));
+
+        userDAO.save(newUser);
     }
 }
