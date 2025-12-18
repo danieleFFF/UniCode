@@ -6,6 +6,7 @@ import { RegisterPayload } from '../models/register.model';
 import {CredentialsModel} from '../models/credentials.model';
 import {environment} from '../../environments/environment';
 import { UserService } from './user.service';
+import {tap} from 'rxjs/operators';
 
 @Injectable({
   providedIn:'root'
@@ -51,7 +52,11 @@ export class AuthService{
       headers,
       withCredentials:true,
       responseType:'text'
-    });
+    }).pipe(
+      tap(() => {
+        this.userService.getProfile().subscribe();
+      })
+    );
   }
 
   logout():void{

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {Observable, BehaviorSubject, catchError} from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { User } from '../models/user.model';
 import { environment } from '../../environments/environment';
@@ -11,17 +11,27 @@ import { environment } from '../../environments/environment';
 export class UserService {
 
   private url = environment.apiUrl + '/users';
-  private currentUser: User | null = null;
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  public currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private http : HttpClient) {}
 
   getProfile(): Observable<User>{
     return this.http.get<User>(this.url + '/profile', { withCredentials: true }).pipe(
-      tap(user => this.currentUser = user)
+      tap(user => this.currentUserSubject.next(user)),
+      catchError(err => {
+        if (err.status === 401) this.clearUser();
+        throw err;
+      })
     );
   }
+
+  getCurrentUser(): User | null {
+    return this.currentUserSubject.value;
+  }
+
   clearUser(): void {
-    this.currentUser = null;
+    this.currentUserSubject.next(null);
   }
 
   changePassword(currentPassword: string, newPassword: string): Observable<string> {
