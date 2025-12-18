@@ -60,16 +60,7 @@ export class UserSettings {
   }
   onAvatarUpdated() {
     console.log("Il popup ha salvato! Ricarico i dati utente...");
-
-    this.userService.getProfile().subscribe({
-      next: (updatedUser: User) => {
-        // Sovrascriviamo l'utente attuale con quello nuovo appena scaricato
-        this.user = updatedUser;
-        console.log("Utente aggiornato, nuovo avatar ID:", this.user.id_avatar);
-      },
-      error: (err) => {
-        console.error("Errore nel ricaricare il profilo:", err);
-      }
-    });
+    this.userService.getProfile().subscribe();
   }
 }
+

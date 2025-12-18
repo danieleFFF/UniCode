@@ -2,6 +2,8 @@ package it.unical.unicode.controller;
 
 import it.unical.unicode.dao.SubmissionDAO;
 import it.unical.unicode.model.Submission;
+import it.unical.unicode.model.Trophy;
+import it.unical.unicode.service.TrophyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
@@ -11,6 +13,8 @@ import java.util.*;
 public class SubmissionController {
     @Autowired
     private SubmissionDAO submissionDAO;
+    @Autowired
+    private TrophyService trophyService;
 
     @PostMapping
     public Map<String, Object> submitSolution(@RequestBody Map<String, Object> payload) {
@@ -37,12 +41,12 @@ public class SubmissionController {
         submission.setTimeTakenSeconds(timeTaken);
         submission.setCode(code);
         submissionDAO.saveSubmission(submission);
-        //UtenteDAO.updateTotalPoints(idUser, pointsEarned);
-
+        List<Trophy> newTrophies = trophyService.checkAndAssignTrophies(idUser);
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
         response.put("message", "Congratulations! You earned " + pointsEarned + " points!");
         response.put("pointsEarned", pointsEarned);
+        response.put("newTrophies", newTrophies);
         return response;
     }
 

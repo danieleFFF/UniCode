@@ -14,6 +14,7 @@ public class SubmissionDAOImpl implements SubmissionDAO {
             "VALUES (?, ?, ?, ?, ?) " + "ON CONFLICT (id_user, id_exercise) DO NOTHING";
     private static final String GET_SUBMISSION = "SELECT * FROM submissions WHERE id_user = ? AND id_exercise = ?";
     private static final String COMPLETED_EXCERSIZE = "SELECT COUNT(*) FROM submissions WHERE id_user = ? AND id_exercise = ?";
+    private static final String COUNT_USER_SUBMISSIONS = "SELECT COUNT(*) FROM submissions WHERE id_user = ?";
 
     public SubmissionDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -41,5 +42,11 @@ public class SubmissionDAOImpl implements SubmissionDAO {
     public Submission getSubmission(int idUser, int idExercise){
         List<Submission> results = jdbcTemplate.query(GET_SUBMISSION, new BeanPropertyRowMapper<>(Submission.class), idUser, idExercise);
         return results.isEmpty() ? null : results.getFirst();
+    }
+
+    @Override
+    public int countUserSubmissions(int idUser) {
+        Integer count = jdbcTemplate.queryForObject(COUNT_USER_SUBMISSIONS, Integer.class, idUser);
+        return count != null ? count : 0;
     }
 }

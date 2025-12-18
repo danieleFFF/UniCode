@@ -1,5 +1,6 @@
 package it.unical.unicode.dao;
 
+import it.unical.unicode.model.Trophy;
 import it.unical.unicode.model.UserTrophy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -13,9 +14,9 @@ import java.util.List;
 public class UserTrophyDAOImpl implements UserTrophyDAO {
     private final JdbcTemplate jdbcTemplate;
 
-    private static final String ASSIGN_TROPHY = "INSERT INTO user_trophy (id_user, id_trophy) VALUES (?, ?)";
-    private static final String  CHECK_USER_TROPHY = "SELECT COUNT(*) FROM user_trophy WHERE id_user = ? AND id_trophy = ?";
-    private static final String GET_USER_TROPHY = "SELECT t.* FROM trophies t " +
+    private static final String ASSIGN_TROPHY = "INSERT INTO users_trophies (id_user, id_trophy) VALUES (?, ?)";
+    private static final String CHECK_USER_TROPHY = "SELECT COUNT(*) FROM users_trophies WHERE id_user = ? AND id_trophy = ?";
+    private static final String GET_USER_TROPHIES = "SELECT t.* FROM trophies t " +
             "JOIN users_trophies ut ON t.id = ut.id_trophy " +
             "WHERE ut.id_user = ?";
 
@@ -35,6 +36,19 @@ public class UserTrophyDAOImpl implements UserTrophyDAO {
         }
     }
 
+    private static class TrophyRowMapper implements RowMapper<Trophy> {
+        @Override
+        public Trophy mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Trophy trophy = new Trophy();
+            trophy.setId(rs.getInt("id"));
+            trophy.setName(rs.getString("name"));
+            trophy.setDescription(rs.getString("description"));
+            trophy.setPoints_trophy(rs.getInt("points_trophy"));
+            trophy.setCod_trophy(rs.getString("cod_trophy"));
+            return trophy;
+        }
+    }
+
     @Override
     public void assignTrophy(int id_user, int id_trophy) {
         jdbcTemplate.update(ASSIGN_TROPHY, id_user, id_trophy);
@@ -47,8 +61,8 @@ public class UserTrophyDAOImpl implements UserTrophyDAO {
     }
 
     @Override
-    public List<UserTrophy> getUserTrophy() {
-        return jdbcTemplate.query(GET_USER_TROPHY, USER_TROPHY_ROW_MAPPER);
+    public List<Trophy> getUserTrophy(int userId) {
+        return jdbcTemplate.query(GET_USER_TROPHIES, new TrophyRowMapper(), userId);
     }
 
 

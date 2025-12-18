@@ -1,72 +1,58 @@
-import { Component } from '@angular/core';
+import {Component, Input, numberAttribute, OnChanges, SimpleChanges} from '@angular/core';
+import { TrophyService } from '../../services/trophy.service';
+import { Trophy } from '../../models/trophy.model';
+import { CommonModule } from '@angular/common';
 
-@Component(
-  {
-    selector: 'app-board',
-    standalone: true,
-    templateUrl: './boardComponent.html',
-    styleUrls: ['./boardComponent.scss']
-  }
-)
+@Component({
+  selector: 'app-board',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './boardComponent.html',
+  styleUrls: ['./boardComponent.scss']
+})
+export class BoardComponent implements OnChanges {
+  @Input({transform: numberAttribute}) userId: number | null = null;
 
-export class BoardComponent {
+  topRowTrophies: Trophy[] = [];
+  bottomRowTrophies: Trophy[] = [];
+  loading = true;
 
-  //mettiamo in un array tutte le immagini con i relativi dati (cioe un booleano se sono stati sbloccati , un id , un nome e poi il path di dove si trovano nel progetto)
-  //dividiamo in 2 array per le righe in cima e in basso
+  constructor(private trophyService: TrophyService) {}
 
-  topRowTrophies = [
-    {
-      id: '100exercise',
-      description: '100 exercise completed',
-      path: 'assets/images/trophies/thropies100excersise.png',
-      unlocked: false //per ora non è stato sbloccato
-    },
-
-    {
-      id: 'codeMaster',
-      description: 'all the exercises solved',
-      path: 'assets/images/trophies/trhopiesCodeMaster.png',
-      unlocked: true
-    },
-
-    {
-      id: 'firstRank',
-      description: 'first place in the leaderboard',
-      path: 'assets/images/trophies/thropies!rank.png',
-      unlocked: false
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['userId'] && this.userId) {
+      this.loadUserTrophies(this.userId);
     }
-  ]
-  bottomRowTrophies = [
-    {
-      id: '50exercise',
-      description: '50 exercise completed',
-      path: 'assets/images/trophies/thrtopies50excersise.png',
-      unlocked: false,
-    },
-
-    {
-      id: '20exercise',
-      description: '20 exercise completed',
-      path: 'assets/images/trophies/thropies20Excersize.png',
-      unlocked: false
-    },
-
-    {
-      id: 'pythonMaster',
-      description: 'all python exercises solved',
-      path: 'assets/images/trophies/thropiesPythonMaster.png',
-      unlocked: false
-    },
-
-    {
-      id: 'timeMaster',
-      description: 'all exercises solved in under 10 minute',
-      path: 'assets/images/trophies/thropiesTime.png',
-      unlocked: false
-    }
-  ]
-
-  constructor() {
   }
 
+  loadUserTrophies(userId: number): void {
+    this.loading = true;
+    this.trophyService.getUserTrophies(userId).subscribe({
+      next: (trophies) => {
+        // Aggiungi i path alle immagini
+        trophies.forEach(trophy => {
+          trophy.path = this.trophyService.getTrophyImagePath(trophy.cod_trophy);
+        });
+        this.mapTrophiesToRows(trophies);
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error loading trophies:', err);
+        this.loading = false;
+      }
+    });
+  }
+
+  private mapTrophiesToRows(trophies: Trophy[]): void {
+    const topCodes = ['EXERCISE_100', 'CODE_MASTER', 'FIRST_RANK'];
+    const bottomCodes = ['EXERCISE_50', 'EXERCISE_20', 'PYTHON_MASTER', 'TIME_MASTER'];
+
+    this.topRowTrophies = topCodes.map(code =>
+      trophies.find(t => t.cod_trophy === code)!
+    ).filter(t => t !== undefined);
+
+    this.bottomRowTrophies = bottomCodes.map(code =>
+      trophies.find(t => t.cod_trophy === code)!
+    ).filter(t => t !== undefined);
+  }
 }

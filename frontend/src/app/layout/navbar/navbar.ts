@@ -38,15 +38,21 @@ export class Navbar implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userService.getProfile().subscribe({
+    this.userService.currentUser$.subscribe({
       next: (user) => {
         this.user = user;
       },
       error: () => {
-        // Non loggato, nessun problema
         this.user = null;
       }
     });
+
+    // 2. Se ricarichi la pagina, chiedi al server chi è l'utente
+    if (!this.userService.getCurrentUser()) {
+      this.userService.getProfile().subscribe({
+        error: () => this.user = null
+      });
+    }
   }
   showDropdown(menu:'courses'|'exercises'){
     this.activeDropdown=menu;
