@@ -1,5 +1,5 @@
 <div class="course-container">
-
+  <app-navbar></app-navbar>
   @if(topicTitle && topicDifficulty){
     <div class="course-details-card">
       <div class="course-header">
@@ -52,7 +52,6 @@
             height="315"
             [src]="safeVideoUrl"
             title="YouTube video player"
-            frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerpolicy="strict-origin-when-cross-origin"
             allowfullscreen>

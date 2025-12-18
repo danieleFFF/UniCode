@@ -3,11 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CourseDataService } from '../../services/course-data';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import {Navbar} from "../../layout/navbar/navbar";
 
 @Component({
   selector: 'app-theory',
   standalone: true,
-  imports: [CommonModule],
+    imports: [CommonModule, Navbar],
   templateUrl: './theory.html',
   styleUrl: './theory.scss'
 })

@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { CourseDataService, CourseContent } from '../../services/course-data';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {CommonModule} from '@angular/common';
+import {CourseContent, CourseDataService} from '../../services/course-data';
+import {Navbar} from '../../layout/navbar/navbar';
 
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, Navbar],
   templateUrl: './courses.html',
   styleUrl: './courses.scss'
 })
@@ -29,8 +30,7 @@ export class Courses implements OnInit{
     });
   }
   private loadCourseContent(key: string): void {
-    const content = this.courseService.getCourse(key);
-    this.currentCourse = content;
+    this.currentCourse = this.courseService.getCourse(key);
     this.errorMessage = null;
   }
   public goToTopic(topicIndex: number): void {
