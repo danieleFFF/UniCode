@@ -60,8 +60,6 @@ spring.log
 #Local configuration (per non condividere credenziali)
 application-local.yml
 application-local.properties
-.env
-!.env.example
 
 frontend/node_modules/
 frontend/dist/

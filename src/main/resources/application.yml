@@ -4,8 +4,8 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:1234}
+    username: postgres
+    password: 1234
     driver-class-name: org.postgresql.Driver
 
   flyway:
@@ -15,8 +15,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: ${MAIL_USERNAME:}
-    password: ${MAIL_PASSWORD:}
+    username: moviestarclient@gmail.com
+    password: eenu rbsi obnl hzha
     properties:
       mail:
         smtp:
@@ -37,4 +37,4 @@ server:
 
 app:
   mail:
-    from: ${MAIL_USERNAME:noreply@unicode.local}
+    from: moviestarclient@gmail.com
