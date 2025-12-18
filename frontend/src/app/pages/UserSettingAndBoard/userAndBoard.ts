@@ -31,12 +31,9 @@ export class UserAndBoard implements OnInit {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
-    this.userService.getProfile().subscribe({
-      next: (data: User) => {
+    this.userService.currentUser$.subscribe({
+      next: (data: User | null) => {
         this.currentUser = data;
-      },
-      error: (err) => {
-        this.router.navigate(['/login']);
       }
     });
   }

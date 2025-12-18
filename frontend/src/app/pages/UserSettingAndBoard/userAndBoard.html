@@ -4,7 +4,7 @@
   <app-navbar></app-navbar>
  <div class="contentWrapper">
    <app-userSettings *ngIf="currentUser" [user]="currentUser"></app-userSettings>
-   <app-board></app-board>
+   <app-board [userId]="currentUser?.id"></app-board>
  </div>
 </div>
 
