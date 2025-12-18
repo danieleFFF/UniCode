@@ -23,14 +23,12 @@
     </a>
   </div>
 
-
-  <a *ngIf="!(isLoggedIn$ | async)" routerLink="/login" class="nav-item login-btn">
+  <a *ngIf="!user" routerLink="/login" class="nav-item login-btn">
     <img src="../../../assets/images/loginimage.png" alt="Login icon" class="nav-icon">
     <span class="nav-link">Login</span>
   </a>
-
-  <a *ngIf="(isLoggedIn$ | async)" routerLink="/userBoard">
-    <img [src]="'/assets/images/avatar/avatar' + user?.id_avatar + '.png'" class="avatar-container" alt="">
+  <a *ngIf="user" routerLink="/userBoard">
+    <img [src]="'/assets/images/avatar/avatar' + (user.id_avatar || 1) + '.png'" class="avatar-container" alt="">
   </a>
 
 </nav>
