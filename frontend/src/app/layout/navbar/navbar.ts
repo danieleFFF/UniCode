@@ -1,9 +1,9 @@
-import {Component, Input} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DropdownMenu, DropdownItem } from '../dropdown-menu/dropdown-menu';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-import { Observable } from 'rxjs';
+import { UserService } from '../../services/user.service';
 import {User} from '../../models/user.model';
 
 @Component({
@@ -13,10 +13,9 @@ import {User} from '../../models/user.model';
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.scss', '../../components/userSettings/userSettings.scss']
 })
-export class Navbar {
-  isLoggedIn$: Observable<boolean>;
-  @Input() user: User | null = null;
-  // Dati per il menu a tendina "Courses"
+export class Navbar implements OnInit {
+  user: User | null = null;
+
   courseItems: DropdownItem[] = [
     { name: 'Python', path: '/courses/python', iconPath: 'assets/images/pythonimage.png' },
     { name: 'C++', path: '/courses/cpp', iconPath: 'assets/images/cppimage.png' },
@@ -33,8 +32,21 @@ export class Navbar {
     { name: 'Hard', path: '/exercises/hard', iconPath: 'assets/images/rankingimage.png' }
   ];
   activeDropdown:'courses'|'exercises'|null=null;
-  constructor(private authService:AuthService){
-    this.isLoggedIn$=this.authService.isLoggedIn$;
+  constructor(
+    public authService: AuthService,
+    private userService: UserService
+  ) {}
+
+  ngOnInit(): void {
+    this.userService.getProfile().subscribe({
+      next: (user) => {
+        this.user = user;
+      },
+      error: () => {
+        // Non loggato, nessun problema
+        this.user = null;
+      }
+    });
   }
   showDropdown(menu:'courses'|'exercises'){
     this.activeDropdown=menu;
