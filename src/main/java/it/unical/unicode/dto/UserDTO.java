@@ -25,11 +25,11 @@ public class UserDTO {
     public String getUsername() { return username; }
     public String getEmail() { return email; }
     public int getId_avatar() { return id_avatar; }
-    public int getPunti() { return total_points; }
+    public int getTotal_points() { return total_points; }
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     public void setUsername(String username) { this.username = username; }
     public void setEmail(String email) { this.email = email; }
     public void setId_avatar(int id_avatar) { this.id_avatar = id_avatar; }
-    public void setPunti(int total_points) { this.total_points = total_points; }
+    public void setTotal_points(int total_points) { this.total_points = total_points; }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface Avatar {
   id: number;
@@ -12,7 +13,7 @@ export interface Avatar {
 })
 export class AvatarService {
 
-  private apiUrl = 'http://localhost:8080/api/avatars';
+  private apiUrl = environment.apiUrl + '/avatars';
 
   constructor(private http: HttpClient) { }
 

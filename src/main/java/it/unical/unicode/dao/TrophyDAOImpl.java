@@ -43,11 +43,13 @@ public class TrophyDAOImpl implements TrophyDAO {
 
     @Override
     public Trophy findById(int id){
-        return jdbcTemplate.queryForObject(FIND_BY_ID, TROFEO_ROW_MAPPER, id);
+        List<Trophy> trophies = jdbcTemplate.query(FIND_BY_ID, TROFEO_ROW_MAPPER, id);
+        return trophies.isEmpty() ? null : trophies.get(0);
     }
 
     @Override
     public Trophy findByCode(String code){
-        return jdbcTemplate.queryForObject(FIND_BY_CODE, TROFEO_ROW_MAPPER, code);
+        List<Trophy> trophies = jdbcTemplate.query(FIND_BY_CODE, TROFEO_ROW_MAPPER, code);
+        return trophies.isEmpty() ? null : trophies.get(0);
     }
 }
