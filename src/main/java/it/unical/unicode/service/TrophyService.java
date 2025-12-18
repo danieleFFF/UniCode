@@ -26,7 +26,7 @@ public class TrophyService {
 
     private void assegnIfNew(int userId , String codTrophy , List<Trophy> newTrophies){
         Trophy trophy = trophyDAO.findByCode(codTrophy);
-        if(trophy != null && userTrophyDAO.hasUserTrophy(userId,trophy.getId())){
+        if(trophy != null && !userTrophyDAO.hasUserTrophy(userId,trophy.getId())){
             userTrophyDAO.assignTrophy(userId,trophy.getId());
             newTrophies.add(trophy);
         }

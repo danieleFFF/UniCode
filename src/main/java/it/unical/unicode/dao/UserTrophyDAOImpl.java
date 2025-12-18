@@ -14,7 +14,7 @@ public class UserTrophyDAOImpl implements UserTrophyDAO {
     private final JdbcTemplate jdbcTemplate;
 
     private static final String ASSIGN_TROPHY = "INSERT INTO user_trophy (id_user, id_trophy) VALUES (?, ?)";
-    private static final String  CHECK_USER_TROPHY = "SELECT * FROM user_trophy WHERE id_user = ? AND id_trophy = ?";
+    private static final String  CHECK_USER_TROPHY = "SELECT COUNT(*) FROM user_trophy WHERE id_user = ? AND id_trophy = ?";
     private static final String GET_USER_TROPHY = "SELECT t.* FROM trophies t " +
             "JOIN users_trophies ut ON t.id = ut.id_trophy " +
             "WHERE ut.id_user = ?";

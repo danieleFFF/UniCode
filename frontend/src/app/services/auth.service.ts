@@ -5,12 +5,13 @@ import {Observable, BehaviorSubject, tap, catchError, throwError} from 'rxjs';
 import { Router } from '@angular/router';
 import { RegisterPayload } from '../models/register.model';
 import {CredentialsModel} from '../models/credentials.model';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn:'root'
 })
 export class AuthService{
-  private apiUrl='http://localhost:8080/api';
+  private apiUrl=environment.apiUrl;
   private isLoggedInSubject=new BehaviorSubject<boolean>(false);
   public isLoggedIn$=this.isLoggedInSubject.asObservable();
   private readonly isBrowser:boolean;

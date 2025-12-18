@@ -44,7 +44,6 @@ public class UserDAOImpl implements UserDAO {
             return user;
         }
     }
-    //Prova
     @Override
     public void save(User user) {
         jdbcTemplate.update(INSERT_USER, user.getUsername(),
@@ -57,12 +56,14 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User findByEmail(String email) {
-       return jdbcTemplate.queryForObject(FIND_USER_BY_EMAIL, USER_MAP, email);
+        List<User> users = jdbcTemplate.query(FIND_USER_BY_EMAIL, USER_MAP, email);
+        return users.isEmpty() ? null : users.get(0);
     }
 
     @Override
     public User findByUsername(String username) {
-        return jdbcTemplate.queryForObject(FIND_USER_BY_USERNAME, USER_MAP, username);
+        List<User> users = jdbcTemplate.query(FIND_USER_BY_USERNAME, USER_MAP, username);
+        return users.isEmpty() ? null : users.get(0);
     }
 
     @Override
@@ -72,7 +73,8 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User findById(int id) {
-       return jdbcTemplate.queryForObject(FIND_USER_BY_ID, USER_MAP, id);
+        List<User> users = jdbcTemplate.query(FIND_USER_BY_ID, USER_MAP, id);
+        return users.isEmpty() ? null : users.get(0);
     }
 
     @Override

@@ -3,6 +3,7 @@ package it.unical.unicode.controller;
 import it.unical.unicode.dto.ChangePasswordDTO;
 import it.unical.unicode.dto.Credentials;
 import it.unical.unicode.dto.RegisterRequest;
+import it.unical.unicode.dto.UserDTO;
 import it.unical.unicode.model.User;
 import it.unical.unicode.service.RegisterService;
 import it.unical.unicode.service.UserService;
@@ -12,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -41,12 +43,20 @@ public class UserController {
 
 
     @GetMapping("/profile")
-    public ResponseEntity<User> getProfile(Authentication authentication) {
+    public ResponseEntity<UserDTO> getProfile(Authentication authentication) {
         try {
-
             String email = authentication.getName();
             User user = userService.getUserByEmail(email);
-            return ResponseEntity.ok(user);
+
+            UserDTO dto = new UserDTO(
+                    user.getId(),
+                    user.getUsername(),
+                    user.getEmail(),
+                    user.getId_avatar(),
+                    user.getTotal_points()
+            );
+
+            return ResponseEntity.ok(dto);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
@@ -60,7 +70,7 @@ public class UserController {
             User user = userService.getUserByEmail(email);
 
             if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword_hash())) {
-                return ResponseEntity.badRequest().body("Password attuale non corretta");
+                return ResponseEntity.badRequest().body("Current password is incorrect");
             }
             userService.updateUserPassword(user.getId(), request.getNewPassword());
             return ResponseEntity.ok("Password updated successfully");
@@ -100,8 +110,22 @@ public class UserController {
     }
 
     @GetMapping("/leaderboard")
-    public ResponseEntity<List<User>> getLeaderboard(@RequestParam(defaultValue = "10") int limit) {
-        return ResponseEntity.ok(userService.getLeaderboard(limit));
+    public ResponseEntity<List<UserDTO>> getLeaderboard(@RequestParam(defaultValue = "10") int limit) {
+        List<User> users = userService.getLeaderboard(limit);
+
+        List<UserDTO> dtos = new ArrayList<>();
+        for (User user : users) {
+            UserDTO dto = new UserDTO(
+                    user.getId(),
+                    user.getUsername(),
+                    user.getEmail(),
+                    user.getId_avatar(),
+                    user.getTotal_points()
+            );
+            dtos.add(dto);
+        }
+
+        return ResponseEntity.ok(dtos);
     }
 
 }
