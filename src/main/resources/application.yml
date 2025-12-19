@@ -38,3 +38,7 @@ server:
 app:
   mail:
     from: moviestarclient@gmail.com
+
+judge0:
+  api-url: https://judge0-ce.p.rapidapi.com
+  api-key: ${JUDGE0_API_KEY:YOUR_API_KEY_HERE}

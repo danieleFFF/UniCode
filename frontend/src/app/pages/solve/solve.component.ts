@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router'
 import { HttpClient, HttpClientModule } from '@angular/common/http'
 import { Navbar } from '../../layout/navbar/navbar'
 import { UserService } from '../../services/user.service';
+import { environment } from '../../../environments/environment';
 
 interface CachedResult {
   showResults: boolean;
@@ -21,7 +22,7 @@ interface CachedResult {
   templateUrl: './solve.component.html',
   styleUrls: ['./solve.component.scss']
 })
-export class SolveComponent implements OnInit, OnDestroy{
+export class SolveComponent implements OnInit, OnDestroy {
   exercise: any
   userCode = ''
   testResults: any[] = []
@@ -47,7 +48,7 @@ export class SolveComponent implements OnInit, OnDestroy{
     this.resetState();
     const id = this.route.snapshot.paramMap.get('id');
 
-    this.http.get(`/api/exercises/${id}`).subscribe((data: any) =>{
+    this.http.get(`${environment.apiUrl}/exercises/${id}`, { withCredentials: true }).subscribe((data: any) => {
       this.exercise = data;
       this.selectedLanguage = data.languageName || 'Python';
       this.currentPoints = this.exercise.points || 100;
@@ -62,10 +63,10 @@ export class SolveComponent implements OnInit, OnDestroy{
     const user = this.userService.getCurrentUser();
     if (!user) return;
 
-    this.http.get(`/api/submissions/check/${user.id}/${this.exercise.id}`).subscribe({
-      next: (response:any) => {
+    this.http.get(`${environment.apiUrl}/submissions/check/${user.id}/${this.exercise.id}`, { withCredentials: true }).subscribe({
+      next: (response: any) => {
         this.alreadyCompleted = response.completed;
-        if(this.alreadyCompleted){
+        if (this.alreadyCompleted) {
           this.consoleOutput = `You have already completed this exercise and earned ${response.pointsEarned} points!`;
         }
       },
@@ -91,10 +92,10 @@ export class SolveComponent implements OnInit, OnDestroy{
   startTimer(): void {
     this.updateFormattedTime()
     this.timer = setInterval(() => {
-      if (this.timeLeft > 0){
+      if (this.timeLeft > 0) {
         this.timeLeft--
         this.updateFormattedTime()
-      } else{
+      } else {
         clearInterval(this.timer)
       }
     }, 1000)
@@ -136,10 +137,10 @@ export class SolveComponent implements OnInit, OnDestroy{
     return finalPoints;
   }
 
-  private addToCache(key: string, value: CachedResult):void{
+  private addToCache(key: string, value: CachedResult): void {
     if (this.testCache.size >= this.MAX_CACHE_SIZE) {
-      const firstKey =this.testCache.keys().next().value;
-      if (typeof firstKey === "string")  {
+      const firstKey = this.testCache.keys().next().value;
+      if (typeof firstKey === "string") {
         this.testCache.delete(firstKey);
       }
     }
@@ -147,12 +148,12 @@ export class SolveComponent implements OnInit, OnDestroy{
   }
 
   runTests(): void {
-    if(!this.exercise || !this.exercise.id) {
+    if (!this.exercise || !this.exercise.id) {
       console.warn('No exercise loaded');
       return;
     }
 
-    if(!this.userCode || this.userCode.trim() === '') {
+    if (!this.userCode || this.userCode.trim() === '') {
       this.consoleOutput = 'Please write some code first';
       this.showResults = true;
       return;
@@ -162,7 +163,7 @@ export class SolveComponent implements OnInit, OnDestroy{
       return;
     }
 
-    if (this.alreadyCompleted){
+    if (this.alreadyCompleted) {
       this.consoleOutput = 'You have already completed this exercise! No additional points awarded.';
       this.showResults = true;
       return;
@@ -170,7 +171,7 @@ export class SolveComponent implements OnInit, OnDestroy{
 
     const cacheKey = `${this.exercise.id}_${this.userCode}`;
 
-    if(this.testCache.has(cacheKey)) {
+    if (this.testCache.has(cacheKey)) {
       const cached = this.testCache.get(cacheKey)!;
       this.showResults = cached.showResults;
       this.testResults = cached.testResults;
@@ -189,7 +190,7 @@ export class SolveComponent implements OnInit, OnDestroy{
     this.allPassed = false;
     this.earnedPoints = 0;
 
-    const languageMap: { [key: string]: number } ={
+    const languageMap: { [key: string]: number } = {
       'python': 71,
       'c++': 54,
       'java': 62,
@@ -197,7 +198,7 @@ export class SolveComponent implements OnInit, OnDestroy{
     };
 
     const lang = (this.selectedLanguage || 'python').toLowerCase();
-    const langId= languageMap[lang];
+    const langId = languageMap[lang];
 
     if (!langId) {
       this.consoleOutput = `Language ${this.selectedLanguage} not supported`;
@@ -206,7 +207,7 @@ export class SolveComponent implements OnInit, OnDestroy{
       return;
     }
 
-    this.http.get(`/api/exercises/${this.exercise.id}/tests`).subscribe({
+    this.http.get(`${environment.apiUrl}/exercises/${this.exercise.id}/tests`, { withCredentials: true }).subscribe({
       next: (tests: any) => {
         if (!tests || tests.length === 0) {
           this.consoleOutput = 'No test cases found';
@@ -226,12 +227,12 @@ export class SolveComponent implements OnInit, OnDestroy{
             stdin: test.input || ''
           };
 
-          this.http.post(`/api/exercises/${this.exercise.id}/run`, payload).subscribe({
+          this.http.post(`${environment.apiUrl}/exercises/${this.exercise.id}/run`, payload, { withCredentials: true }).subscribe({
             next: (res: any) => {
               const stdout = (res?.stdout || '').trim();
               const stderr = (res?.stderr || '').trim();
               const compileOutput = (res?.compile_output || '').trim();
-              const status= res?.status?.description || 'Unknown';
+              const status = res?.status?.description || 'Unknown';
               const expected = (test.expected_output || '').trim();
               const passed = stdout === expected;
 
@@ -243,12 +244,12 @@ export class SolveComponent implements OnInit, OnDestroy{
               detailMessage += `Expected Output:\n${expected}\n\n`;
               detailMessage += `Your Output:\n${stdout || '(no output)'}\n\n`;
               detailMessage += `Status: ${status}\n`;
-              detailMessage += `Result: ${passed ? 'PASSED' :'FAILED'}\n`;
+              detailMessage += `Result: ${passed ? 'PASSED' : 'FAILED'}\n`;
 
-              if (stderr){
+              if (stderr) {
                 detailMessage += `\nError Output:\n${stderr}\n`;
               }
-              if(compileOutput){
+              if (compileOutput) {
                 detailMessage += `\nCompilation Output:\n${compileOutput}\n`;
               }
 
@@ -262,13 +263,13 @@ export class SolveComponent implements OnInit, OnDestroy{
                 expected
               });
 
-              if(passed) passedCount++;
+              if (passed) passedCount++;
               completed++;
 
               if (completed === tests.length) {
                 this.allPassed = passedCount === tests.length;
 
-                if (this.allPassed){
+                if (this.allPassed) {
                   this.stopTimer();
                   this.earnedPoints = this.calculatePoints();
                   this.submitSolution();
@@ -340,7 +341,7 @@ export class SolveComponent implements OnInit, OnDestroy{
       code: this.userCode
     };
 
-    this.http.post('/api/submissions', payload).subscribe({
+    this.http.post(`${environment.apiUrl}/submissions`, payload, { withCredentials: true }).subscribe({
       next: (response: any) => {
         if (response.success) {
           this.consoleOutput = response.message;
@@ -358,7 +359,7 @@ export class SolveComponent implements OnInit, OnDestroy{
     });
   }
 
-  ngOnDestroy(): void  {
+  ngOnDestroy(): void {
     this.stopTimer();
   }
 
