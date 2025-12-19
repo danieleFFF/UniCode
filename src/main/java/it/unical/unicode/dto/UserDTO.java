@@ -1,5 +1,7 @@
 package it.unical.unicode.dto;
 
+import it.unical.unicode.model.User;
+
 public class UserDTO {
     private int id;
     private String username;
@@ -32,4 +34,14 @@ public class UserDTO {
     public void setEmail(String email) { this.email = email; }
     public void setId_avatar(int id_avatar) { this.id_avatar = id_avatar; }
     public void setTotal_points(int total_points) { this.total_points = total_points; }
+
+    public static UserDTO toDTO(User user) {
+        return new UserDTO(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getId_avatar(),
+                user.getTotal_points()
+        );
+    }
 }

@@ -31,6 +31,10 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    private User getCurrentUser(Authentication auth) {
+        return userService.getUserByEmail(auth.getName());
+    }
+
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {
         try {
@@ -45,16 +49,9 @@ public class UserController {
     @GetMapping("/profile")
     public ResponseEntity<UserDTO> getProfile(Authentication authentication) {
         try {
-            String email = authentication.getName();
-            User user = userService.getUserByEmail(email);
+            User user = getCurrentUser(authentication);
 
-            UserDTO dto = new UserDTO(
-                    user.getId(),
-                    user.getUsername(),
-                    user.getEmail(),
-                    user.getId_avatar(),
-                    user.getTotal_points()
-            );
+            UserDTO dto = UserDTO.toDTO(user);
 
             return ResponseEntity.ok(dto);
         } catch (RuntimeException e) {
@@ -66,8 +63,7 @@ public class UserController {
     @PutMapping("/password")
     public ResponseEntity<String> changePassword(@RequestBody ChangePasswordDTO request, Authentication authentication) {
         try {
-            String email = authentication.getName();
-            User user = userService.getUserByEmail(email);
+            User user = getCurrentUser(authentication);
 
             if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword_hash())) {
                 return ResponseEntity.badRequest().body("Current password is incorrect");
@@ -82,8 +78,7 @@ public class UserController {
     @PutMapping("/avatar")
     public ResponseEntity<String> changeAvatar(@RequestParam int avatarId, Authentication authentication) {
         try {
-            String email = authentication.getName();
-            User user = userService.getUserByEmail(email);
+            User user = getCurrentUser(authentication);
 
             userService.updateUserAvatar(user.getId(), avatarId);
             return ResponseEntity.ok("Avatar updated successfully");
@@ -95,8 +90,7 @@ public class UserController {
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteMyAccount(Authentication authentication ,@RequestBody Credentials credentials) {
         try {
-            String email = authentication.getName();
-            User user = userService.getUserByEmail(email);
+            User user = getCurrentUser(authentication);
             String password = credentials.getPassword();
             if (!passwordEncoder.matches(password, user.getPassword_hash())) {
                 return ResponseEntity.badRequest().body("Incorrect password");
@@ -115,14 +109,7 @@ public class UserController {
 
         List<UserDTO> dtos = new ArrayList<>();
         for (User user : users) {
-            UserDTO dto = new UserDTO(
-                    user.getId(),
-                    user.getUsername(),
-                    user.getEmail(),
-                    user.getId_avatar(),
-                    user.getTotal_points()
-            );
-            dtos.add(dto);
+            dtos.add(UserDTO.toDTO(user));
         }
 
         return ResponseEntity.ok(dtos);

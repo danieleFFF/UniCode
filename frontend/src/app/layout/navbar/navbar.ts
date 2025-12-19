@@ -47,7 +47,6 @@ export class Navbar implements OnInit {
       }
     });
 
-    // 2. Se ricarichi la pagina, chiedi al server chi è l'utente
     if (!this.userService.getCurrentUser()) {
       this.userService.getProfile().subscribe({
         error: () => this.user = null

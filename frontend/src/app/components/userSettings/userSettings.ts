@@ -58,9 +58,6 @@ export class UserSettings {
   logout(): void {
     this.authService.logout();
   }
-  onAvatarUpdated() {
-    console.log("Il popup ha salvato! Ricarico i dati utente...");
-    this.userService.getProfile().subscribe();
-  }
+
 }
 

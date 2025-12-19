@@ -3,7 +3,7 @@
 <div class="setting-container">
   <app-navbar></app-navbar>
  <div class="contentWrapper">
-   <app-userSettings *ngIf="currentUser" [user]="currentUser"></app-userSettings>
+   <app-userSettings *ngIf="userService.authChecked && currentUser" [user]="currentUser"></app-userSettings>
    <app-board [userId]="currentUser?.id"></app-board>
  </div>
 </div>
