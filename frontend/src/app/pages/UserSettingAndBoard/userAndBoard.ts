@@ -33,16 +33,7 @@ export class UserAndBoard implements OnInit {
     this.userService.currentUser$.subscribe({
       next: (data: User | null) => {
         this.currentUser = data;
-        if (this.userService.authChecked && !data) {
-          this.router.navigate(['/login']);
-        }
       }
     });
-
-    if (!this.userService.getCurrentUser()) {
-      this.userService.getProfile().subscribe({
-        error: () => this.router.navigate(['/login'])
-      });
-    }
   }
 }
