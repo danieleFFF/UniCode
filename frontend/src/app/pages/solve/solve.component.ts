@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router'
 import { HttpClient, HttpClientModule } from '@angular/common/http'
 import { Navbar } from '../../layout/navbar/navbar'
+import { UserService } from '../../services/user.service';
 
 interface CachedResult {
   showResults: boolean;
@@ -40,8 +41,7 @@ export class SolveComponent implements OnInit, OnDestroy{
   alreadyCompleted = false
   private testCache: Map<string, CachedResult> = new Map();
   private readonly MAX_CACHE_SIZE = 50;
-  private readonly MOCK_USER_ID = 1;
-  constructor(private route: ActivatedRoute, private http: HttpClient){}
+  constructor(private route: ActivatedRoute, private http: HttpClient, private userService: UserService) { }
 
   ngOnInit(): void {
     this.resetState();
@@ -59,8 +59,11 @@ export class SolveComponent implements OnInit, OnDestroy{
   }
 
   checkIfAlreadyCompleted(): void {
-    this.http.get(`/api/submissions/check/${this.MOCK_USER_ID}/${this.exercise.id}`).subscribe({
-      next: (response: any) =>{
+    const user = this.userService.getCurrentUser();
+    if (!user) return;
+
+    this.http.get(`/api/submissions/check/${user.id}/${this.exercise.id}`).subscribe({
+      next: (response:any) => {
         this.alreadyCompleted = response.completed;
         if(this.alreadyCompleted){
           this.consoleOutput = `You have already completed this exercise and earned ${response.pointsEarned} points!`;
@@ -322,10 +325,15 @@ export class SolveComponent implements OnInit, OnDestroy{
   }
 
   submitSolution(): void {
+    const user = this.userService.getCurrentUser();
+    if (!user) {
+      this.consoleOutput = "User not logged in!";
+      return;
+    }
     const elapsedSeconds = Math.floor((Date.now() - this.startTime) / 1000);
 
     const payload = {
-      idUser: this.MOCK_USER_ID,
+      idUser: user.id,
       idExercise: this.exercise.id,
       pointsEarned: this.earnedPoints,
       timeTaken: elapsedSeconds,
