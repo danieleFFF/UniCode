@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { HttpClient, HttpClientModule, HttpParams } from '@angular/common/http'
 import { RouterLink } from '@angular/router'
-import {Navbar} from '../../layout/navbar/navbar';
+import { Navbar } from '../../layout/navbar/navbar';
+import { environment } from '../../../environments/environment';
 
 interface Exercise {
   id: number
@@ -24,7 +25,7 @@ interface Exercise {
 export class ExercisesComponent implements OnInit {
   exercises: Exercise[] = []
   languages = ['C++', 'Python', 'Java', 'JavaScript', 'HTML', 'SQL']
-  selectedLanguage ='C++'
+  selectedLanguage = 'C++'
   sortBy = 'title'
   sortOrder: 'asc' | 'desc' = 'asc'
   showFilterMenu = false
@@ -33,9 +34,9 @@ export class ExercisesComponent implements OnInit {
   page = 0
   size = 10
   hasMore = true
-  selectedFilterName =  'Alphabetic'
+  selectedFilterName = 'Alphabetic'
 
-  constructor(private http: HttpClient, private eRef: ElementRef) {}
+  constructor(private http: HttpClient, private eRef: ElementRef) { }
 
   ngOnInit() {
     const savedLang = localStorage.getItem('selectedLanguage')
@@ -50,36 +51,36 @@ export class ExercisesComponent implements OnInit {
   }
 
   loadExercises(reset: boolean = false) {
-    if(this.loading || (!this.hasMore && !reset)) return
+    if (this.loading || (!this.hasMore && !reset)) return
     this.loading = true
 
-    if(reset){
+    if (reset) {
       this.exercises = []
       this.page = 0
       this.hasMore = true
     }
 
-    const idLang  = this.getLanguageId(this.selectedLanguage)
-    const params =  new HttpParams()
+    const idLang = this.getLanguageId(this.selectedLanguage)
+    const params = new HttpParams()
       .set('idLanguage', idLang.toString())
       .set('sortBy', this.sortBy)
       .set('order', this.sortOrder)
 
-    this.http.get<Exercise[]>('/api/exercises', {params }).subscribe({
+    this.http.get<Exercise[]>(`${environment.apiUrl}/exercises`, { params, withCredentials: true }).subscribe({
       next: (data) => {
         this.exercises = data
         this.loading = false
       },
       error: (err) => {
-        console.error('Error loading exercises:',err)
+        console.error('Error loading exercises:', err)
         this.loading = false
       }
     })
   }
 
-  @HostListener('window:scroll',[])
+  @HostListener('window:scroll', [])
   onScroll() {
-    if(window.innerHeight + window.scrollY >= document.body.offsetHeight - 200 && !this.loading){
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200 && !this.loading) {
       this.loadExercises()
     }
   }
@@ -92,7 +93,7 @@ export class ExercisesComponent implements OnInit {
     const languageButton = this.eRef.nativeElement.querySelector('.language-button')
     const filterButton = this.eRef.nativeElement.querySelector('.filter-button')
 
-    if (this.showLanguageMenu && !languageMenu?.contains(target) && !languageButton?.contains(target)){
+    if (this.showLanguageMenu && !languageMenu?.contains(target) && !languageButton?.contains(target)) {
       this.showLanguageMenu = false
     }
 
@@ -106,10 +107,10 @@ export class ExercisesComponent implements OnInit {
     if (this.showLanguageMenu) this.showFilterMenu = false
   }
 
-  toggleFilterMenu(event: MouseEvent){
+  toggleFilterMenu(event: MouseEvent) {
     event.stopPropagation()
     this.showFilterMenu = !this.showFilterMenu
-    if (this.showFilterMenu) this.showLanguageMenu= false
+    if (this.showFilterMenu) this.showLanguageMenu = false
   }
 
   selectLanguage(lang: string) {
@@ -119,10 +120,10 @@ export class ExercisesComponent implements OnInit {
     this.loadExercises(true)
   }
 
-  applySort(type: string){
+  applySort(type: string) {
     this.sortBy = type
     this.selectedFilterName = this.mapSortName(type)
-    localStorage.setItem('sortBy',type)
+    localStorage.setItem('sortBy', type)
     this.showFilterMenu = false
     this.loadExercises(true)
   }
@@ -133,8 +134,8 @@ export class ExercisesComponent implements OnInit {
     this.loadExercises(true)
   }
 
-  getXpColor(difficulty: string):string {
-    switch (difficulty){
+  getXpColor(difficulty: string): string {
+    switch (difficulty) {
       case 'Easy': return '#6eff7f'
       case 'Medium': return '#ffe769'
       case 'Hard': return '#ff6f6f'
@@ -142,7 +143,7 @@ export class ExercisesComponent implements OnInit {
     }
   }
 
-  getLanguageId(name: string):number{
+  getLanguageId(name: string): number {
     switch (name) {
       case 'Python': return 1
       case 'C++': return 2
@@ -153,7 +154,7 @@ export class ExercisesComponent implements OnInit {
       default: return 0
     }
   }
-  mapSortName(type: string): string{
+  mapSortName(type: string): string {
     switch (type) {
       case 'difficulty': return 'Difficulty'
       case 'points': return 'Points'
