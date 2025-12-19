@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { SolveComponent } from './pages/solve/solve.component';
 import { ExercisesComponent } from './pages/exercises/exercises.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -34,12 +35,14 @@ export const routes: Routes = [
 
   {
     path: 'ranking',
-    loadComponent: () => import('./pages/ranking/ranking').then(m => m.Ranking)
+    loadComponent: () => import('./pages/ranking/ranking').then(m => m.Ranking),
+    canActivate: [authGuard]
   },
 
   {
     path: 'userBoard',
-    loadComponent: () => import('./pages/UserSettingAndBoard/userAndBoard').then(m => m.UserAndBoard)
+    loadComponent: () => import('./pages/UserSettingAndBoard/userAndBoard').then(m => m.UserAndBoard),
+    canActivate: [authGuard]
   },
 
   {
@@ -50,7 +53,8 @@ export const routes: Routes = [
   { path: '', component: ExercisesComponent },
   {
     path: 'solve/:id',
-    component: SolveComponent
+    component: SolveComponent,
+    canActivate: [authGuard]
   },
 
   {
