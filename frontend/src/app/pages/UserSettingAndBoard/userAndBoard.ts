@@ -4,10 +4,8 @@ import { UserSettings } from '../../components/userSettings/userSettings';
 import { Navbar } from '../../layout/navbar/navbar';
 import { BoardComponent } from '../../components/boardComponent/boardComponent';
 import { UserService } from '../../services/user.service';
-import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user.model';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-userBoard',
@@ -21,9 +19,7 @@ export class UserAndBoard implements OnInit {
   currentUser: User | null = null;
 
   constructor(
-    private userService: UserService,
-    private authService: AuthService,
-    private router: Router,
+    public userService: UserService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 

@@ -13,8 +13,8 @@ import {UserService} from '../../services/user.service';
   standalone: true,
   imports: [Navbar, CommonModule, FormsModule,Podium,ListRankingComponent],
   templateUrl: './ranking.html',
-  styleUrls: ['ranking.scss','../../pages/home/home.scss', '../../layout/navbar/navbar.scss' , '../../components/rankingComponent/podiumComponent/podium.scss' , '../../components/rankingComponent/listRankingComponent/listRanking.scss' ]
-})
+  styleUrl: 'ranking.scss'}
+)
 
 export class Ranking implements OnInit{
 

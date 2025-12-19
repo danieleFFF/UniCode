@@ -13,14 +13,19 @@ export class UserService {
   private url = environment.apiUrl + '/users';
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
+  public authChecked = false;
 
   constructor(private http : HttpClient) {}
 
   getProfile(): Observable<User>{
     return this.http.get<User>(this.url + '/profile', { withCredentials: true }).pipe(
-      tap(user => this.currentUserSubject.next(user)),
+      tap(user => {
+        this.currentUserSubject.next(user);
+        this.authChecked = true;
+      }),
       catchError(err => {
         if (err.status === 401) this.clearUser();
+        this.authChecked = true;
         throw err;
       })
     );
@@ -32,6 +37,7 @@ export class UserService {
 
   clearUser(): void {
     this.currentUserSubject.next(null);
+    this.authChecked = true;
   }
 
   changePassword(currentPassword: string, newPassword: string): Observable<string> {
@@ -46,12 +52,7 @@ export class UserService {
       params: { avatarId: avatarId.toString() },
       responseType: 'text',
       withCredentials: true
-    }).pipe(
-      tap(() => {
-        // Ricarica profilo dopo cambio avatar
-        this.getProfile().subscribe();
-      })
-    );
+    });
   }
 
   deleteUser(password : string): Observable<string>{
