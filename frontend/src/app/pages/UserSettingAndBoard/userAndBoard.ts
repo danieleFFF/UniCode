@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
 import { UserSettings } from '../../components/userSettings/userSettings';
 import { Navbar } from '../../layout/navbar/navbar';
 import { BoardComponent } from '../../components/boardComponent/boardComponent';
@@ -20,6 +21,7 @@ export class UserAndBoard implements OnInit {
 
   constructor(
     public userService: UserService,
+    private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
@@ -27,10 +29,20 @@ export class UserAndBoard implements OnInit {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
+
     this.userService.currentUser$.subscribe({
       next: (data: User | null) => {
         this.currentUser = data;
+        if (this.userService.authChecked && !data) {
+          this.router.navigate(['/login']);
+        }
       }
     });
+
+    if (!this.userService.getCurrentUser()) {
+      this.userService.getProfile().subscribe({
+        error: () => this.router.navigate(['/login'])
+      });
+    }
   }
 }
