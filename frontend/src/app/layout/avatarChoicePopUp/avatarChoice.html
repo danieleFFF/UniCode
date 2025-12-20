@@ -1,32 +1,43 @@
 <div class="popUpOverlay">
-  <div class="container">
-    <div class="avatarSelectionContainer">
+  <div class="popup-card">
 
-      <div class="selectedAvatar">
-        <img [src]="currentAvatar" alt="Selected Avatar" class="selectedAvatarImage">
+    <div class="left-panel">
+      <h3 class="panel-title">Current Avatar</h3>
+      <div class="avatar-preview">
+        <img [src]="currentAvatar" alt="avatar" class="preview-image">
       </div>
 
-      <div class="buttonContainer">
-        <button class="cancelButton" type="button" (click)="closePopUp()">Cancel</button>
-        <button class="saveButton" (click)="save()">Save</button>
-      </div>
-    </div>
-
-    @if (pageIndex > 0) {
-      <button class="arrow arrow-prev" (click)="prevPage()"> < </button>
-    }
-
-    <div class="pickAvatarContainer">
-      <div *ngFor="let avatar of visibleAvatars"
-           class="avatar-item"
-           [class.selected]="currentAvatarId === avatar.id"
-           (click)="selectAvatar(avatar)"> <img [src]="avatar.url_immagine" class="grid-image">
+      <div class="actions">
+        <button class="btn-cancel" type="button" (click)="closePopUp()">Cancel</button>
+        <button class="btn-save" (click)="save()">Save</button>
       </div>
     </div>
 
-    @if ((pageIndex + 1) * avatarNum < allAvatars.length) {
-      <button class="arrow arrow-next" (click)="nextPage()"> > </button>
-    }
+    <div class="right-panel">
+      <h3 class="panel-title">Choose New</h3>
+      <div class="grid-wrapper">
+        <button class="nav-arrow prev" [disabled]="pageIndex === 0" [class.disabled]="pageIndex === 0"
+          (click)="prevPage()">
+          &lt;
+        </button>
+
+        <div class="avatars-grid">
+          <div *ngFor="let avatar of visibleAvatars" class="avatar-item"
+            [class.selected]="currentAvatarId === avatar.id" (click)="selectAvatar(avatar)">
+            <img [src]="avatar.url_immagine" class="grid-image">
+          </div>
+        </div>
+
+        <button class="nav-arrow next" [disabled]="(pageIndex + 1) * avatarNum >= allAvatars.length"
+          [class.disabled]="(pageIndex + 1) * avatarNum >= allAvatars.length" (click)="nextPage()">
+          &gt;
+        </button>
+      </div>
+
+      <div class="page-indicator">
+        Page {{pageIndex + 1}}
+      </div>
+    </div>
 
   </div>
 </div>

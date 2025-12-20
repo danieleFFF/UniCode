@@ -1,57 +1,65 @@
 <div class="boardContainer">
   <p class="boardTitle">Your Board</p>
-  <div class="trophyBoard" *ngIf="!loading && topRowTrophies.length > 0 && bottomRowTrophies.length > 0">
-    <div class="topRow">
-      <div class="trophyItem-100" *ngIf="topRowTrophies[0]">
-        <img [src]="topRowTrophies[0]?.path"
-             [alt]="topRowTrophies[0]?.description"
-             class="topTrophyImage"
-             [class.locked]="!topRowTrophies[0]?.unlocked">
-        <span class="trophyDescription">100 Excercise completed</span>
+
+  <div class="trophyBoard" *ngIf="!loading && topRowTrophies.length > 0">
+
+    <div class="row justify-content-evenly mt-4 gy-5">
+      <div class="col-auto text-center" *ngIf="topRowTrophies[0]">
+        <div class="trophy trophy-100">
+          <img [src]="topRowTrophies[0].path" alt="100 exercises" class="trophy-img"
+            [class.locked]="!topRowTrophies[0].unlocked">
+          <span class="trophy-label">100 Excercise completed</span>
+        </div>
       </div>
-      <div class="trophyItem-codeMaster hightlight" *ngIf="topRowTrophies[1]">
-        <img [src]="topRowTrophies[1]?.path"
-             [alt]="topRowTrophies[1]?.description"
-             class="topTrophyImage"
-             [class.locked]="!topRowTrophies[1]?.unlocked">
-        <span class="trophyDescription">Code Master</span>
+
+      <div class="col-auto text-center" *ngIf="topRowTrophies[1]">
+        <div class="trophy trophy-master highlight">
+          <img [src]="topRowTrophies[1].path" alt="Code Master" class="trophy-img"
+            [class.locked]="!topRowTrophies[1].unlocked">
+          <span class="trophy-label">Code Master</span>
+        </div>
       </div>
-      <div class="trophyItem-firstPosition" *ngIf="topRowTrophies[2]">
-        <img [src]="topRowTrophies[2]?.path"
-             [alt]="topRowTrophies[2]?.description"
-             class="topTrophyImage"
-             [class.locked]="!topRowTrophies[2]?.unlocked">
-        <span class="trophyDescription">first position</span>
+
+      <div class="col-auto text-center" *ngIf="topRowTrophies[2]">
+        <div class="trophy trophy-first">
+          <img [src]="topRowTrophies[2].path" alt="First position" class="trophy-img"
+            [class.locked]="!topRowTrophies[2].unlocked">
+          <span class="trophy-label">first position</span>
+        </div>
       </div>
     </div>
-    <div class="bottomRow">
-      <div class="trophyItem-time" *ngIf="bottomRowTrophies[3]">
-        <img [src]="bottomRowTrophies[3]?.path"
-             [alt]="bottomRowTrophies[3]?.description"
-             class="bottomTrophyImage"
-             [class.locked]="!bottomRowTrophies[3]?.unlocked">
-        <p class="trophyDescription">time trophies</p>
+
+    <div class="row justify-content-center mt-5 gy-5">
+      <div class="col-6 col-md-3 text-center" *ngIf="bottomRowTrophies[3]">
+        <div class="trophy trophy-time">
+          <img [src]="bottomRowTrophies[3].path" alt="Time trophies" class="trophy-img"
+            [class.locked]="!bottomRowTrophies[3].unlocked">
+          <p class="trophy-label">time trophies</p>
+        </div>
       </div>
-      <div class="trophyItem-50" *ngIf="bottomRowTrophies[0]">
-        <img [src]="bottomRowTrophies[0]?.path"
-             [alt]="bottomRowTrophies[0]?.description"
-             class="bottomTrophyImage"
-             [class.locked]="!bottomRowTrophies[0]?.unlocked">
-        <p class="trophyDescription">50 Excercise completed</p>
+
+      <div class="col-6 col-md-3 text-center" *ngIf="bottomRowTrophies[0]">
+        <div class="trophy trophy-50">
+          <img [src]="bottomRowTrophies[0].path" alt="50 exercises" class="trophy-img"
+            [class.locked]="!bottomRowTrophies[0].unlocked">
+          <p class="trophy-label">50 Excercise completed</p>
+        </div>
       </div>
-      <div class="trophyItem-python" *ngIf="bottomRowTrophies[2]">
-        <img [src]="bottomRowTrophies[2]?.path"
-             [alt]="bottomRowTrophies[2]?.description"
-             class="bottomTrophyImage"
-             [class.locked]="!bottomRowTrophies[2]?.unlocked">
-        <p class="trophyDescription">Python Master</p>
+
+      <div class="col-6 col-md-3 text-center" *ngIf="bottomRowTrophies[2]">
+        <div class="trophy trophy-python">
+          <img [src]="bottomRowTrophies[2].path" alt="Python Master" class="trophy-img"
+            [class.locked]="!bottomRowTrophies[2].unlocked">
+          <p class="trophy-label">Python Master</p>
+        </div>
       </div>
-      <div class="trophyItem-20" *ngIf="bottomRowTrophies[1]">
-        <img [src]="bottomRowTrophies[1]?.path"
-             [alt]="bottomRowTrophies[1]?.description"
-             class="bottomTrophyImage"
-             [class.locked]="!bottomRowTrophies[1]?.unlocked">
-        <p class="trophyDescription">20 Excercise completed</p>
+
+      <div class="col-6 col-md-3 text-center" *ngIf="bottomRowTrophies[1]">
+        <div class="trophy trophy-20">
+          <img [src]="bottomRowTrophies[1].path" alt="20 exercises" class="trophy-img"
+            [class.locked]="!bottomRowTrophies[1].unlocked">
+          <p class="trophy-label">20 Excercise completed</p>
+        </div>
       </div>
     </div>
   </div>

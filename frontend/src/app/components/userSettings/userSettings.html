@@ -1,37 +1,34 @@
-
-<div class="settings-container-wrapper" *ngIf="user">
-  <div class="userSettings1">
+<div class="settings-wrapper" *ngIf="user">
+  <div class="user-section">
     <div class="avatar" [style.background-image]="'url(assets/images/avatar/avatar' + user.id_avatar + '.png)'"
          (click)="avatarChoicePopUp()"></div>
-    <app-avatarChoice *ngIf="showAvatarChoicePopUp"  (close)="closeAvatarChoicePopUp() " [initialAvatarId]="user.id_avatar"></app-avatarChoice>
     <div class="profile-info">
-      <div class="profile-header">
-        <p class="userName">{{ user.username }} </p>
-      </div>
+      <p class="userName">{{ user.username }}</p>
       <p class="points">points : {{ user.total_points }}</p>
     </div>
   </div>
 
-  <div class="userSettings2">
-
-    <div class="settings-section">
-      <p class="settingsTitle">LogOut</p>
-      <p class="settingsSubTitle">LogOut from your account</p>
-      <button *ngIf="user" (click)="logout()" class="settingsButton">LogOut</button>
-    </div>
-
-    <div class="settings-section">
-      <p class="settingsTitle">Change Password</p>
-      <p class="settingsSubTitle">Updating your password regularly helps protect your account from unauthorized access.</p>
-      <button type="button" class="settingsButton"  (click)="changePasswordPopUp()"  >Change Password</button>
-      <app-changePasswordPopUp *ngIf="showChangePasswordPopUp" (close)="closeChangePasswordPopUp()"></app-changePasswordPopUp>
-    </div>
-
-    <div class="settings-section">
-      <p class="settingsTitle">Delete Account</p>
-      <p class="settingsSubTitle">This action is irreversible and you will lose all your progress.</p>
-      <button type="button" class="deleteAccountButton" (click)="deleteAccountPopUp()">Delete</button>
-      <app-deleteAccountPopUp *ngIf="showDeleteAccountPopUp" (close)="closeDeleteAccountPopUp()"></app-deleteAccountPopUp>
-    </div>
+  <div class="settings-section">
+    <button (click)="logout()" class="settingsButton">LogOut</button>
   </div>
+
+  <div class="settings-section">
+    <p class="settingsTitle">Change Password</p>
+    <p class="desc">Updating your password regularly helps protect your account.</p>
+    <button type="button" class="settingsButton" (click)="changePasswordPopUp()">Change Password</button>
+  </div>
+
+  <div class="settings-section">
+    <p class="settingsTitle">Delete Account</p>
+    <p class="desc">This action is irreversible and you will lose all your progress.</p>
+    <button type="button" class="deleteButton" (click)="deleteAccountPopUp()">Delete</button>
+  </div>
+</div>
+
+<div *ngIf="user">
+  <app-avatarChoice *ngIf="showAvatarChoicePopUp" (close)="closeAvatarChoicePopUp()"
+                    [initialAvatarId]="user.id_avatar"></app-avatarChoice>
+  <app-changePasswordPopUp *ngIf="showChangePasswordPopUp"
+                           (close)="closeChangePasswordPopUp()"></app-changePasswordPopUp>
+  <app-deleteAccountPopUp *ngIf="showDeleteAccountPopUp" (close)="closeDeleteAccountPopUp()"></app-deleteAccountPopUp>
 </div>
