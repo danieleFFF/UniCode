@@ -1,16 +1,25 @@
 .setting-container{
-  background-color: #171717;
+  background-color: #121212;
+  background-image:
+  radial-gradient(circle at 10% 20%, rgba(162, 28, 188, 0.15) 0%, transparent 40%),
+  radial-gradient(circle at 90% 80%, rgba(162, 28, 188, 0.1) 0%, transparent 40%),
+  radial-gradient(circle at 50% 50%, rgba(20, 20, 20, 1) 0%, rgba(18, 18, 18, 1) 100%);
   min-height: 100vh;
+  color: #FFFFFF;
 }
 
 .contentWrapper{
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 100px;
-  padding: 24px;
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px;
 }
 
-body{
-  margin: 0;
+@media (max-width: 1024px) {
+  .contentWrapper {
+    grid-template-columns: 1fr;
+    padding: 20px;
+    gap: 30px;}
 }

@@ -9,6 +9,12 @@
   background-repeat: no-repeat;
 }
 
+.avatar-container:hover{
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(162, 28, 188, 0.6);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
 
 .navbar {
   display: flex;
