@@ -14,8 +14,7 @@ public class RunController {
     @PostMapping("/{id}/run")
     public Map<String, Object> runCode(
             @PathVariable Integer id,
-            @RequestBody Map<String, Object> payload
-    ) {
+            @RequestBody Map<String, Object> payload) {
         try {
             System.out.println("Received payload: " + payload);
 
@@ -23,7 +22,7 @@ public class RunController {
             Object codeObj = payload.get("code");
             Object stdinObj = payload.get("stdin");
 
-            if(langIdObj == null || codeObj == null){
+            if (langIdObj == null || codeObj == null) {
                 Map<String, Object> errorResponse = new HashMap<>();
                 errorResponse.put("error", "Missing language_id or code");
                 errorResponse.put("stdout", "");
@@ -34,6 +33,11 @@ public class RunController {
             String languageId = langIdObj.toString();
             String code = codeObj.toString();
             String stdin = stdinObj != null ? stdinObj.toString() : "";
+
+            if ("82".equals(languageId) && !stdin.isEmpty()) {
+                code = stdin + "\n" + code;
+                stdin = "";
+            }
 
             System.out.println("Running code for exercise " + id);
             System.out.println("Language ID: " + languageId);
@@ -60,4 +64,3 @@ public class RunController {
         }
     }
 }
-

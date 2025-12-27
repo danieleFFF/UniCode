@@ -1,13 +1,12 @@
 package it.unical.unicode.service;
 
-import it.unical.unicode.dao.SubmissionDAO;
-import it.unical.unicode.dao.TrophyDAO;
-import it.unical.unicode.dao.UserDAO;
-import it.unical.unicode.dao.UserTrophyDAO;
+import it.unical.unicode.dao.*;
 import it.unical.unicode.dto.TrophyDTO;
+import it.unical.unicode.model.Esercizio;
+import it.unical.unicode.model.Submission;
 import it.unical.unicode.model.Trophy;
+import it.unical.unicode.model.User;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,82 +14,79 @@ import java.util.List;
 public class TrophyService {
 
     private final TrophyDAO trophyDAO;
-    private final SubmissionDAO submissionDAO;
-    private final UserDAO userDAO;
     private final UserTrophyDAO userTrophyDAO;
+    private final SubmissionDAO submissionDAO;
+    private final EsercizioDAO esercizioDAO;
+    private final UserDAO userDAO;
+    private final UserService userService;
 
-    public TrophyService(TrophyDAO trophyDAO, SubmissionDAO submissionDAO, UserDAO userDAO,
-            UserTrophyDAO userTrophyDAO) {
+    public TrophyService(TrophyDAO trophyDAO, UserTrophyDAO userTrophyDAO,
+            SubmissionDAO submissionDAO, EsercizioDAO esercizioDAO,
+            UserDAO userDAO, UserService userService) {
         this.trophyDAO = trophyDAO;
-        this.submissionDAO = submissionDAO;
-        this.userDAO = userDAO;
         this.userTrophyDAO = userTrophyDAO;
-    }
-
-    private void assignIfNew(int userId, String codTrophy, List<Trophy> newTrophies) {
-        Trophy trophy = trophyDAO.findByCode(codTrophy);
-        if (trophy != null && !userTrophyDAO.hasUserTrophy(userId, trophy.getId())) {
-            userTrophyDAO.assignTrophy(userId, trophy.getId());
-            newTrophies.add(trophy);
-        }
-    }
-
-    private List<Trophy> checkExerciseCountTrophies(int userId) {
-        List<Trophy> newTrophies = new ArrayList<>();
-        int completedCount = submissionDAO.countUserSubmissions(userId);
-
-        if (completedCount >= 20) {
-            assignIfNew(userId, "EXERCISE_20", newTrophies);
-        }
-        if (completedCount >= 50) {
-            assignIfNew(userId, "EXERCISE_50", newTrophies);
-        }
-        if (completedCount >= 100) {
-            assignIfNew(userId, "EXERCISE_100", newTrophies);
-        }
-        return newTrophies;
-    }
-
-    public List<Trophy> checkAndAssignTrophies(int userId) {
-        List<Trophy> newTrophies = new ArrayList<>();
-
-        List<Trophy> exerciseTrophies = checkExerciseCountTrophies(userId);
-        newTrophies.addAll(exerciseTrophies);
-
-        for (Trophy trophy : newTrophies) {
-            userDAO.updateTotalPoints(userId, trophy.getPoints_trophy());
-        }
-
-        return newTrophies;
+        this.submissionDAO = submissionDAO;
+        this.esercizioDAO = esercizioDAO;
+        this.userDAO = userDAO;
+        this.userService = userService;
     }
 
     public List<TrophyDTO> getUserTrophiesWithStatus(int userId) {
+        checkAndAssignTrophies(userId);
+
         List<Trophy> allTrophies = trophyDAO.findAllTrophy();
+        List<Trophy> userUnlockedTrophies = userTrophyDAO.getUserTrophy(userId);
 
-        List<Trophy> userTrophies = userTrophyDAO.getUserTrophy(userId);
-
-        List<TrophyDTO> result = new ArrayList<>();
-
-        for (Trophy trophy : allTrophies) {
-            boolean unlocked = false;
-            for (Trophy userTrophy : userTrophies) {
-                if (userTrophy.getId() == trophy.getId()) {
-                    unlocked = true;
-                    break;
-                }
-            }
-
-            TrophyDTO dto = new TrophyDTO(
-                    trophy.getId(),
-                    trophy.getName(),
-                    trophy.getDescription(),
-                    trophy.getPoints_trophy(),
-                    trophy.getCod_trophy(),
-                    unlocked);
-            result.add(dto);
+        List<TrophyDTO> dtos = new ArrayList<>();
+        for (Trophy t : allTrophies) {
+            boolean unlocked = userUnlockedTrophies.stream()
+                    .anyMatch(ut -> ut.getId() == t.getId());
+            dtos.add(new TrophyDTO(
+                    t.getId(),
+                    t.getName(),
+                    t.getDescription(),
+                    t.getPoints_trophy(),
+                    t.getCod_trophy(),
+                    unlocked));
         }
-
-        return result;
+        return dtos;
     }
 
+    public List<Trophy> checkAndAssignTrophies(int userId) {
+        List<Trophy> newlyunlocked = new ArrayList<>();
+        List<Submission> userSubmissions = submissionDAO.getUserSubmissions(userId);
+        int completedCount = userSubmissions.size();
+
+        checkThreshold(userId, "EXERCISE_20", completedCount >= 1, newlyunlocked);
+        checkThreshold(userId, "EXERCISE_50", completedCount >= 2, newlyunlocked);
+        checkThreshold(userId, "EXERCISE_100", completedCount >= 3, newlyunlocked);
+
+        checkThreshold(userId, "CODE_MASTER", completedCount >= 5, newlyunlocked);
+
+        List<Esercizio> pythonExercises = esercizioDAO.findByLanguage(1);
+        long pythonCompleted = userSubmissions.stream()
+                .filter(s -> pythonExercises.stream().anyMatch(pe -> pe.getId() == s.getIdExercise()))
+                .count();
+        checkThreshold(userId, "PYTHON_MASTER", pythonCompleted >= 2, newlyunlocked);
+
+        boolean allUnder10 = userSubmissions.stream().allMatch(s -> s.getTimeTakenSeconds() <= 600);
+        checkThreshold(userId, "TIME_MASTER", allUnder10 && completedCount >= 5, newlyunlocked);
+
+        List<User> ranking = userDAO.getRanking(1);
+        boolean isFirst = !ranking.isEmpty() && ranking.get(0).getId() == userId;
+        checkThreshold(userId, "FIRST_RANK", isFirst, newlyunlocked);
+
+        return newlyunlocked;
+    }
+
+    private void checkThreshold(int userId, String code, boolean condition, List<Trophy> newlyUnlocked) {
+        if (condition) {
+            Trophy trophy = trophyDAO.findByCode(code);
+            if (trophy != null && !userTrophyDAO.hasUserTrophy(userId, trophy.getId())) {
+                userTrophyDAO.assignTrophy(userId, trophy.getId());
+                userService.addPoints(userId, trophy.getPoints_trophy());
+                newlyUnlocked.add(trophy);
+            }
+        }
+    }
 }

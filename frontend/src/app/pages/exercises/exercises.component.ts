@@ -24,7 +24,7 @@ interface Exercise {
 })
 export class ExercisesComponent implements OnInit {
   exercises: Exercise[] = []
-  languages = ['C++', 'Python', 'Java', 'JavaScript', 'HTML', 'SQL']
+  languages = ['C++', 'Python', 'JavaScript', 'HTML', 'SQL']
   selectedLanguage = 'C++'
   sortBy = 'title'
   sortOrder: 'asc' | 'desc' = 'asc'
@@ -39,13 +39,15 @@ export class ExercisesComponent implements OnInit {
   constructor(private http: HttpClient, private eRef: ElementRef) { }
 
   ngOnInit() {
-    const savedLang = localStorage.getItem('selectedLanguage')
-    const savedSort = localStorage.getItem('sortBy')
-    const savedOrder = localStorage.getItem('sortOrder')
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      const savedLang = localStorage.getItem('selectedLanguage')
+      const savedSort = localStorage.getItem('sortBy')
+      const savedOrder = localStorage.getItem('sortOrder')
 
-    this.selectedLanguage = savedLang || 'C++'
-    this.sortBy = savedSort || 'title'
-    this.sortOrder = (savedOrder as 'asc' | 'desc') || 'asc'
+      this.selectedLanguage = savedLang || 'C++'
+      this.sortBy = savedSort || 'title'
+      this.sortOrder = (savedOrder as 'asc' | 'desc') || 'asc'
+    }
     this.selectedFilterName = this.mapSortName(this.sortBy)
     this.loadExercises(true)
   }
@@ -115,7 +117,7 @@ export class ExercisesComponent implements OnInit {
 
   selectLanguage(lang: string) {
     this.selectedLanguage = lang
-    localStorage.setItem('selectedLanguage', lang)
+    if (typeof localStorage !== 'undefined') localStorage.setItem('selectedLanguage', lang)
     this.showLanguageMenu = false
     this.loadExercises(true)
   }
@@ -123,14 +125,14 @@ export class ExercisesComponent implements OnInit {
   applySort(type: string) {
     this.sortBy = type
     this.selectedFilterName = this.mapSortName(type)
-    localStorage.setItem('sortBy', type)
+    if (typeof localStorage !== 'undefined') localStorage.setItem('sortBy', type)
     this.showFilterMenu = false
     this.loadExercises(true)
   }
 
   toggleOrder() {
     this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'
-    localStorage.setItem('sortOrder', this.sortOrder)
+    if (typeof localStorage !== 'undefined') localStorage.setItem('sortOrder', this.sortOrder)
     this.loadExercises(true)
   }
 
@@ -147,10 +149,9 @@ export class ExercisesComponent implements OnInit {
     switch (name) {
       case 'Python': return 1
       case 'C++': return 2
-      case 'Java': return 3
+      case 'SQL': return 3
       case 'JavaScript': return 4
       case 'HTML': return 5
-      case 'SQL': return 6
       default: return 0
     }
   }

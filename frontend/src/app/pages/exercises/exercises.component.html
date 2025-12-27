@@ -1,12 +1,12 @@
 <div class="exercises-page-container">
   <app-navbar></app-navbar>
 
-  <div class="exercise-container">
-    <div class="top-bar">
-      <div class="controls">
-        <label for="language">Language:</label>
-        <div class="dropdown-wrapper">
-          <button class="filter-btn language-button" (click)="toggleLanguageMenu($event)">
+  <div class="exercise-container container-fluid px-2 px-md-4">
+    <div class="top-bar d-flex flex-wrap align-items-center gap-2 p-2 p-md-3">
+      <div class="controls d-flex flex-wrap align-items-center gap-2 w-100">
+        <label for="language" class="d-none d-md-inline">Language:</label>
+        <div class="dropdown-wrapper position-relative">
+          <button class="filter-btn language-button btn btn-dark" (click)="toggleLanguageMenu($event)">
             {{ selectedLanguage }} ▾
           </button>
 
@@ -17,8 +17,8 @@
           </div>
         </div>
 
-        <div class="filter-group">
-          <button (click)="toggleFilterMenu($event)" class="filter-btn filter-button">
+        <div class="filter-group d-flex align-items-center gap-2 flex-wrap position-relative">
+          <button (click)="toggleFilterMenu($event)" class="filter-btn filter-button btn btn-dark">
             {{ selectedFilterName }} ▾
           </button>
           <div class="dropdown filter-menu" *ngIf="showFilterMenu">
@@ -27,7 +27,7 @@
             <button (click)="applySort('points')">Points</button>
           </div>
 
-          <button (click)="toggleOrder()" class="order-btn">
+          <button (click)="toggleOrder()" class="order-btn btn btn-dark">
             {{ sortOrder === 'asc' ? 'Asc ↑' : 'Desc ↓' }}
           </button>
         </div>
@@ -35,27 +35,25 @@
     </div>
 
     <div *ngIf="exercises.length > 0; else noExercises" class="exercise-list">
-      <div class="exercise-card" *ngFor="let ex of exercises">
-        <div class="exercise-content">
-          <div class="exercise-header">
-
+      <div class="exercise-card row g-0 align-items-center p-3 mb-3" *ngFor="let ex of exercises">
+        <div class="exercise-content col-12 col-md-9 col-lg-10">
+          <div class="exercise-header d-flex flex-wrap align-items-baseline gap-2 mb-1">
             <span class="difficulty" [style.color]="getXpColor(ex.difficulty)">
               ({{ ex.difficulty }})
             </span>
             <span class="title">{{ ex.title }}</span>
           </div>
-          <div class="points">(Max points: {{ ex.points }})</div>
+          <div class="points" *ngIf="ex.points > 0">(Max points: {{ ex.points }})</div>
           <div class="description">
-            <p>{{ ex.description }}</p>
+            <p class="mb-0">{{ ex.description }}</p>
           </div>
-
         </div>
 
-        <button
-          class="solve-btn"
-          [routerLink]="['/solve', ex.id]">
-          SOLVE
-        </button>
+        <div class="col-12 col-md-3 col-lg-2 mt-3 mt-md-0 d-flex justify-content-md-end">
+          <button class="solve-btn btn w-100 w-md-auto" [routerLink]="['/solve', ex.id]">
+            SOLVE
+          </button>
+        </div>
       </div>
     </div>
 

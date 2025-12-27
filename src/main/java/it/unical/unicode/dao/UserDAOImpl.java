@@ -24,7 +24,6 @@ public class UserDAOImpl implements UserDAO {
     private static final String UPDATE_AVATAR = "UPDATE users SET id_avatar = ? WHERE id = ?";
     private static final String GET_RANKING = "SELECT * FROM users ORDER BY total_points DESC LIMIT ?";
 
-
     public UserDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -44,13 +43,14 @@ public class UserDAOImpl implements UserDAO {
             return user;
         }
     }
+
     @Override
     public void save(User user) {
         jdbcTemplate.update(INSERT_USER, user.getUsername(),
                 user.getEmail(),
                 user.getPassword_hash(),
-                0,//Default starting points
-                1 //Default Avatar
+                0, // Default starting points
+                1 // Default Avatar
         );
     }
 
@@ -93,7 +93,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void updateAvatar(int userId, int avatarId){
+    public void updateAvatar(int userId, int avatarId) {
         jdbcTemplate.update(UPDATE_AVATAR, avatarId, userId);
     }
 
@@ -103,7 +103,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void updatePassword(String newPassword, int id){
+    public void updatePassword(String newPassword, int id) {
         jdbcTemplate.update(UPDATE_USER_PASSWORD, newPassword, id);
     }
 
