@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router'
@@ -23,8 +23,11 @@ interface CachedResult {
   styleUrls: ['./solve.component.scss']
 })
 export class SolveComponent implements OnInit, OnDestroy {
+  @ViewChild('previewFrame') previewFrame!: ElementRef<HTMLIFrameElement>;
+
   exercise: any
   userCode = ''
+  previewHtml = ''
   testResults: any[] = []
   showResults = false
   allPassed = false
@@ -40,9 +43,105 @@ export class SolveComponent implements OnInit, OnDestroy {
   earnedPoints = 0
   isRunning = false
   alreadyCompleted = false
+  isDemoMode = false
+  solutionDemo = ''
+  showSolution = false
   private testCache: Map<string, CachedResult> = new Map();
   private readonly MAX_CACHE_SIZE = 50;
+  private readonly DEMO_LANGUAGES = ['HTML'];
   constructor(private route: ActivatedRoute, private http: HttpClient, private userService: UserService) { }
+
+  onCodeChange(code: string): void {
+  }
+
+  validateHtml(): void {
+    if (!this.userCode || this.userCode.trim() === '') {
+      this.consoleOutput = 'Please write some HTML code first';
+      this.showResults = true;
+      return;
+    }
+
+    this.isRunning = true;
+    this.showResults = false;
+    this.testResults = [];
+
+    const requirements = this.getHtmlRequirements();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(this.userCode.replace(/\\n/g, '\n'), 'text/html');
+
+    let passedCount = 0;
+
+    requirements.forEach((req, index) => {
+      const elements = doc.querySelectorAll(req.selector);
+      const passed = elements.length >= req.minCount;
+
+      if (passed) passedCount++;
+
+      this.testResults.push({
+        name: `Requirement ${index + 1}`,
+        message: passed ? req.successMsg : req.failMsg,
+        passed
+      });
+    });
+
+    this.allPassed = passedCount === requirements.length;
+    this.consoleOutput = `${passedCount}/${requirements.length} requirements met`;
+    this.showResults = true;
+    this.isRunning = false;
+
+    if (this.allPassed) {
+      this.submitSolution();
+    }
+  }
+
+  private getHtmlRequirements(): { selector: string; minCount: number; successMsg: string; failMsg: string }[] {
+    const title = this.exercise?.title || '';
+
+    if (title.includes('Basic Page Structure')) {
+      return [
+        { selector: 'header', minCount: 1, successMsg: '<header> element found', failMsg: 'Missing <header> element' },
+        { selector: 'main', minCount: 1, successMsg: '<main> element found', failMsg: 'Missing <main> element' },
+        { selector: 'footer', minCount: 1, successMsg: '<footer> element found', failMsg: 'Missing <footer> element' },
+        { selector: 'h1', minCount: 1, successMsg: '<h1> heading found', failMsg: 'Missing <h1> heading' }
+      ];
+    } else if (title.includes('Contact Form')) {
+      return [
+        { selector: 'form', minCount: 1, successMsg: '<form> element found', failMsg: 'Missing <form> element' },
+        { selector: 'label', minCount: 3, successMsg: 'At least 3 labels found', failMsg: 'Need at least 3 <label> elements' },
+        { selector: 'input[type="text"], input[type="email"]', minCount: 2, successMsg: 'Input fields found', failMsg: 'Missing input fields' },
+        { selector: 'textarea', minCount: 1, successMsg: '<textarea> found', failMsg: 'Missing <textarea> for message' },
+        { selector: 'button[type="submit"], input[type="submit"]', minCount: 1, successMsg: 'Submit button found', failMsg: 'Missing submit button' }
+      ];
+    } else if (title.includes('Accessible Navigation')) {
+      return [
+        { selector: 'nav', minCount: 1, successMsg: '<nav> element found', failMsg: 'Missing <nav> element' },
+        { selector: 'nav ul, nav ol', minCount: 1, successMsg: 'Navigation list found', failMsg: 'Missing list in nav' },
+        { selector: 'nav a', minCount: 3, successMsg: 'At least 3 nav links found', failMsg: 'Need at least 3 navigation links' },
+        { selector: '[role], [aria-label], [aria-current]', minCount: 1, successMsg: 'ARIA attributes found', failMsg: 'Missing ARIA accessibility attributes' },
+        { selector: 'a[href="#main"], .skip-link', minCount: 1, successMsg: 'Skip link found', failMsg: 'Missing skip-to-content link' }
+      ];
+    }
+
+    return [
+      { selector: 'html', minCount: 1, successMsg: 'Valid HTML document', failMsg: 'Invalid HTML structure' }
+    ];
+  }
+
+  onKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      const textarea = event.target as HTMLTextAreaElement;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const indent = '  ';
+
+      this.userCode = this.userCode.substring(0, start) + indent + this.userCode.substring(end);
+
+      setTimeout(() => {
+        textarea.selectionStart = textarea.selectionEnd = start + indent.length;
+      }, 0);
+    }
+  }
 
   ngOnInit(): void {
     this.resetState();
@@ -52,10 +151,17 @@ export class SolveComponent implements OnInit, OnDestroy {
       this.exercise = data;
       this.selectedLanguage = data.languageName || 'Python';
       this.currentPoints = this.exercise.points || 100;
-      this.timeLeft = 600;
-      this.startTime = Date.now();
-      this.startTimer();
-      this.checkIfAlreadyCompleted();
+      this.isDemoMode = this.DEMO_LANGUAGES.includes(this.selectedLanguage);
+      this.solutionDemo = data.solutionDemo || '';
+
+      if (this.isDemoMode) {
+        this.formattedTime = '--:--';
+      } else {
+        this.timeLeft = 600;
+        this.startTime = Date.now();
+        this.startTimer();
+        this.checkIfAlreadyCompleted();
+      }
     });
   }
 
@@ -163,12 +269,6 @@ export class SolveComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.alreadyCompleted) {
-      this.consoleOutput = 'You have already completed this exercise! No additional points awarded.';
-      this.showResults = true;
-      return;
-    }
-
     const cacheKey = `${this.exercise.id}_${this.userCode}`;
 
     if (this.testCache.has(cacheKey)) {
@@ -194,7 +294,8 @@ export class SolveComponent implements OnInit, OnDestroy {
       'python': 71,
       'c++': 54,
       'java': 62,
-      'javascript': 63
+      'javascript': 63,
+      'sql': 82
     };
 
     const lang = (this.selectedLanguage || 'python').toLowerCase();
@@ -229,11 +330,14 @@ export class SolveComponent implements OnInit, OnDestroy {
 
           this.http.post(`${environment.apiUrl}/exercises/${this.exercise.id}/run`, payload, { withCredentials: true }).subscribe({
             next: (res: any) => {
-              const stdout = (res?.stdout || '').trim();
+              const normalizeOutput = (str: string) =>
+                (str || '').replace(/\r\n/g, '\n').trim().split('\n').map(line => line.trim()).join('\n');
+
+              const stdout = normalizeOutput(res?.stdout || '');
               const stderr = (res?.stderr || '').trim();
               const compileOutput = (res?.compile_output || '').trim();
               const status = res?.status?.description || 'Unknown';
-              const expected = (test.expected_output || '').trim();
+              const expected = normalizeOutput(test.expected_output || '');
               const passed = stdout === expected;
 
               const testName = `Test ${index + 1}`;
@@ -354,7 +458,10 @@ export class SolveComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.error('Error submitting solution:', err);
-        this.consoleOutput = `All tests passed! You earned ${this.earnedPoints} points!`;
+        if (this.allPassed) {
+          const points = this.earnedPoints > 0 ? this.earnedPoints : 0;
+          this.consoleOutput = `Congratulations! You completed the exercise!`;
+        }
       }
     });
   }

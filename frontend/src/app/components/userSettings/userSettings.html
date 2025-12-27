@@ -1,15 +1,15 @@
 <div class="settings-wrapper" *ngIf="user">
   <div class="user-section">
     <div class="avatar" [style.background-image]="'url(assets/images/avatar/avatar' + user.id_avatar + '.png)'"
-         (click)="avatarChoicePopUp()"></div>
+      (click)="avatarChoicePopUp()"></div>
     <div class="profile-info">
       <p class="userName">{{ user.username }}</p>
-      <p class="points">points : {{ user.total_points }}</p>
+      <p class="points">Points: {{ user.total_points }}</p>
     </div>
   </div>
 
   <div class="settings-section">
-    <button (click)="logout()" class="settingsButton">LogOut</button>
+    <button (click)="logout()" class="settingsButton">Log Out</button>
   </div>
 
   <div class="settings-section">
@@ -27,8 +27,8 @@
 
 <div *ngIf="user">
   <app-avatarChoice *ngIf="showAvatarChoicePopUp" (close)="closeAvatarChoicePopUp()"
-                    [initialAvatarId]="user.id_avatar"></app-avatarChoice>
+    [initialAvatarId]="user.id_avatar"></app-avatarChoice>
   <app-changePasswordPopUp *ngIf="showChangePasswordPopUp"
-                           (close)="closeChangePasswordPopUp()"></app-changePasswordPopUp>
+    (close)="closeChangePasswordPopUp()"></app-changePasswordPopUp>
   <app-deleteAccountPopUp *ngIf="showDeleteAccountPopUp" (close)="closeDeleteAccountPopUp()"></app-deleteAccountPopUp>
 </div>

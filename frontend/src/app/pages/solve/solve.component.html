@@ -1,56 +1,65 @@
 <div class="solve-page-container">
   <app-navbar></app-navbar>
-  <div class="solve-container">
-    <div class="exercise-side">
+  <div class="solve-container d-flex flex-column flex-md-row">
+    <div class="exercise-side col-12 col-md-6 col-lg-5 p-3 p-md-4">
 
-      <div class="exercise-header" >
-        <div class="meta">
-          <span  class="difficulty" [ngClass]="exercise?.difficulty?.toLowerCase()">
+      <div class="exercise-header d-flex flex-column gap-1 mb-3">
+        <div class="meta d-flex flex-wrap gap-2 small">
+          <span class="difficulty" [ngClass]="exercise?.difficulty?.toLowerCase()">
             {{ exercise?.difficulty }}
           </span>
           |
           <span class="language">{{ selectedLanguage }}</span>
         </div>
-        <div class="meta">
+        <div class="meta d-flex flex-wrap gap-2 small" *ngIf="!isDemoMode">
           <span>{{ currentPoints }} pts</span> |
           <span class="timer">{{ formattedTime }}</span>
         </div>
       </div>
 
-      <h2 class="title">{{ exercise?.title }}</h2>
-      <p class="desc">{{ exercise?.description }} </p>
+      <h2 class="title fs-4 fs-md-3">{{ exercise?.title }}</h2>
+      <p class="desc">{{ exercise?.description }}</p>
 
-      <div *ngIf="showResults" class="results">
-        <div class="results-header">
-          <h4>Test Results</h4>
-          <span class="badge" [class.ok]="allPassed" [class.ko]="!allPassed">
-            {{ allPassed ? 'All test cases succeeded' : 'Some test cases failed' }}
+      <div *ngIf="isDemoMode && solutionDemo" class="solution-demo mt-3 p-3 rounded">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h4 class="mb-0">Reference Solution</h4>
+          <button class="btn btn-sm btn-outline-light" (click)="showSolution = !showSolution">
+            {{ showSolution ? 'Hide Solution' : 'Show Solution' }}
+          </button>
+        </div>
+        <pre class="mb-0" [class.blurred]="!showSolution">{{ solutionDemo }}</pre>
+      </div>
+
+      <div *ngIf="showResults" class="results p-3 rounded mt-3">
+        <div class="results-header d-flex flex-wrap align-items-center gap-2 mb-2">
+          <h4 class="mb-0">{{ isDemoMode ? 'Validation Results' : 'Test Results' }}</h4>
+          <span class="badge rounded-pill" [class.ok]="allPassed" [class.ko]="!allPassed">
+            {{ allPassed ? 'All checks passed' : 'Some checks failed' }}
           </span>
         </div>
         <div *ngFor="let test of testResults" [ngClass]="{ ok: test.passed, fail: !test.passed }">
           {{ test.passed ? '✔' : '✘' }} {{ test.name }} — {{ test.message }}
         </div>
-        <div *ngIf="consoleOutput" class="console-box">
-          <pre>{{ consoleOutput }}</pre>
-        </div>
-
-        <div *ngIf="programOutput" class="output-box">
-          <h4>Detailed Output</h4>
-          <pre>{{ programOutput }}</pre>
+        <div *ngIf="consoleOutput" class="console-box mt-2 p-2 rounded">
+          <pre class="mb-0">{{ consoleOutput }}</pre>
         </div>
       </div>
     </div>
 
-    <div class="editor-side">
-      <div class="editor-topbar">
-
-        <button class="btn"  (click)="runTests()" [disabled]="alreadyCompleted || isRunning">{{ isRunning ? 'Running...' : 'Test' }}</button>
-        <span class="console-label">Console</span>
-
+    <div class="editor-side col-12 col-md-6 col-lg-7 d-flex flex-column">
+      <div class="editor-topbar d-flex flex-wrap justify-content-between align-items-center gap-2 p-2 p-md-3">
+        <button *ngIf="!isDemoMode" class="btn" (click)="runTests()" [disabled]="isRunning">
+          {{ isRunning ? 'Running...' : 'Test' }}
+        </button>
+        <button *ngIf="isDemoMode" class="btn btn-primary" (click)="validateHtml()" [disabled]="isRunning">
+          {{ isRunning ? 'Validating...' : 'Verify Structure' }}
+        </button>
+        <span class="console-label small">{{ isDemoMode ? 'Editor' : 'Console' }}</span>
       </div>
 
-      <textarea name="code" [(ngModel)]="userCode"  placeholder="// Write your code here..."></textarea>
+      <textarea name="code" [(ngModel)]="userCode" (keydown)="onKeyDown($event)"
+        [placeholder]="isDemoMode ? '<!-- Write your HTML code here -->' : '// Write your code here...'"
+        class="code-textarea flex-grow-1 w-100 p-3"></textarea>
     </div>
   </div>
 </div>
-

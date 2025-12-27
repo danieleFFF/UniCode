@@ -4,6 +4,7 @@
   min-height: 100vh;
   background-color: #181818;
   font-family: 'Inconsolata', monospace;
+  overflow-x: hidden;
 }
 
 .exercise-container {
@@ -15,6 +16,7 @@
   background-color: #181818;
   min-height: 100vh;
 }
+
 .top-bar {
   display: flex;
   align-items: center;
@@ -46,6 +48,7 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
   transition: background-color 0.2s ease;
 }
+
 .language-menu {
   position: absolute;
   top: 40px;
@@ -75,6 +78,7 @@
 .order-btn:hover {
   background-color: #3a3a3a;
 }
+
 .filter-group {
   display: flex;
   align-items: center;
@@ -119,6 +123,7 @@
   flex-direction: column;
   gap: 16px;
 }
+
 .exercise-card {
   display: flex;
   justify-content: space-between;
@@ -148,6 +153,7 @@
   font-weight: 600;
   margin-bottom: 2px;
 }
+
 .difficulty {
   color: #6eff7f;
   font-size: 17px;
@@ -157,6 +163,7 @@
   color: #ffffff;
   font-size: 17px;
 }
+
 .points {
   font-size: 13px;
   color: #aaa;
@@ -187,6 +194,7 @@
   background-color: #3a3a3a;
   transform: scale(1.03);
 }
+
 .no-results {
   text-align: center;
   color: #aaa;

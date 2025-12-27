@@ -19,12 +19,12 @@ public class EsercizioDAOImpl implements EsercizioDAO {
     private static final List<String> VALID_SORT_COLUMNS = Arrays.asList("title", "difficulty", "points");
     private static final List<String> VALID_ORDERS = Arrays.asList("asc", "desc");
 
-    public EsercizioDAOImpl(JdbcTemplate jdbcTemplate){
+    public EsercizioDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     private String validateSortColumn(String sortBy) {
-        if(sortBy == null || !VALID_SORT_COLUMNS.contains(sortBy.toLowerCase())){
+        if (sortBy == null || !VALID_SORT_COLUMNS.contains(sortBy.toLowerCase())) {
             return "title";
         }
         return sortBy.toLowerCase();
@@ -38,7 +38,7 @@ public class EsercizioDAOImpl implements EsercizioDAO {
     }
 
     @Override
-    public List<Esercizio> findByLanguage(Integer idLanguage){
+    public List<Esercizio> findByLanguage(Integer idLanguage) {
         if (idLanguage == null || idLanguage <= 0) {
             return jdbcTemplate.query(FIND_ALL, new BeanPropertyRowMapper<>(Esercizio.class));
         }
@@ -52,15 +52,15 @@ public class EsercizioDAOImpl implements EsercizioDAO {
         StringBuilder sql = new StringBuilder(FIND_ALL);
         Object[] params;
 
-        if(idLanguage != null && idLanguage > 0){
+        if (idLanguage != null && idLanguage > 0) {
             sql.append(" WHERE id_language = ?");
             sql.append(" ORDER BY ").append(sortColumn).append(" ").append(validOrder);
             sql.append(" LIMIT ? OFFSET ?");
-            params = new Object[]{idLanguage, size, page * size};
+            params = new Object[] { idLanguage, size, page * size };
         } else {
             sql.append(" ORDER BY ").append(sortColumn).append(" ").append(validOrder);
             sql.append(" LIMIT ? OFFSET ?");
-            params = new Object[]{size, page * size};
+            params = new Object[] { size, page * size };
         }
         return jdbcTemplate.query(sql.toString(), params, new BeanPropertyRowMapper<>(Esercizio.class));
     }

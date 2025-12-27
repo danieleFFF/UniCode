@@ -19,20 +19,18 @@ public class ExerciseController {
     public List<Esercizio> getExercises(
             @RequestParam(required = false) Integer idLanguage,
             @RequestParam(defaultValue = "title") String sortBy,
-            @RequestParam(defaultValue = "asc") String order
-    ) {
-        if(idLanguage != null && idLanguage > 0){
+            @RequestParam(defaultValue = "asc") String order) {
+        if (idLanguage != null && idLanguage > 0) {
             return exerciseService.findByLanguage(idLanguage, sortBy, order);
         } else {
             return exerciseService.findAll(sortBy, order);
         }
     }
 
-
     @GetMapping("/{id}")
     public Map<String, Object> getExerciseById(@PathVariable Integer id) {
         Esercizio esercizio = exerciseService.findById(id);
-        if (esercizio == null){
+        if (esercizio == null) {
             throw new RuntimeException("Exercise not found with id: " + id);
         }
 
@@ -45,18 +43,24 @@ public class ExerciseController {
         response.put("id_language", esercizio.getId_language());
         String languageName = getLanguageName(esercizio.getId_language());
         response.put("languageName", languageName);
+        response.put("solutionDemo", esercizio.getSolution_demo());
         return response;
     }
 
     private String getLanguageName(int idLanguage) {
-        switch (idLanguage){
-            case 1: return "Python";
-            case 2: return "C++";
-            case 3: return "Java";
-            case 4: return "JavaScript";
-            case 5: return "HTML";
-            case 6: return "SQL";
-            default: return "Unknown";
+        switch (idLanguage) {
+            case 1:
+                return "Python";
+            case 2:
+                return "C++";
+            case 3:
+                return "SQL";
+            case 4:
+                return "JavaScript";
+            case 5:
+                return "HTML";
+            default:
+                return "Unknown";
         }
     }
 

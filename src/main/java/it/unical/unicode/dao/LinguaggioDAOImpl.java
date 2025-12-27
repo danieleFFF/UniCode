@@ -11,6 +11,7 @@ import java.sql.SQLException;
 @Repository
 public class LinguaggioDAOImpl implements LinguaggioDAO {
     private final JdbcTemplate jdbcTemplate;
+
     public LinguaggioDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -22,8 +23,6 @@ public class LinguaggioDAOImpl implements LinguaggioDAO {
             linguaggio.setId(rs.getInt("id"));
             linguaggio.setNome(rs.getString("nome"));
             linguaggio.setTipo_esercizi(rs.getString("tipo_esercizi"));
-            linguaggio.setDescrizione_corso(rs.getString("descrizione_corso"));
-            linguaggio.setUrl_video_teoria(rs.getString("url_video_teoria"));
             return linguaggio;
         }
     }
