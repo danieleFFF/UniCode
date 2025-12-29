@@ -1,19 +1,25 @@
-<section class="section-info">
-  @if (tallCard) {
-    <div class="info-card info-card-tall">
-      <h3 class="info-card-text-big">{{ tallCard.title }}</h3>
-      <p class="info-card-text-small" [innerHTML]="tallCard.text"></p>
-      <img [src]="tallCard.iconPath" class="card-background-icon" loading="lazy" alt="">
-    </div>
-  }
-
-  <div class="short-cards-column">
-    @for (card of shortCards; track card.title) {
-      <div class="info-card info-card-short">
-        <h3 class="info-card-text-big">{{ card.title }}</h3>
-        <p class="info-card-text-small" [innerHTML]="card.text"></p>
-        <img [src]="card.iconPath" class="card-background-icon" loading="lazy" alt="">
+<section class="section-info container mt-5 mb-5">
+  <div class="row g-4 justify-content-center">
+    @if (tallCard) {
+      <div class="col-12 col-lg-6">
+        <div class="info-card info-card-tall h-100">
+          <h3 class="info-card-text-big">{{ tallCard.title }}</h3>
+          <p class="info-card-text-small" [innerHTML]="tallCard.text"></p>
+          <img [src]="tallCard.iconPath" class="card-background-icon" loading="lazy" alt="">
+        </div>
       </div>
     }
+
+    <div class="col-12 col-lg-6">
+      <div class="d-flex flex-column gap-4 h-100">
+        @for (card of shortCards; track card.title) {
+          <div class="info-card info-card-short w-100">
+            <h3 class="info-card-text-big">{{ card.title }}</h3>
+            <p class="info-card-text-small" [innerHTML]="card.text"></p>
+            <img [src]="card.iconPath" class="card-background-icon" loading="lazy" alt="">
+          </div>
+        }
+      </div>
+    </div>
   </div>
 </section>

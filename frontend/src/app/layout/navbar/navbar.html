@@ -1,35 +1,37 @@
 <nav class="navbar">
-  <div class="navbar-links">
-    <a routerLink="/" class="nav-item">
-      <img src="../../../assets/images/homeimage.png" alt="Home icon" class="nav-icon">
-      <span class="nav-link">Home</span>
-    </a>
-    <div class="nav-item-container" (mouseenter)="showDropdown('courses')" (mouseleave)="hideDropdown()">
-      <a routerLink="/courses-home" class="nav-item"> <img src="../../../assets/images/coursesimage.png"
-          alt="Courses icon" class="nav-icon">
-        <span class="nav-link">Courses</span>
+  <div class="container-fluid d-flex flex-column flex-lg-row align-items-center position-relative p-0">
+    <div class="navbar-links d-flex flex-wrap justify-content-center gap-2 gap-md-3">
+      <a routerLink="/" class="nav-item">
+        <img src="../../../assets/images/homeimage.png" alt="Home icon" class="nav-icon">
+        <span class="nav-link">Home</span>
       </a>
-      @if(activeDropdown === 'courses' ){
-      <app-dropdown-menu [items]="courseItems" class="dropdown-menu"></app-dropdown-menu>
-      }
-
+      <div class="nav-item-container" (mouseenter)="showDropdown('courses')" (mouseleave)="hideDropdown()">
+        <a routerLink="/courses-home" class="nav-item"> <img src="../../../assets/images/coursesimage.png"
+            alt="Courses icon" class="nav-icon">
+          <span class="nav-link">Courses</span>
+        </a>
+        @if(activeDropdown === 'courses' ){
+        <app-dropdown-menu [items]="courseItems" class="dropdown-menu"></app-dropdown-menu>
+        }
+      </div>
+      <a routerLink="/exercises" class="nav-item">
+        <img src="../../../assets/images/exerciseimage.png" alt="Exercise icon" class="nav-icon">
+        <span class="nav-link">Exercise</span>
+      </a>
+      <a routerLink="/ranking" class="nav-item">
+        <img src="../../../assets/images/rankingimage.png" alt="Ranking icon" class="nav-icon">
+        <span class="nav-link">Ranking</span>
+      </a>
     </div>
-    <a routerLink="/exercises" class="nav-item">
-      <img src="../../../assets/images/exerciseimage.png" alt="Exercise icon" class="nav-icon">
-      <span class="nav-link">Exercise</span>
-    </a>
-    <a routerLink="/ranking" class="nav-item">
-      <img src="../../../assets/images/rankingimage.png" alt="Ranking icon" class="nav-icon">
-      <span class="nav-link">Ranking</span>
-    </a>
+
+    <div class="auth-btn-wrapper mt-3 mt-lg-0">
+      <a *ngIf="!user" routerLink="/login" class="nav-item login-btn">
+        <img src="../../../assets/images/loginimage.png" alt="Login icon" class="nav-icon">
+        <span class="nav-link">Login</span>
+      </a>
+      <a *ngIf="user" routerLink="/userBoard" class="nav-item user-profile-btn">
+        <img [src]="'/assets/images/avatar/avatar' + (user.id_avatar || 1) + '.png'" class="avatar-container" alt="">
+      </a>
+    </div>
   </div>
-
-  <a *ngIf="!user" routerLink="/login" class="nav-item login-btn">
-    <img src="../../../assets/images/loginimage.png" alt="Login icon" class="nav-icon">
-    <span class="nav-link">Login</span>
-  </a>
-  <a *ngIf="user" routerLink="/userBoard" class="nav-item user-profile-btn">
-    <img [src]="'/assets/images/avatar/avatar' + (user.id_avatar || 1) + '.png'" class="avatar-container" alt="">
-  </a>
-
 </nav>
