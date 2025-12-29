@@ -97,3 +97,5 @@ tmp/
 temp/
 *.bak
 *.old
+
+node_modules/
