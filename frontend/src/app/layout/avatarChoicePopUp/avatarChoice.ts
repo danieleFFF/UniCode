@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
-import { AvatarService, Avatar } from '../../services/avatar.service';
+import { Avatar } from '../../services/avatar.service';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 
@@ -41,25 +41,25 @@ export class AvatarChoice implements OnInit {
   avatarNum: number = 6; //numero di avatar per pagina
 
   //costruttore che serve per chiamare il backend
-  constructor(private avatarService: AvatarService
-    , private userService: UserService) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    this.avatarService.getAvatars().subscribe({
-      next: (data) => {
-        this.allAvatars = data;
-        const avatarIniziale = this.allAvatars.find(avatar => avatar.id === this.initialAvatarId);
+    // Genera la lista di avatar locali (1-13) senza chiamare il backend
+    this.allAvatars = Array.from({ length: 13 }, (_, i) => ({
+      id: i + 1,
+      url_immagine: `assets/images/avatar/avatar${i + 1}.png`
+    }));
 
-        if (avatarIniziale) {
-          this.selectAvatar(avatarIniziale);
-        } else if (this.allAvatars.length > 0) {
+    // Seleziona l'avatar iniziale se specificato
+    const avatarIniziale = this.allAvatars.find(avatar => avatar.id === this.initialAvatarId);
 
-          this.selectAvatar(this.allAvatars[0]);
-        }
-        this.updateGrid();
-      },
-      error: (err) => console.error('Impossibile caricare avatar', err)
-    });
+    if (avatarIniziale) {
+      this.selectAvatar(avatarIniziale);
+    } else if (this.allAvatars.length > 0) {
+      this.selectAvatar(this.allAvatars[0]);
+    }
+
+    this.updateGrid();
   }
 
 

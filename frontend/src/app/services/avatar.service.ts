@@ -18,6 +18,6 @@ export class AvatarService {
   constructor(private http: HttpClient) { }
 
   getAvatars(): Observable<Avatar[]> {
-    return this.http.get<Avatar[]>(this.apiUrl);
+    return this.http.get<Avatar[]>(this.apiUrl , {withCredentials: true});
   }
 }
