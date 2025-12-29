@@ -53,11 +53,12 @@
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
+  background: transparent;
+  display: block;
   opacity: 0;
   visibility: hidden;
   animation: fadeIn 0.3s forwards;
 }
-
 
 .nav-item:hover {
   transform: translateY(-4px);
@@ -85,8 +86,6 @@
     visibility: visible;
   }
 }
-
-
 
 .nav-icon {
   width: 24px;
