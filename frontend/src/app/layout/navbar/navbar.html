@@ -8,14 +8,19 @@
       <a routerLink="/courses-home" class="nav-item"> <img src="../../../assets/images/coursesimage.png" alt="Courses icon" class="nav-icon">
         <span class="nav-link">Courses</span>
       </a>
-      <app-dropdown-menu *ngIf="activeDropdown === 'courses'" [items]="courseItems" class="dropdown-menu"></app-dropdown-menu>
+      @if(activeDropdown === 'courses' ){
+        <app-dropdown-menu [items]="courseItems" class="dropdown-menu"></app-dropdown-menu>
+      }
+
     </div>
     <div class="nav-item-container" (mouseenter)="showDropdown('exercises')" (mouseleave)="hideDropdown()">
       <a routerLink="/exercises" class="nav-item">
         <img src="../../../assets/images/exerciseimage.png" alt="Exercise icon" class="nav-icon">
         <span class="nav-link">Exercise</span>
       </a>
-      <app-dropdown-menu *ngIf="activeDropdown === 'exercises'" [items]="exerciseItems" class="dropdown-menu"></app-dropdown-menu>
+      @if(activeDropdown === 'exercises' ){
+      <app-dropdown-menu [items]="exerciseItems" class="dropdown-menu"></app-dropdown-menu>
+      }
     </div>
     <a routerLink="/ranking" class="nav-item">
       <img src="../../../assets/images/rankingimage.png" alt="Ranking icon" class="nav-icon">
