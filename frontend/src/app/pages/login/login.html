@@ -1,7 +1,7 @@
 <div class="auth-page-container">
   <form class="auth-form-container" (ngSubmit)="onSubmit()">
     <div class="back-link-container">
-      <a (click)="goBack()" class="back-link">➔</a>
+      <a routerLink="/home" class="back-link" title="Home">🏠︎</a>
     </div>
 
     <img src="../../../assets/images/logo.png" alt="Logo" class="auth-logo">
@@ -9,15 +9,8 @@
     <div class="auth-input-group">
       <div class="auth-input-group">
         <img src="../../../assets/images/emailicon.png" class="auth-input-icon" alt="Email icon">
-        <input
-          class="auth-input-field"
-          type="email"
-          id="email"
-          name="email"
-          placeholder="Email"
-          [(ngModel)]="email"
-          required
-        >
+        <input class="auth-input-field" type="email" id="email" name="email" placeholder="Email" [(ngModel)]="email"
+          required>
       </div>
     </div>
 
@@ -25,31 +18,20 @@
       <div class="auth-input-group">
         <img src="../../../assets/images/lockicon.png" class="auth-input-icon" alt="Password icon">
 
-        <input
-          class="auth-input-field"
-          [type]="showPassword ? 'text' : 'password'"
-          id="password"
-          name="password"
-          placeholder="Password"
-          [(ngModel)]="password"
-          required
-          (copy)="disableCopy($event)"
-          (cut)="disableCopy($event)"
-          autocomplete="off">
-        <img
-          [src]="showPassword ? 'assets/images/openedeyeicon.png' : 'assets/images/closedeyeicon.png'"
-          class="auth-password-eye"
-          alt="Toggle password visibility"
-          (click)="togglePassword()">
+        <input class="auth-input-field" [type]="showPassword ? 'text' : 'password'" id="password" name="password"
+          placeholder="Password" [(ngModel)]="password" required (copy)="disableCopy($event)"
+          (cut)="disableCopy($event)" autocomplete="off">
+        <img [src]="showPassword ? 'assets/images/openedeyeicon.png' : 'assets/images/closedeyeicon.png'"
+          class="auth-password-eye" alt="Toggle password visibility" (click)="togglePassword()">
       </div>
     </div>
 
     <div>
       <a (click)="passwordRecover()" class="link">Forgotten password?</a>
       @if (errorMessage){
-        <div class="error-message-container">
-          <label class="error-message">{{ errorMessage }}</label>
-        </div>
+      <div class="error-message-container">
+        <label class="error-message">{{ errorMessage }}</label>
+      </div>
       }
     </div>
 

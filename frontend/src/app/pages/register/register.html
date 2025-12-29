@@ -22,10 +22,14 @@
 
   <div class="right-section">
     <form class="auth-form-container" (ngSubmit)="onSubmit()">
+      <div class="back-link-container">
+        <a routerLink="/home" class="back-link" title="Home">🏠︎</a>
+      </div>
       <img src="../../../assets/images/logo.png" alt="UniCode Logo" class="auth-logo">
       <div class="auth-input-group">
         <img src="../../../assets/images/loginimage.png" class="auth-input-icon" alt="User icon">
-        <input type="text" class="auth-input-field" placeholder="Username" name="username" [(ngModel)]="username" required>
+        <input type="text" class="auth-input-field" placeholder="Username" name="username" [(ngModel)]="username"
+          required>
       </div>
       <div class="auth-input-group">
         <img src="../../../assets/images/emailicon.png" class="auth-input-icon" alt="Email icon">
@@ -33,41 +37,19 @@
       </div>
       <div class="auth-input-group">
         <img src="../../../assets/images/lockicon.png" class="auth-input-icon" alt="Password icon">
-        <input
-          [type]="showPassword ? 'text' : 'password'"
-          class="auth-input-field"
-          placeholder="Password"
-          name="password"
-          [(ngModel)]="password"
-          required
-          (copy)="disableCopy($event)"
-          (cut)="disableCopy($event)"
-          autocomplete="disable"
-        >
-        <img
-          [src]="showPassword ? 'assets/images/openedeyeicon.png' : 'assets/images/closedeyeicon.png'"
-          class="auth-password-eye"
-          alt="Toggle password visibility"
-          (click)="togglePassword()">
+        <input [type]="showPassword ? 'text' : 'password'" class="auth-input-field" placeholder="Password"
+          name="password" [(ngModel)]="password" required (copy)="disableCopy($event)" (cut)="disableCopy($event)"
+          autocomplete="disable">
+        <img [src]="showPassword ? 'assets/images/openedeyeicon.png' : 'assets/images/closedeyeicon.png'"
+          class="auth-password-eye" alt="Toggle password visibility" (click)="togglePassword()">
       </div>
       <div class="auth-input-group">
         <img src="../../../assets/images/lockicon.png" class="auth-input-icon" alt="Password icon">
-        <input
-          [type]="showPassword ? 'text' : 'password'"
-          class="auth-input-field"
-          placeholder="Repeat Password"
-          name="confirmPassword"
-          [(ngModel)]="confirmPassword"
-          required
-          (copy)="disableCopy($event)"
-          (cut)="disableCopy($event)"
-          autocomplete="disable"
-        >
-        <img
-          [src]="showPassword ? 'assets/images/openedeyeicon.png' : 'assets/images/closedeyeicon.png'"
-          class="auth-password-eye"
-          alt="Toggle password visibility"
-          (click)="togglePassword()">
+        <input [type]="showPassword ? 'text' : 'password'" class="auth-input-field" placeholder="Repeat Password"
+          name="confirmPassword" [(ngModel)]="confirmPassword" required (copy)="disableCopy($event)"
+          (cut)="disableCopy($event)" autocomplete="disable">
+        <img [src]="showPassword ? 'assets/images/openedeyeicon.png' : 'assets/images/closedeyeicon.png'"
+          class="auth-password-eye" alt="Toggle password visibility" (click)="togglePassword()">
       </div>
       <button type="submit" class="auth-submit-btn">Sign up</button>
 
