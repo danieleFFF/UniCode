@@ -81,7 +81,13 @@ export class Register extends AuthForm{
       },
       error: (error) => {
         console.error('Registration error:', error);
-        this.generalError = `Error during registration: ${error.error}`;
+        if (error.status === 409) {
+          this.generalError = 'Username or email already exists.';
+        } else if (error.status === 400) {
+          this.generalError = 'Invalid input data. Please check your details.';
+        } else {
+          this.generalError = error.error || 'Registration failed. Please try again later.';
+        }
       }
     });
   }

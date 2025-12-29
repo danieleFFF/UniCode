@@ -72,7 +72,6 @@ export class PasswordRecover extends AuthForm implements OnInit, OnDestroy {
       this.passwordError = error;
     }
 
-    // Ricontrolla la conferma se già inserita
     if (this.passwordConfirmation) {
       this.validatePasswordConfirmationField();
     }
@@ -120,13 +119,11 @@ export class PasswordRecover extends AuthForm implements OnInit, OnDestroy {
 
     let isValid = true;
 
-    // Controllo timer scaduto
     if (this.showResendButton) {
       this.errorMessage = 'The secret code has expired. Please request a new one.';
       return false;
     }
 
-    // Validazione password
     if (!this.password) {
       this.passwordError = 'Password is required.';
       isValid = false;
@@ -138,7 +135,6 @@ export class PasswordRecover extends AuthForm implements OnInit, OnDestroy {
       }
     }
 
-    // Validazione conferma password
     if (!this.passwordConfirmation) {
       this.passwordConfirmationError = 'Password confirmation is required.';
       isValid = false;
