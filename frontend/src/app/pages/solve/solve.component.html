@@ -1,7 +1,7 @@
 <div class="solve-page-container">
   <app-navbar></app-navbar>
   <div class="solve-container d-flex flex-column flex-md-row">
-    <div class="exercise-side col-12 col-md-6 col-lg-5 p-3 p-md-4">
+    <div class="exercise-side col-12 col-md-6 p-3 p-md-4">
 
       <div class="exercise-header d-flex flex-column gap-1 mb-3">
         <div class="meta d-flex flex-wrap gap-2 small">
@@ -46,7 +46,7 @@
       </div>
     </div>
 
-    <div class="editor-side col-12 col-md-6 col-lg-7 d-flex flex-column">
+    <div class="editor-side col-12 col-md-6 d-flex flex-column">
       <div class="editor-topbar d-flex flex-wrap justify-content-between align-items-center gap-2 p-2 p-md-3">
         <button *ngIf="!isDemoMode" class="btn" (click)="runTests()" [disabled]="isRunning">
           {{ isRunning ? 'Running...' : 'Test' }}

@@ -10,7 +10,16 @@
   overflow-x: hidden;
 }
 
+app-navbar {
+  display: block;
+  padding-left: 5rem;
+  padding-right: 6rem;
+  box-sizing: border-box;
+}
+
 .solve-container {
+  padding: 0;
+
   display: flex;
   height: calc(100vh - 80px);
   width: 100vw;
@@ -21,6 +30,18 @@
   font-family: 'Inconsolata', monospace;
   overflow: hidden;
   border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+@media (min-width: 992px) {
+  .exercise-side {
+    flex: 0 0 49.7% !important;
+    max-width: 49.7% !important;
+  }
+
+  .editor-side {
+    flex: 0 0 50.3% !important;
+    max-width: 50.3% !important;
+  }
 }
 
 .exercise-side {

@@ -5,23 +5,19 @@
       <span class="nav-link">Home</span>
     </a>
     <div class="nav-item-container" (mouseenter)="showDropdown('courses')" (mouseleave)="hideDropdown()">
-      <a routerLink="/courses-home" class="nav-item"> <img src="../../../assets/images/coursesimage.png" alt="Courses icon" class="nav-icon">
+      <a routerLink="/courses-home" class="nav-item"> <img src="../../../assets/images/coursesimage.png"
+          alt="Courses icon" class="nav-icon">
         <span class="nav-link">Courses</span>
       </a>
       @if(activeDropdown === 'courses' ){
-        <app-dropdown-menu [items]="courseItems" class="dropdown-menu"></app-dropdown-menu>
+      <app-dropdown-menu [items]="courseItems" class="dropdown-menu"></app-dropdown-menu>
       }
 
     </div>
-    <div class="nav-item-container" (mouseenter)="showDropdown('exercises')" (mouseleave)="hideDropdown()">
-      <a routerLink="/exercises" class="nav-item">
-        <img src="../../../assets/images/exerciseimage.png" alt="Exercise icon" class="nav-icon">
-        <span class="nav-link">Exercise</span>
-      </a>
-      @if(activeDropdown === 'exercises' ){
-      <app-dropdown-menu [items]="exerciseItems" class="dropdown-menu"></app-dropdown-menu>
-      }
-    </div>
+    <a routerLink="/exercises" class="nav-item">
+      <img src="../../../assets/images/exerciseimage.png" alt="Exercise icon" class="nav-icon">
+      <span class="nav-link">Exercise</span>
+    </a>
     <a routerLink="/ranking" class="nav-item">
       <img src="../../../assets/images/rankingimage.png" alt="Ranking icon" class="nav-icon">
       <span class="nav-link">Ranking</span>
@@ -32,7 +28,7 @@
     <img src="../../../assets/images/loginimage.png" alt="Login icon" class="nav-icon">
     <span class="nav-link">Login</span>
   </a>
-  <a *ngIf="user" routerLink="/userBoard">
+  <a *ngIf="user" routerLink="/userBoard" class="nav-item user-profile-btn">
     <img [src]="'/assets/images/avatar/avatar' + (user.id_avatar || 1) + '.png'" class="avatar-container" alt="">
   </a>
 

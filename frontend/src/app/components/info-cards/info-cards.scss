@@ -3,8 +3,8 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 2rem;
-  margin-top: 6rem;
-  padding: 0 2rem;
+  margin-top: 5rem;
+  padding: 0 5rem 0rem 9rem;
 }
 
 .info-card {
@@ -47,13 +47,14 @@
   pointer-events: none;
 }
 
-.info-card-text-small{
+.info-card-text-small {
   margin-top: 1rem;
   margin-bottom: 1rem;
 
   font-size: 1.2rem;
 }
-.info-card-text-big{
+
+.info-card-text-big {
   margin-top: 1rem;
   margin-bottom: 1rem;
   font-size: 1.5rem;

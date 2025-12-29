@@ -25,12 +25,7 @@ export class Navbar implements OnInit {
     { name: 'SQL', path: '/courses/sql', iconPath: 'assets/images/sqlimage.png' }
   ];
 
-  exerciseItems: DropdownItem[] = [
-    { name: 'Mix Challenges', path: '/exercises', iconPath: 'assets/images/exerciseimage.png' },
-    { name: 'Easy', path: '/exercises/easy', iconPath: 'assets/images/rankingimage.png' },
-    { name: 'Medium', path: '/exercises/medium', iconPath: 'assets/images/rankingimage.png' },
-    { name: 'Hard', path: '/exercises/hard', iconPath: 'assets/images/rankingimage.png' }
-  ];
+
   activeDropdown:'courses'|'exercises'|null=null;
   constructor(
     public authService: AuthService,

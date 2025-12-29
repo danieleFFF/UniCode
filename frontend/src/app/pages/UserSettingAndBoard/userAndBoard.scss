@@ -1,14 +1,17 @@
-.setting-container{
+.setting-container {
   background-color: #121212;
   background-image:
-  radial-gradient(circle at 10% 20%, rgba(162, 28, 188, 0.15) 0%, transparent 40%),
-  radial-gradient(circle at 90% 80%, rgba(162, 28, 188, 0.1) 0%, transparent 40%),
-  radial-gradient(circle at 50% 50%, rgba(20, 20, 20, 1) 0%, rgba(18, 18, 18, 1) 100%);
+    radial-gradient(circle at 10% 20%, rgba(162, 28, 188, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(162, 28, 188, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(20, 20, 20, 1) 0%, rgba(18, 18, 18, 1) 100%);
   min-height: 100vh;
   color: #FFFFFF;
+  padding-left: 5rem;
+  padding-right: 6rem;
+  box-sizing: border-box;
 }
 
-.contentWrapper{
+.contentWrapper {
   display: grid;
   grid-template-columns: 350px 1fr;
   gap: 40px;
@@ -21,5 +24,6 @@
   .contentWrapper {
     grid-template-columns: 1fr;
     padding: 20px;
-    gap: 30px;}
+    gap: 30px;
+  }
 }
