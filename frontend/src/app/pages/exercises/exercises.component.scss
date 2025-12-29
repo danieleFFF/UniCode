@@ -2,9 +2,39 @@
 
 .exercises-page-container {
   min-height: 100vh;
-  background-color: #181818;
+  background-color: #121212;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(162, 28, 188, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(162, 28, 188, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(20, 20, 20, 1) 0%, rgba(18, 18, 18, 1) 100%);
   font-family: 'Inconsolata', monospace;
   overflow-x: hidden;
+  padding: 3rem;
+  box-sizing: border-box;
+}
+
+.exercises-header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 3rem auto;
+  color: white;
+
+  h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(to right,
+        rgba(195, 79, 219, 0.8) 0%,
+        rgba(143, 28, 166, 0.8) 85%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  p {
+    font-size: 1.2rem;
+    color: #ccc;
+    line-height: 1.6;
+  }
 }
 
 .exercise-container {
@@ -13,7 +43,6 @@
   margin: 0 auto;
   font-family: 'Inconsolata', monospace;
   color: #f0f0f0;
-  background-color: #181818;
   min-height: 100vh;
 }
 
@@ -21,11 +50,19 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  background-color: #222;
+  background: #141414;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   padding: 10px 16px;
-  border-radius: 8px;
+  border-radius: 1rem;
   margin-bottom: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  transition: background 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+.top-bar:hover {
+  background: rgba(39, 39, 39, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .controls {
@@ -37,16 +74,23 @@
 .language-select,
 .filter-btn,
 .order-btn {
-  background-color: #2e2e2e;
+  background: #141414;
   color: #f0f0f0;
-  border: none;
-  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
   padding: 8px 14px;
   font-size: 15px;
   font-family: 'Inconsolata', monospace;
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-  transition: background-color 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.language-select:hover,
+.filter-btn:hover,
+.order-btn:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
 }
 
 .language-menu {
@@ -128,15 +172,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #222;
-  border-radius: 8px;
+  background: #141414;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  border-radius: 1rem;
   padding: 16px 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-  transition: transform 0.15s ease;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .exercise-card:hover {
-  transform: scale(1.01);
+  background-color: rgba(255, 255, 255, 0.05);
+  transform: translateY(-5px);
 }
 
 .exercise-content {
@@ -176,10 +222,11 @@
 
 .solve-btn {
   font-family: 'Inconsolata', monospace;
-  background-color: #3b3b3b;
+  background: #141414;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   color: #ffffff;
-  border: none;
-  border-radius: 10px;
+  border-radius: 1rem;
   width: 160px;
   height: 50px;
   font-size: 17px;
@@ -187,12 +234,12 @@
   letter-spacing: 0.5px;
   cursor: pointer;
   align-self: center;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .solve-btn:hover {
-  background-color: #3a3a3a;
-  transform: scale(1.03);
+  background-color: rgba(255, 255, 255, 0.05);
+  transform: translateY(-3px);
 }
 
 .no-results {

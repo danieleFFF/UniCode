@@ -1,7 +1,11 @@
 .solve-page-container {
   min-height: 100vh;
   color: #c9d1d9;
-  background-color: #181818;
+  background-color: #121212;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(162, 28, 188, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(162, 28, 188, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(20, 20, 20, 1) 0%, rgba(18, 18, 18, 1) 100%);
   font-family: 'Inconsolata', monospace;
   overflow-x: hidden;
 }
@@ -13,10 +17,10 @@
   padding: 0;
   margin: 0;
   gap: 0;
-  background-color: #0d1117;
   color: #eee;
   font-family: 'Inconsolata', monospace;
   overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .exercise-side {
@@ -240,7 +244,9 @@
   align-items: center;
   padding: 16px 24px;
   background-color: #161b22;
-  border-bottom: 1px solid #30363d;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  margin: 12px 24px 12px 12px;
 }
 
 .console-label {

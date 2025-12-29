@@ -24,7 +24,9 @@
     font-size: 2.8rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    background: linear-gradient(90deg, #c79bff, #e8c5ff);
+    background: linear-gradient(to right,
+        rgba(195, 79, 219, 0.8) 0%,
+        rgba(143, 28, 166, 0.8) 85%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }

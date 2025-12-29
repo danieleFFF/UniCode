@@ -1,19 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
 
 .course-container {
-  padding: 20px;
   font-family: 'Inconsolata', monospace;
   color: #f0f0f0;
-  background-color: #181818;
+  background-color: #121212;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(162, 28, 188, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(162, 28, 188, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(20, 20, 20, 1) 0%, rgba(18, 18, 18, 1) 100%);
   min-height: 100vh;
+  box-sizing: border-box;
+  padding-bottom: 3rem;
 }
 
 .course-details-card {
-  background-color: #222;
-  border-radius: 8px;
+  background: #141414;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  border-radius: 1rem;
   padding: 24px 28px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-  margin-bottom: 30px;
+  margin: 0 3rem 3rem 3rem;
 }
 
 .course-header {
@@ -38,9 +44,17 @@
   font-size: 17px;
   font-weight: 600;
 
-  &.easy { color: #6eff7f; }
-  &.medium { color: #ffc66e; }
-  &.hard { color: #ff6e6e; }
+  &.easy {
+    color: #6eff7f;
+  }
+
+  &.medium {
+    color: #ffc66e;
+  }
+
+  &.hard {
+    color: #ff6e6e;
+  }
 }
 
 .description {

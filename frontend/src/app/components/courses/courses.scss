@@ -18,13 +18,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s, background 0.3s, backdrop-filter 0.3s;
   cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .lang-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 0 20px rgba(150, 0, 255, 0.3);
+  background: rgba(39, 39, 39, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .lang-card img {

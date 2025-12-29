@@ -1,19 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
 
 .course-container {
-  padding: 20px;
   font-family: 'Inconsolata', monospace;
   color: #f0f0f0;
-  background-color: #181818;
+  background-color: #121212;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(162, 28, 188, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(162, 28, 188, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(20, 20, 20, 1) 0%, rgba(18, 18, 18, 1) 100%);
   min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .course-details-card {
-  background-color: #222;
-  border-radius: 8px;
+  margin-left: 3rem;
+  margin-right: 3rem;
+  background: #141414;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  border-radius: 1rem;
   padding: 24px 28px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
   margin-bottom: 30px;
+  transition: background-color 0.3s, backdrop-filter 0.3s;
+}
+
+.course-details-card:hover {
+  background: rgba(39, 39, 39, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .course-header {
@@ -44,6 +58,9 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  margin-left: 3rem;
+  margin-right: 3rem;
+  padding-bottom: 3rem;
 
   h3 {
     font-size: 20px;
@@ -56,15 +73,19 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #222;
-  border-radius: 8px;
+  background: #141414;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  border-radius: 1rem;
   padding: 16px 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-  transition: transform 0.15s ease;
+  transition: background-color 0.3s, transform 0.2s, backdrop-filter 0.3s;
 }
 
 .topic-card:hover {
-  transform: scale(1.01);
+  background: rgba(39, 39, 39, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transform: translateY(-3px);
 }
 
 .topic-content {
@@ -85,9 +106,10 @@
 
 .start-btn {
   font-family: 'Inconsolata', monospace;
-  background-color: #3b3b3b;
+  background: #141414;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   color: #ffffff;
-  border: none;
   border-radius: 10px;
   width: 160px;
   height: 50px;
@@ -96,12 +118,14 @@
   letter-spacing: 0.5px;
   cursor: pointer;
   align-self: center;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition: background-color 0.3s, transform 0.2s, backdrop-filter 0.3s;
 }
 
 .start-btn:hover {
-  background-color: #3a3a3a;
-  transform: scale(1.03);
+  background: rgba(39, 39, 39, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transform: translateY(-2px);
 }
 
 .no-results {
@@ -110,6 +134,7 @@
   font-size: 14px;
   margin-top: 30px;
   padding: 20px;
-  background-color: #222;
-  border-radius: 8px;
+  background: #141414;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
 }

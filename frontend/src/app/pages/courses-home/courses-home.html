@@ -4,7 +4,7 @@
   <header class="courses-header">
     <h1>Welcome to Our Courses</h1>
     <p>
-      Select a programming language to begin your learning journey.
+      Select a programming language to begin your learning journey.<br>
       Each section provides theory, code examples, and video resources.
     </p>
   </header>
@@ -12,10 +12,10 @@
   <div class="courses-grid">
 
     @for(item of courseItems; track item.name){
-      <a [routerLink]="item.path" class="course-card">
-        <img [src]="item.iconPath" [alt]="item.name" class="course-icon" />
-        <span class="course-name">{{ item.name }}</span>
-      </a>
+    <a [routerLink]="item.path" class="course-card">
+      <img [src]="item.iconPath" [alt]="item.name" class="course-icon" />
+      <span class="course-name">{{ item.name }}</span>
+    </a>
     }
   </div>
 
