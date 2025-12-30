@@ -7,6 +7,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class PasswordRecoverService {
@@ -14,6 +16,8 @@ public class PasswordRecoverService {
     private final JavaMailSender mailSender;
     private final String senderEmail;
     private final SecureRandom random = new SecureRandom();
+    private final Map<String, ResetCodeEntry> resetCodes = new ConcurrentHashMap<>();
+    private static final long RESET_CODE_TTL_MS = 190 * 1000;
 
     public PasswordRecoverService(JavaMailSender mailSender, @Value("${app.mail.from}") String senderEmail) {
         this.mailSender = mailSender;
@@ -23,6 +27,8 @@ public class PasswordRecoverService {
     public Integer sendPasswordRecoverEmail(String recipientEmail) {
         try {
             int verificationCode = 100000 + random.nextInt(900000);
+            resetCodes.put(recipientEmail, new ResetCodeEntry(String.valueOf(verificationCode),
+                System.currentTimeMillis() + RESET_CODE_TTL_MS));
 
             String subject = "Your UniCode Password Reset Code";
             String body = String.format("""
@@ -53,4 +59,29 @@ public class PasswordRecoverService {
         }
     }
 
+    public boolean validateResetCode(String recipientEmail, String secretCode) {
+        if (recipientEmail == null || secretCode == null || secretCode.isBlank()) {
+            return false;
+        }
+
+        String normalizedCode = secretCode.trim();
+        ResetCodeEntry entry = resetCodes.get(recipientEmail);
+        if (entry == null) {
+            return false;
+        }
+
+        if (System.currentTimeMillis() > entry.expiresAtMillis()) {
+            resetCodes.remove(recipientEmail);
+            return false;
+        }
+
+        if (!entry.code().equals(normalizedCode)) {
+            return false;
+        }
+
+        resetCodes.remove(recipientEmail);
+        return true;
+    }
+
+    private record ResetCodeEntry(String code, long expiresAtMillis) {}
 }

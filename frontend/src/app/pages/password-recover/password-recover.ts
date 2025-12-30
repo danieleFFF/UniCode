@@ -32,7 +32,7 @@ export class PasswordRecover extends AuthForm implements OnInit, OnDestroy {
   successMessage: string = '';
 
   // Timer e stato
-  countdown: number = 80;
+  countdown: number = 190;
   showResendButton: boolean = false;
   isSubmitting: boolean = false;
   private timerSubscription: Subscription | undefined;
@@ -176,7 +176,8 @@ export class PasswordRecover extends AuthForm implements OnInit, OnDestroy {
 
     const data: CredentialsModel = {
       email: this.email,
-      password: this.password
+      password: this.password,
+      secretCode: this.secretCode.trim()
     };
 
     this.authService.resetPassword(data).subscribe({
@@ -218,7 +219,7 @@ export class PasswordRecover extends AuthForm implements OnInit, OnDestroy {
 
   startTimer(): void {
     this.showResendButton = false;
-    this.countdown = 80;
+    this.countdown = 190;
     this.timerSubscription?.unsubscribe();
 
     this.timerSubscription = timer(0, 1000).subscribe(() => {

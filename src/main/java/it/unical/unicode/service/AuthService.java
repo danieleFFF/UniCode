@@ -12,15 +12,20 @@ import java.util.Optional;
 public class AuthService {
     private final UserDAO userDAO;
     private final PasswordEncoder passwordEncoder;
+    private final PasswordRecoverService passwordRecoverService;
 
-    public AuthService(UserDAO userDAO, PasswordEncoder passwordEncoder) {
+    public AuthService(UserDAO userDAO, PasswordEncoder passwordEncoder, PasswordRecoverService passwordRecoverService) {
         this.userDAO = userDAO;
         this.passwordEncoder = passwordEncoder;
+        this.passwordRecoverService = passwordRecoverService;
     }
-    public void resetPassword(String email, String newPassword) {
+    public void resetPassword(String email, String newPassword, String secretCode) {
         User user = userDAO.findByEmail(email);
         if (user == null) {
             throw new AuthenticationServiceException("User not found.");
+        }
+        if (!passwordRecoverService.validateResetCode(email, secretCode)) {
+            throw new AuthenticationServiceException("Invalid or expired reset code.");
         }
         String hashedPassword = passwordEncoder.encode(newPassword);
         userDAO.resetPassword(email, hashedPassword);
