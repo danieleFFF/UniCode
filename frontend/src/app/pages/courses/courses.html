@@ -1,35 +1,37 @@
-<div class="course-container container-fluid px-3 px-md-4 px-lg-5">
+<div class="course-container">
   <app-navbar></app-navbar>
-  @if(currentCourse){
-    <div class="course-details-card">
-      <div class="course-header">
-        <img [src]="currentCourse.iconPath" [alt]="currentCourse.title" class="course-icon">
-        <span class="title">{{ currentCourse.title }}</span>
-      </div>
-      <div class="description">
-        <p>{{ currentCourse.description }}</p>
-      </div>
-    </div>
-    <div class="topic-list">
-      <h3>Course Topics</h3>
-
-      @for (topic of currentCourse.topics; track topic.name; let i = $index){
-        <div class="topic-card">
-          <div class="topic-content">
-            <span class="difficulty" [style.color]="courseService.getXpColor(topic.difficulty)">
-              ({{ topic.difficulty }})
-            </span>
-            <span class="topic-title">{{ topic.name }}</span>
-          </div>
-
-          <button class="start-btn" (click)="goToTopic(i)">START</button>
+  <div class="course-page-content container-fluid px-3 px-md-4 px-lg-5">
+    @if(currentCourse){
+      <div class="course-details-card">
+        <div class="course-header">
+          <img [src]="currentCourse.iconPath" [alt]="currentCourse.title" class="course-icon">
+          <span class="title">{{ currentCourse.title }}</span>
         </div>
-      }
-    </div>
-  }
-  @if(errorMessage){
-    <div class="no-results">
-      {{ errorMessage }}
-    </div>
-  }
+        <div class="description">
+          <p>{{ currentCourse.description }}</p>
+        </div>
+      </div>
+      <div class="topic-list">
+        <h3>Course Topics</h3>
+
+        @for (topic of currentCourse.topics; track topic.name; let i = $index){
+          <div class="topic-card">
+            <div class="topic-content">
+              <span class="difficulty" [style.color]="courseService.getXpColor(topic.difficulty)">
+                ({{ topic.difficulty }})
+              </span>
+              <span class="topic-title">{{ topic.name }}</span>
+            </div>
+
+            <button class="start-btn" (click)="goToTopic(i)">START</button>
+          </div>
+        }
+      </div>
+    }
+    @if(errorMessage){
+      <div class="no-results">
+        {{ errorMessage }}
+      </div>
+    }
+  </div>
 </div>

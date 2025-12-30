@@ -1,22 +1,24 @@
-<div class="courses-page-container container-fluid px-3 px-md-4 px-lg-5">
+<div class="courses-page-container">
   <app-navbar></app-navbar>
 
-  <header class="courses-header">
-    <h1>Welcome to Our Courses</h1>
-    <p>
-      Select a programming language to begin your learning journey.<br>
-      Each section provides theory, code examples, and video resources.
-    </p>
-  </header>
+  <div class="courses-page-content container-fluid px-3 px-md-4 px-lg-5">
+    <header class="courses-header">
+      <h1>Welcome to Our Courses</h1>
+      <p>
+        Select a programming language to begin your learning journey.<br>
+        Each section provides theory, code examples, and video resources.
+      </p>
+    </header>
 
-  <div class="courses-grid">
+    <div class="courses-grid">
 
-    @for(item of courseItems; track item.name){
-    <a [routerLink]="item.path" class="course-card">
-      <img [src]="item.iconPath" [alt]="item.name" class="course-icon" />
-      <span class="course-name">{{ item.name }}</span>
-    </a>
-    }
+      @for(item of courseItems; track item.name){
+      <a [routerLink]="item.path" class="course-card">
+        <img [src]="item.iconPath" [alt]="item.name" class="course-icon" />
+        <span class="course-name">{{ item.name }}</span>
+      </a>
+      }
+    </div>
   </div>
 
 </div>
