@@ -18,7 +18,11 @@ export class FieldRegex {
   public static validatePassword(password: string): string | null {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
     if (!passwordRegex.test(password)) {
-      return "Password must be at least 8 characters long and contain an uppercase letter, a lowercase letter, and a number.";
+      return "Password must:\n" +
+        "• Be at least 8 characters long\n" +
+        "• Contain an uppercase letter\n" +
+        "• Contain a lowercase letter\n" +
+        "• Contain a number";
     }
     return null;
   }

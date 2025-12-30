@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { FieldRegex } from '../../shared/field-regex';
 import { AuthService } from '../../services/auth.service';
 import { Subscription, timer } from 'rxjs';
-import {CredentialsModel} from '../../models/credentials.model';
+import { CredentialsModel } from '../../models/credentials.model';
 
 @Component({
   selector: 'app-password-recover',
@@ -19,11 +19,22 @@ export class PasswordRecover extends AuthForm implements OnInit, OnDestroy {
 
   protected secretCode: string = '';
   protected showCode: boolean = false;
+  protected showPasswordConfirmation: boolean = false;
   protected passwordConfirmation: string = '';
-  errorMessage: string = '';
 
+  // Error messages per campo
+  protected passwordError: string = '';
+  protected passwordConfirmationError: string = '';
+  protected secretCodeError: string = '';
+
+  // Messaggi generali
+  errorMessage: string = '';
+  successMessage: string = '';
+
+  // Timer e stato
   countdown: number = 80;
   showResendButton: boolean = false;
+  isSubmitting: boolean = false;
   private timerSubscription: Subscription | undefined;
 
   constructor(
@@ -32,59 +43,14 @@ export class PasswordRecover extends AuthForm implements OnInit, OnDestroy {
     private authService: AuthService
   ) {
     super(location);
-    // Get email passed from login page
     const navigation = this.router.getCurrentNavigation();
     this.email = navigation?.extras.state?.['email'];
-  }
-
-  onSubmit(): void {
-    this.errorMessage = '';
-
-    if (this.showResendButton) {
-      this.errorMessage = 'The secret code has expired. Please request a new one.';
-      return;
-    }
-
-    const passwordError = FieldRegex.validatePassword(this.password);
-    if (passwordError) {
-      this.errorMessage = passwordError;
-      return;
-    }
-
-    if (this.password !== this.passwordConfirmation) {
-      this.errorMessage = 'Passwords do not match.';
-      return;
-    }
-
-    if (!this.secretCode) {
-      this.errorMessage = 'Please enter the secret code.';
-      return;
-    }
-    const data : CredentialsModel = {
-      email: this.email,
-      password: this.password
-    };
-    console.log(`Attempting to reset password with code: ${this.secretCode}`);
-    this.authService.resetPassword(data).subscribe({
-      next: () => {
-        alert('Password has been reset successfully! You can now log in with your new password.');
-        this.goBack();
-      },
-      //TODO :Also here better erro handling
-      error: (err) => {
-        console.error('Password reset failed:', err);
-        this.errorMessage = 'Failed to reset password. Please try again later.';
-      }
-    });
-  }
-  toggleSecretCode():void {
-    this.showCode = !this.showCode;
   }
 
   ngOnInit(): void {
     if (!this.email) {
       this.errorMessage = "Email not provided. Please go back to the login page.";
-      this.goBack();
+      setTimeout(() => this.goBack(), 2000);
       return;
     }
     this.startTimer();
@@ -94,9 +60,167 @@ export class PasswordRecover extends AuthForm implements OnInit, OnDestroy {
     this.timerSubscription?.unsubscribe();
   }
 
+  validatePasswordField(): void {
+    this.passwordError = '';
+
+    if (!this.password) {
+      return;
+    }
+
+    const error = FieldRegex.validatePassword(this.password);
+    if (error) {
+      this.passwordError = error;
+    }
+
+    if (this.passwordConfirmation) {
+      this.validatePasswordConfirmationField();
+    }
+  }
+
+  validatePasswordConfirmationField(): void {
+    this.passwordConfirmationError = '';
+
+    if (!this.passwordConfirmation) {
+      return;
+    }
+
+    if (this.password && this.passwordConfirmation !== this.password) {
+      this.passwordConfirmationError = 'Passwords do not match.';
+    }
+  }
+
+  validateSecretCodeField(): void {
+    this.secretCodeError = '';
+
+    if (!this.secretCode) {
+      return;
+    }
+
+    if (this.secretCode.trim().length === 0) {
+      this.secretCodeError = 'Secret code cannot be empty.';
+      return;
+    }
+
+    if (this.secretCode.length < 4) {
+      this.secretCodeError = 'Secret code is too short.';
+      return;
+    }
+
+    if (this.secretCode.length > 20) {
+      this.secretCodeError = 'Secret code is too long.';
+    }
+  }
+
+  validateAllFields(): boolean {
+    this.errorMessage = '';
+    this.passwordError = '';
+    this.passwordConfirmationError = '';
+    this.secretCodeError = '';
+
+    let isValid = true;
+
+    if (this.showResendButton) {
+      this.errorMessage = 'The secret code has expired. Please request a new one.';
+      return false;
+    }
+
+    if (!this.password) {
+      this.passwordError = 'Password is required.';
+      isValid = false;
+    } else {
+      const passwordValidation = FieldRegex.validatePassword(this.password);
+      if (passwordValidation) {
+        this.passwordError = passwordValidation;
+        isValid = false;
+      }
+    }
+
+    if (!this.passwordConfirmation) {
+      this.passwordConfirmationError = 'Password confirmation is required.';
+      isValid = false;
+    } else if (this.password && this.passwordConfirmation !== this.password) {
+      this.passwordConfirmationError = 'Passwords do not match.';
+      isValid = false;
+    }
+
+    // Validazione codice segreto
+    if (!this.secretCode) {
+      this.secretCodeError = 'Secret code is required.';
+      isValid = false;
+    } else if (this.secretCode.trim().length === 0) {
+      this.secretCodeError = 'Secret code cannot be empty.';
+      isValid = false;
+    } else if (this.secretCode.length < 4) {
+      this.secretCodeError = 'Secret code is too short.';
+      isValid = false;
+    } else if (this.secretCode.length > 20) {
+      this.secretCodeError = 'Secret code is too long.';
+      isValid = false;
+    }
+
+    return isValid;
+  }
+
+  onSubmit(): void {
+    if (!this.validateAllFields()) {
+      return;
+    }
+
+    if (this.isSubmitting) {
+      return;
+    }
+
+    this.isSubmitting = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    const data: CredentialsModel = {
+      email: this.email,
+      password: this.password
+    };
+
+    this.authService.resetPassword(data).subscribe({
+      next: () => {
+        this.successMessage = 'Password reset successfully! Redirecting to login...';
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 2000);
+      },
+      error: (err) => {
+        console.error('Password reset failed:', err);
+        this.isSubmitting = false;
+
+        // Gestione errori specifici dal server
+        if (err.status === 400) {
+          this.errorMessage = 'Invalid secret code or password. Please check and try again.';
+        } else if (err.status === 404) {
+          this.errorMessage = 'Email not found. Please check your email address.';
+        } else if (err.status === 401) {
+          this.errorMessage = 'Invalid or expired secret code. Please request a new one.';
+        } else if (err.status === 429) {
+          this.errorMessage = 'Too many attempts. Please try again later.';
+        } else if (err.status === 0) {
+          this.errorMessage = 'Network error. Please check your connection and try again.';
+        } else {
+          this.errorMessage = err.error?.message || 'Failed to reset password. Please try again later.';
+        }
+      }
+    });
+  }
+
+  toggleSecretCode(): void {
+    this.showCode = !this.showCode;
+  }
+
+  togglePasswordConfirmation(): void {
+    this.showPasswordConfirmation = !this.showPasswordConfirmation;
+  }
+
   startTimer(): void {
     this.showResendButton = false;
     this.countdown = 80;
+    this.timerSubscription?.unsubscribe();
+
     this.timerSubscription = timer(0, 1000).subscribe(() => {
       if (this.countdown > 0) {
         this.countdown--;
@@ -108,9 +232,41 @@ export class PasswordRecover extends AuthForm implements OnInit, OnDestroy {
   }
 
   resendCode(): void {
+    if (this.isSubmitting) {
+      return;
+    }
+
+    this.isSubmitting = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+
     this.authService.sendPasswordRecoverEmail(this.email).subscribe({
-      next: () => this.startTimer(),
-      error: () => this.errorMessage = "Could not resend code. Please try again later."
+      next: () => {
+        this.successMessage = 'A new code has been sent to your email.';
+        this.startTimer();
+        this.isSubmitting = false;
+
+        // Pulisci il codice segreto precedente
+        this.secretCode = '';
+        this.secretCodeError = '';
+      },
+      error: (err) => {
+        console.error('Failed to resend code:', err);
+        this.isSubmitting = false;
+
+        if (err.status === 429) {
+          this.errorMessage = 'Too many requests. Please wait a moment before trying again.';
+        } else if (err.status === 0) {
+          this.errorMessage = 'Network error. Please check your connection and try again.';
+        } else {
+          this.errorMessage = err.error?.message || 'Could not resend code. Please try again later.';
+        }
+      }
     });
+  }
+
+  override goBack(): void {
+    this.timerSubscription?.unsubscribe();
+    super.goBack();
   }
 }

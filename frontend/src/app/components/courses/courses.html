@@ -1,9 +1,11 @@
-<div class="section-languages-container">
-  <section class="section-languages">
+<div class="section-languages-container container mt-5 mb-5">
+  <section class="section-languages row justify-content-center g-4">
     @for(course of courses; track course.name){
-      <a class="lang-card" [routerLink]="course.path">
-        <img [src]="course.iconPath" loading="lazy" />
-      </a>
+      <div class="col-auto">
+        <a class="lang-card" [routerLink]="course.path">
+          <img [src]="course.iconPath" loading="lazy" />
+        </a>
+      </div>
     }
   </section>
 </div>

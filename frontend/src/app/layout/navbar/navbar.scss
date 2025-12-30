@@ -19,16 +19,10 @@
 .navbar {
   display: flex;
   align-items: center;
-  padding: 1.2rem 1rem 1.2rem 5rem;
+  padding: 1.2rem 2rem;
   background: transparent;
   font-family: 'Inconsolata', monospace;
-}
-
-.navbar-links {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-grow: 1;
+  width: 100%;
 }
 
 .nav-item {
@@ -96,12 +90,20 @@
   margin-right: 0.5rem;
 }
 
+.auth-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  
+  @media (min-width: 992px) {
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
 .login-btn {
-  position: absolute;
   color: #aaa;
-  top: 1.2rem;
-  right: 4rem;
-  z-index: 101;
   border-radius: 8px;
 
   padding: 0.8rem 1.5rem;
@@ -116,10 +118,6 @@
 }
 
 .user-profile-btn {
-  position: absolute;
-  top: 0.8rem;
-  right: 4rem;
-  z-index: 101;
   padding: 0;
   border-radius: 5px;
 }

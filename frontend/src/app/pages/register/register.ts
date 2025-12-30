@@ -24,6 +24,12 @@ export class Register extends AuthForm{
   username = '';
   confirmPassword = '';
 
+  usernameError: string = '';
+  emailError: string = '';
+  passwordError: string = '';
+  confirmPasswordError: string = '';
+  generalError: string = '';
+
   constructor(
     location: Location,
     private authService: AuthService,
@@ -33,29 +39,35 @@ export class Register extends AuthForm{
   }
 
   onSubmit(): void {
+    this.usernameError = '';
+    this.emailError = '';
+    this.passwordError = '';
+    this.confirmPasswordError = '';
+    this.generalError = '';
 
-    const usernameError = FieldRegex.validateUsername(this.username);
-    if (usernameError) {
-      alert(usernameError);
+    const usernameValidation = FieldRegex.validateUsername(this.username);
+    if (usernameValidation) {
+      this.usernameError = usernameValidation;
       return;
     }
 
-    const emailError = FieldRegex.validateEmail(this.email);
-    if (emailError) {
-      alert(emailError);
+    const emailValidation = FieldRegex.validateEmail(this.email);
+    if (emailValidation) {
+      this.emailError = emailValidation;
       return;
     }
 
-    const passwordError = FieldRegex.validatePassword(this.password);
-    if (passwordError) {
-      alert(passwordError);
+    const passwordValidation = FieldRegex.validatePassword(this.password);
+    if (passwordValidation) {
+      this.passwordError = passwordValidation;
       return;
     }
 
     if (this.password !== this.confirmPassword) {
-      alert("Passwords do not match!");
+      this.confirmPasswordError = "Passwords do not match!";
       return;
     }
+
     const userData : RegisterPayload = {
       username: this.username,
       email: this.email,
@@ -65,12 +77,17 @@ export class Register extends AuthForm{
     this.authService.register(userData).subscribe({
       next: (response) => {
         console.log('Registration successful:', response);
-        alert('Registration successful! You can now log in.');
         this.router.navigate(['/login']);
       },
       error: (error) => {
         console.error('Registration error:', error);
-        alert(`Error during registration: ${error.error}`);
+        if (error.status === 409) {
+          this.generalError = 'Username or email already exists.';
+        } else if (error.status === 400) {
+          this.generalError = 'Invalid input data. Please check your details.';
+        } else {
+          this.generalError = error.error || 'Registration failed. Please try again later.';
+        }
       }
     });
   }
