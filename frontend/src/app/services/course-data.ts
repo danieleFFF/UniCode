@@ -45,8 +45,8 @@ export class CourseDataService {
       iconPath: 'assets/images/cppimage.png',
       description: 'Master C++, a powerful language used for operating systems, game development, and high-performance software.',
       topics: [
+        { name: 'Classes and Templates', difficulty: 'Medium', videoId: 'mQqzP9EWu58'},
         { name: 'Pointers and Memory Management', difficulty: 'Hard', videoId: 'slzcWKWCMBg' },
-        { name: 'Classes and Templates', difficulty: 'Medium', videoId: 'mQqzP9EWu58' },
         { name: 'Standard Template Library (STL)', difficulty: 'Hard', videoId: '_NlRcT5gWpo' }
       ]
     }],
