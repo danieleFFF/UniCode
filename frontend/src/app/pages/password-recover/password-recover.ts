@@ -203,7 +203,7 @@ export class PasswordRecover extends AuthForm implements OnInit, OnDestroy {
         } else if (err.status === 0) {
           this.errorMessage = 'Network error. Please check your connection and try again.';
         } else {
-          this.errorMessage = err.error?.message || 'Failed to reset password. Please try again later.';
+          this.errorMessage = 'Failed to reset password. Please try again later.';
         }
       }
     });
@@ -260,7 +260,7 @@ export class PasswordRecover extends AuthForm implements OnInit, OnDestroy {
         } else if (err.status === 0) {
           this.errorMessage = 'Network error. Please check your connection and try again.';
         } else {
-          this.errorMessage = err.error?.message || 'Could not resend code. Please try again later.';
+          this.errorMessage = 'Could not resend code. Please try again later.';
         }
       }
     });
