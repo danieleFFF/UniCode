@@ -30,13 +30,14 @@ public class SecurityConfig {
                         .requestMatchers("/api/users/register").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
 
-                        // Lettura esercizi e avatar (pubblici)
+                        // Lettura esercizi, avatar e argomenti teoria (pubblici)
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/exercises").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/exercises/{id}").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/exercises/{id}/tests")
                         .permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/avatars").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/users/leaderboard").permitAll()
+                        .requestMatchers("/api/topics/**").permitAll()
 
                         // === ENDPOINT PROTETTI (richiedono autenticazione) ===
                         .requestMatchers("/api/users/profile").authenticated()

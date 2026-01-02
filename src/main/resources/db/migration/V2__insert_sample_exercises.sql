@@ -1,7 +1,10 @@
 INSERT INTO public.languages (name, type_exercise, description_course, url_theory_video)
 VALUES
     ('Python', 'compilable', 'Learn Python basics: variables, loops, and functions.', 'https://youtube.com/py_intro'),
+    ('Java', 'compilable', 'Master Java syntax and OOP.', 'https://youtube.com/java_intro'),
     ('C++', 'compilable', 'Master C++ syntax and object-oriented programming.', 'https://youtube.com/cpp_intro'),
+    ('HTML', 'demo', 'Learn HTML5 structure and semantics.', 'https://youtube.com/html_intro'),
+    ('JavaScript', 'compilable', 'Learn JS for web interactivity.', 'https://youtube.com/js_intro'),
     ('SQL', 'demo', 'Understand how to query and manipulate databases using SQL.', 'https://youtube.com/sql_course');
 
 INSERT INTO public.exercises (id_language, title, description, difficulty, solution_demo)
