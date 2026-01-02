@@ -1,8 +1,3 @@
-INSERT INTO public.languages (name, type_exercise, description_course, url_theory_video)
-VALUES
-    ('JavaScript', 'compilable', 'Learn JavaScript fundamentals: DOM manipulation, functions, and async programming.', 'https://youtube.com/js_intro'),
-    ('HTML', 'demo', 'Master HTML structure: semantic elements, forms, and accessibility.', 'https://youtube.com/html_intro');
-
 INSERT INTO public.exercises (id_language, title, description, difficulty, solution_demo)
 VALUES
     (4, 'Find Maximum Value',

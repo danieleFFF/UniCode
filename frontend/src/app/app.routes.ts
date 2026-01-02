@@ -30,7 +30,8 @@ export const routes: Routes = [
 
   {
     path: 'courses/:language/topic/:topicIndex',
-    loadComponent: () => import('./pages/theory/theory').then(m => m.Theory)
+    loadComponent: () => import('./pages/theory/theory').then(m => m.Theory),
+    canActivate: [authGuard]
   },
 
   {
