@@ -52,13 +52,15 @@ public class ExerciseController {
             case 1:
                 return "Python";
             case 2:
-                return "C++";
+                return "Java";
             case 3:
-                return "SQL";
+                return "C++";
             case 4:
-                return "JavaScript";
-            case 5:
                 return "HTML";
+            case 5:
+                return "JavaScript";
+            case 6:
+                return "SQL";
             default:
                 return "Unknown";
         }

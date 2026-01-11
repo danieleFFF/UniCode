@@ -21,21 +21,32 @@ VALUES
 INSERT INTO public.exercises (id_language, title, description, difficulty, solution_demo)
 VALUES
     (2, 'Reverse String',
-     'Write a C++ function that reverses a given string.',
+     'Write a Java function that reverses a given string.',
      'Easy',
-     '#include <algorithm>\n#include <string>\nstd::string reverseString(std::string s){ std::reverse(s.begin(), s.end()); return s; }'),
+     'public class Solution { public static String reverseString(String s) { return new StringBuilder(s).reverse().toString(); } }'),
     (2, 'Prime Numbers in Range',
      'Display all prime numbers between 1 and N.',
      'Medium',
-     '#include <iostream>\nbool isPrime(int n){ if(n<2)return false; for(int i=2;i*i<=n;i++) if(n%i==0) return false; return true; }\nint main(){int N; std::cin>>N; for(int i=2;i<=N;i++) if(isPrime(i)) std::cout<<i<<\" \";}');
+     'public class Solution { public static void main(String[] args) { java.util.Scanner sc = new java.util.Scanner(System.in); int N = sc.nextInt(); for(int i=2; i<=N; i++) { if(isPrime(i)) System.out.print(i + " "); } } public static boolean isPrime(int n) { if(n<2) return false; for(int i=2; i*i<=n; i++) { if(n%i==0) return false; } return true; } }');
 
 INSERT INTO public.exercises (id_language, title, description, difficulty, solution_demo)
 VALUES
-    (3, 'Employees with Salary > 50000',
+    (3, 'Reverse String',
+     'Write a C++ function that reverses a given string.',
+     'Easy',
+     '#include <algorithm>\n#include <string>\nstd::string reverseString(std::string s){ std::reverse(s.begin(), s.end()); return s; }'),
+    (3, 'Prime Numbers in Range',
+     'Display all prime numbers between 1 and N in C++.',
+     'Medium',
+     '#include <iostream>\nbool isPrime(int n){ if(n<2)return false; for(int i=2;i*i<=n;i++) if(n%i==0) return false; return true; }\nint main(){int N; std::cin>>N; for(int i=2;i<=N;i++) if(isPrime(i)) std::cout<<i<<" ";}');
+
+INSERT INTO public.exercises (id_language, title, description, difficulty, solution_demo)
+VALUES
+    (6, 'Employees with Salary > 50000',
      'Select all employees whose salary is greater than 50000.',
      'Easy',
      'SELECT * FROM employees WHERE salary > 50000;'),
-    (3, 'Top Department by Average Salary',
+    (6, 'Top Department by Average Salary',
      'Find the department with the highest average salary.',
      'Medium',
      'SELECT department_id, AVG(salary) AS avg_salary FROM employees GROUP BY department_id ORDER BY avg_salary DESC LIMIT 1;');
@@ -57,8 +68,15 @@ VALUES
 
 INSERT INTO public.test_cases (id_exercise, input, expected_output)
 VALUES
-    (5, '', 'All employees with salary > 50000'),
-    (6, '', 'Department with highest average salary');
+    (5, 'hello', 'olleh'),
+    (5, 'abcd', 'dcba'),
+    (6, '10', '2 3 5 7'),
+    (6, '5', '2 3 5');
+
+INSERT INTO public.test_cases (id_exercise, input, expected_output)
+VALUES
+    (7, '', 'All employees with salary > 50000'),
+    (8, '', 'Department with highest average salary');
 
 INSERT INTO public.avatar (url_image)
 VALUES
