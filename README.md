@@ -1,8 +1,11 @@
-Web application per esercitarsi su vari linguaggi di programmazione (Python, C++, SQL, ecc), simile a Codewars.
+Web application used to exercise on some programming languages (Python, C++, SQL, ecc), similarly to Codewars.
 
 ## Come runnare il progetto
 
-**Prerequisiti:** Java 21, PostgreSQL, Node.js
+**Prerequisites:** Java 21, PostgreSQL, Node.js
+
+### Database
+Open DBeaver
 
 ### Backend
 ```bash
