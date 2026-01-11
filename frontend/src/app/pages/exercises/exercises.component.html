@@ -1,6 +1,5 @@
 <div class="exercises-page-container">
   <app-navbar></app-navbar>
-
   <div class="exercises-page-content container-fluid px-3 px-md-4 px-lg-5">
     <header class="exercises-header">
       <h1>Welcome to Our Exercises</h1>
@@ -9,7 +8,6 @@
         Filter by language and difficulty to find the perfect exercise.
       </p>
     </header>
-
     <div class="exercise-container">
       <div class="top-bar d-flex flex-wrap align-items-center gap-2 p-2 p-md-3">
         <div class="controls d-flex flex-wrap align-items-center gap-2 w-100">
@@ -65,16 +63,13 @@
           </div>
         </div>
       </div>
-
       <ng-template #noExercises>
         <div class="no-results">No exercises found for {{ selectedLanguage }}.</div>
       </ng-template>
     </div>
   </div>
 
-  <button *ngIf="isUserAdmin" class="admin-add-btn" (click)="toggleAdminPopup()">
-    +
-  </button>
+  <button *ngIf="isUserAdmin" class="admin-add-btn" (click)="toggleAdminPopup()"> + </button>
 
   <div class="admin-popup-overlay" *ngIf="showAdminPopup" (click)="closeAdminPopup()">
     <div class="admin-popup-content" (click)="$event.stopPropagation()">
@@ -85,7 +80,6 @@
 
       <div class="popup-body">
         <form (ngSubmit)="saveExercise()">
-
           <div class="row g-2 mb-3">
             <div class="col-8">
               <label class="form-label">Title</label>

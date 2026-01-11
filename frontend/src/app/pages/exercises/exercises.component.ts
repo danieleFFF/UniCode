@@ -60,7 +60,6 @@ export class ExercisesComponent implements OnInit {
     exercise: {
       title: '',
       description: '',
-      //informazioni di default provvisorie
       difficulty: 'Easy',
       points: 10,
       id_language: 1
@@ -71,7 +70,7 @@ export class ExercisesComponent implements OnInit {
   constructor(private http: HttpClient, private eRef: ElementRef) { }
 
   ngOnInit() {
-    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined'){
       const savedLang = localStorage.getItem('selectedLanguage')
       const savedSort = localStorage.getItem('sortBy')
       const savedOrder = localStorage.getItem('sortOrder')
@@ -79,41 +78,44 @@ export class ExercisesComponent implements OnInit {
       this.sortBy = savedSort || 'title'
       this.sortOrder = (savedOrder as 'asc' | 'desc') || 'asc'
       const userJson = localStorage.getItem('user');
-      if (userJson) {
+
+      if(userJson){
         try {
           const user = JSON.parse(userJson);
-          if (user.is_admin === true || user.admin === true) {
+
+          if(user.is_admin === true || user.admin === true){
             this.isUserAdmin = true;
           }
         } catch (e) {
-          console.error('Errore parsing JSON locale', e);
+          console.error('Error parsing local JSON', e);
         }
       }
       if (!this.isUserAdmin) {
         this.http.get<any>(`${environment.apiUrl}/users/profile`, { withCredentials: true })
           .subscribe({
             next: (userDto) => {
-              console.log("Profilo recuperato in ritardo:", userDto);
+              console.log("Profile recovered late:", userDto);
               localStorage.setItem('user', JSON.stringify(userDto));
+
               if (userDto.is_admin === true || userDto.admin === true) {
                 this.isUserAdmin = true;
               }
             },
             error: () => {
-              console.log("Utente non loggato o sessione scaduta.");
+              console.log("User not logged or session expired.");
               this.isUserAdmin = false;
             }
           });
       }
     }
-
     this.selectedFilterName = this.mapSortName(this.sortBy)
     this.loadExercises(true)
   }
 
   toggleAdminPopup() {
     this.showAdminPopup = !this.showAdminPopup;
-    if (this.showAdminPopup) {
+
+    if(this.showAdminPopup){
       this.newExerciseData.exercise.id_language = this.getLanguageId(this.selectedLanguage);
       this.errorMessage = '';
     }
@@ -124,7 +126,7 @@ export class ExercisesComponent implements OnInit {
     this.errorMessage = '';
   }
 
-  addTestCase() {
+  addTestCase(){
     this.newExerciseData.testCases.push({ input: '', expected_output: '' });
   }
 
@@ -136,13 +138,14 @@ export class ExercisesComponent implements OnInit {
 
   saveExercise() {
     this.errorMessage = '';
-    if (!this.newExerciseData.exercise.title || !this.newExerciseData.exercise.description) {
+
+    if(!this.newExerciseData.exercise.title || !this.newExerciseData.exercise.description) {
       this.errorMessage = 'Insert all required fields';
+
       return;
     }
 
-    this.http.post(`${environment.apiUrl}/exercises`, this.newExerciseData, { withCredentials: true, responseType: 'text' })
-      .subscribe({
+    this.http.post(`${environment.apiUrl}/exercises`, this.newExerciseData, { withCredentials: true, responseType: 'text' }).subscribe({
         next: () => {
           this.closeAdminPopup();
           this.loadExercises(true);
@@ -164,20 +167,17 @@ export class ExercisesComponent implements OnInit {
   }
 
   loadExercises(reset: boolean = false) {
-    if (this.loading || (!this.hasMore && !reset)) return
+    if(this.loading || (!this.hasMore && !reset)) return
     this.loading = true
 
-    if (reset) {
+    if (reset){
       this.exercises = []
       this.page = 0
       this.hasMore = true
     }
 
     const idLang = this.getLanguageId(this.selectedLanguage)
-    const params = new HttpParams()
-      .set('idLanguage', idLang.toString())
-      .set('sortBy', this.sortBy)
-      .set('order', this.sortOrder)
+    const params = new HttpParams().set('idLanguage', idLang.toString()).set('sortBy', this.sortBy).set('order', this.sortOrder)
 
     this.http.get<Exercise[]>(`${environment.apiUrl}/exercises`, { params, withCredentials: true }).subscribe({
       next: (data) => {
@@ -193,7 +193,7 @@ export class ExercisesComponent implements OnInit {
 
   @HostListener('window:scroll', [])
   onScroll() {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200 && !this.loading) {
+    if(window.innerHeight + window.scrollY >= document.body.offsetHeight - 200 && !this.loading) {
       this.loadExercises()
     }
   }
@@ -210,24 +210,27 @@ export class ExercisesComponent implements OnInit {
       this.showLanguageMenu = false
     }
 
-    if (this.showFilterMenu && !filterMenu?.contains(target) && !filterButton?.contains(target)) {
+    if(this.showFilterMenu && !filterMenu?.contains(target) && !filterButton?.contains(target)) {
       this.showFilterMenu = false
     }
   }
   toggleLanguageMenu(event: MouseEvent) {
     event.stopPropagation()
     this.showLanguageMenu = !this.showLanguageMenu
+
     if (this.showLanguageMenu) this.showFilterMenu = false
   }
 
-  toggleFilterMenu(event: MouseEvent) {
+  toggleFilterMenu(event: MouseEvent){
     event.stopPropagation()
     this.showFilterMenu = !this.showFilterMenu
+
     if (this.showFilterMenu) this.showLanguageMenu = false
   }
 
   selectLanguage(lang: string) {
     this.selectedLanguage = lang
+
     if (typeof localStorage !== 'undefined') localStorage.setItem('selectedLanguage', lang)
     this.showLanguageMenu = false
     this.loadExercises(true)
@@ -236,6 +239,7 @@ export class ExercisesComponent implements OnInit {
   applySort(type: string) {
     this.sortBy = type
     this.selectedFilterName = this.mapSortName(type)
+
     if (typeof localStorage !== 'undefined') localStorage.setItem('sortBy', type)
     this.showFilterMenu = false
     this.loadExercises(true)
@@ -243,6 +247,7 @@ export class ExercisesComponent implements OnInit {
 
   toggleOrder() {
     this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'
+
     if (typeof localStorage !== 'undefined') localStorage.setItem('sortOrder', this.sortOrder)
     this.loadExercises(true)
   }
