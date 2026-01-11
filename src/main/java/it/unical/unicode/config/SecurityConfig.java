@@ -24,6 +24,7 @@ public class SecurityConfig {
         http
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 ).cors(Customizer.withDefaults())
+                .csrf(csrf -> csrf.disable())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         // Autenticazione
