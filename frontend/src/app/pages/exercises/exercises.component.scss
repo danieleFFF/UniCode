@@ -24,8 +24,8 @@
     font-weight: 700;
     margin-bottom: 1rem;
     background: linear-gradient(to right,
-        rgba(195, 79, 219, 0.8) 0%,
-        rgba(143, 28, 166, 0.8) 85%);
+      rgba(195, 79, 219, 0.8) 0%,
+      rgba(143, 28, 166, 0.8) 85%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
@@ -248,3 +248,177 @@
   font-size: 14px;
   margin-top: 30px;
 }
+
+.admin-add-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(195, 79, 219, 1) 0%, rgba(143, 28, 166, 1) 100%);
+  color: white;
+  font-family: 'Inconsolata', monospace;
+  font-size: 36px;
+  border: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  padding-bottom: 4px;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(195, 79, 219, 0.6);
+  }
+}
+
+.admin-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.admin-popup-content {
+  background-color: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  position: relative;
+  font-family: 'Inconsolata', monospace;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+  .popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+
+    h3 {
+      margin: 0;
+      color: #f0f0f0;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .close-popup {
+      background: none;
+      border: none;
+      color: #aaa;
+      font-size: 2rem;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0;
+      &:hover { color: #ff6f6f; }
+    }
+
+    .error-banner {
+      background-color: rgba(255, 111, 111, 0.15);
+      border: 1px solid #ff6f6f;
+      color: #ff6f6f;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+      font-size: 0.95rem;
+      font-weight: 600;
+      animation: fadeIn 0.3s ease;
+    }
+  }
+
+  .popup-body {
+    color: #ccc;
+
+    label {
+      font-size: 0.9rem;
+      color: #aaa;
+      margin-bottom: 4px;
+    }
+
+    .form-control, .form-select {
+      background-color: #2b2b2b;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #fff;
+      font-family: 'Inconsolata', monospace;
+
+      &:focus {
+        background-color: #333;
+        border-color: #c34fdb;
+        box-shadow: 0 0 5px rgba(195, 79, 219, 0.3);
+      }
+
+      &:disabled {
+        background-color: #222;
+        color: #777;
+        cursor: not-allowed;
+      }
+    }
+
+    .popup-divider {
+      border-color: rgba(255,255,255,0.1);
+      margin: 1.5rem 0;
+    }
+
+    .arrow {
+      color: #c34fdb;
+      font-weight: bold;
+    }
+
+    .btn-remove-test {
+      color: #ff6f6f;
+      border: 1px solid #ff6f6f;
+      &:hover { background-color: #ff6f6f; color: white; }
+    }
+
+    .btn-add-test {
+      border: 1px dashed rgba(255,255,255,0.3);
+      color: #aaa;
+      &:hover {
+        background-color: rgba(255,255,255,0.05);
+        color: #fff;
+        border-color: #fff;
+      }
+    }
+
+    .btn-save {
+      background: linear-gradient(135deg, rgba(195, 79, 219, 1) 0%, rgba(143, 28, 166, 1) 100%);
+      color: white;
+      border: none;
+      font-weight: bold;
+      padding: 10px;
+      &:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
+    }
+
+    .test-cases-list {
+      max-height: 200px;
+      overflow-y: auto;
+      padding-right: 5px;
+      &::-webkit-scrollbar { width: 5px; }
+      &::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
+    }
+  }
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }

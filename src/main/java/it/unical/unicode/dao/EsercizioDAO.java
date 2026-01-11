@@ -14,4 +14,6 @@ public interface EsercizioDAO {
     List<TestCase> findTestsByExerciseId(Integer id);
 
     List<Esercizio> findAll(String sortBy, String order);
+
+    int save(Esercizio esercizio);
 }

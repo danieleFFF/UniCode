@@ -1,9 +1,10 @@
 package it.unical.unicode.controller;
 
+import it.unical.unicode.dto.ExerciseCreationRequest;
 import it.unical.unicode.model.Esercizio;
 import it.unical.unicode.model.TestCase;
 import it.unical.unicode.service.ExerciseService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
@@ -12,8 +13,11 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/exercises")
 public class ExerciseController {
-    @Autowired
-    private ExerciseService exerciseService;
+    private final ExerciseService exerciseService;
+
+    public ExerciseController(ExerciseService exerciseService) {
+        this.exerciseService = exerciseService;
+    }
 
     @GetMapping
     public List<Esercizio> getExercises(
@@ -69,5 +73,16 @@ public class ExerciseController {
     @GetMapping("/{id}/tests")
     public List<TestCase> getExerciseTests(@PathVariable Integer id) {
         return exerciseService.findTestsByExerciseId(id);
+    }
+
+    @PostMapping
+    public ResponseEntity<String> createExercise(@RequestBody ExerciseCreationRequest request) {
+        try {
+            exerciseService.createExercise(request);
+            return ResponseEntity.ok("Exercise created successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error creating exercise: " + e.getMessage());
+        }
     }
 }
