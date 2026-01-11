@@ -1,6 +1,8 @@
 package it.unical.unicode.service;
 
 import it.unical.unicode.dao.EsercizioDAO;
+import it.unical.unicode.dao.TestCaseDAO;
+import it.unical.unicode.dto.ExerciseCreationRequest;
 import it.unical.unicode.model.Esercizio;
 import it.unical.unicode.model.TestCase;
 import org.springframework.stereotype.Service;
@@ -10,9 +12,11 @@ import java.util.List;
 @Service
 public class ExerciseService {
     private final EsercizioDAO esercizioDAO;
+    private final TestCaseDAO testCaseDAO;
 
-    public ExerciseService(EsercizioDAO esercizioDAO) {
+    public ExerciseService(EsercizioDAO esercizioDAO, TestCaseDAO testCaseDAO) {
         this.esercizioDAO = esercizioDAO;
+        this.testCaseDAO = testCaseDAO;
     }
 
     public List<Esercizio> findByLanguage(Integer idLanguage, String sortBy, String order) {
@@ -40,11 +44,6 @@ public class ExerciseService {
         };
     }
 
-    public List<Esercizio> findByLanguagePaged(Integer idLanguage, String sortBy, String order, int page, int size) {
-        List<Esercizio> esercizi = esercizioDAO.findByLanguagePaged(idLanguage, sortBy, order, page, size);
-        return esercizi;
-    }
-
     public Esercizio findById(Integer id) {
         return esercizioDAO.findById(id);
     }
@@ -55,5 +54,12 @@ public class ExerciseService {
 
     public List<Esercizio> findAll(String sortBy, String order) {
         return esercizioDAO.findAll(sortBy, order);
+    }
+
+    public void createExercise(ExerciseCreationRequest request) {
+        int newId = esercizioDAO.save(request.getExercise());
+        if (request.getTestCases() != null && !request.getTestCases().isEmpty()) {
+            testCaseDAO.saveAll(request.getTestCases(), newId);
+        }
     }
 }

@@ -4,9 +4,14 @@ import it.unical.unicode.model.Esercizio;
 import it.unical.unicode.model.TestCase;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
+import java.sql.PreparedStatement;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class EsercizioDAOImpl implements EsercizioDAO {
@@ -16,6 +21,7 @@ public class EsercizioDAOImpl implements EsercizioDAO {
     private static final String FIND_BY_LANGUAGE = "SELECT * FROM exercises WHERE id_language = ?";
     private static final String FIND_BY_ID = "SELECT * FROM exercises WHERE id = ?";
     private static final String FIND_TESTS_BY_EXERCISE = "SELECT * FROM test_cases WHERE id_exercise = ?";
+    private static final String INSERT_EXERCISE="INSERT INTO exercises (id_language, title, description, difficulty, points, solution_demo) VALUES (?, ?, ?, ?, ?, ?)";
     private static final List<String> VALID_SORT_COLUMNS = Arrays.asList("title", "difficulty", "points");
     private static final List<String> VALID_ORDERS = Arrays.asList("asc", "desc");
 
@@ -68,7 +74,7 @@ public class EsercizioDAOImpl implements EsercizioDAO {
     @Override
     public Esercizio findById(Integer id) {
         List<Esercizio> result = jdbcTemplate.query(FIND_BY_ID, new BeanPropertyRowMapper<>(Esercizio.class), id);
-        return result.isEmpty() ? null : result.get(0);
+        return result.isEmpty() ? null : result.getFirst();
     }
 
     @Override
@@ -82,5 +88,21 @@ public class EsercizioDAOImpl implements EsercizioDAO {
         String validOrder = validateOrder(order);
         String sql = FIND_ALL + " ORDER BY " + sortColumn + " " + validOrder;
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Esercizio.class));
+    }
+
+    @Override
+    public int save(Esercizio esercizio) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(INSERT_EXERCISE, new String[]{"id"});
+            ps.setInt(1, esercizio.getId_language());
+            ps.setString(2, esercizio.getTitle());
+            ps.setString(3, esercizio.getDescription());
+            ps.setString(4, esercizio.getDifficulty());
+            ps.setInt(5, esercizio.getPoints());
+            ps.setString(6, esercizio.getSolution_demo() != null ? esercizio.getSolution_demo() : "");
+            return ps;
+        }, keyHolder);
+        return Objects.requireNonNull(keyHolder.getKey()).intValue();
     }
 }
