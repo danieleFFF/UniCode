@@ -1,6 +1,6 @@
 Web application used to exercise on some programming languages (Python, C++, SQL, ecc), similarly to Codewars.
 
-## Come runnare il progetto
+## How to run the project
 
 **Prerequisites:** Java 21, PostgreSQL, Node.js
 
