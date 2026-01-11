@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink} from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
@@ -10,11 +10,11 @@ import { AuthForm } from '../../shared/auth-form';
 import { environment } from '../../../environments/environment';
 
 @Component({
-  selector:'app-login',
-  standalone:true,
-  imports:[CommonModule, FormsModule, RouterLink],
-  templateUrl:'./login.html',
-  styleUrls:['./login.scss', '../../shared/auth-form.scss']
+  selector: 'app-login',
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterLink],
+  templateUrl: './login.html',
+  styleUrls: ['./login.scss', '../../shared/auth-form.scss']
 
 })
 export class Login extends AuthForm {
@@ -28,7 +28,7 @@ export class Login extends AuthForm {
     super(location);
   }
   onSubmit(){
-    console.log('Tentativo di login con:', this.email, this.password);
+    console.log('Tentativo di login con:',this.email,this.password);
     this.errorMessage = '';
 
     const emailError = FieldRegex.validateEmail(this.email);
@@ -42,40 +42,31 @@ export class Login extends AuthForm {
       return;
     }
 
-    const credentials = {
-      email: this.email,
-      password: this.password
+    const credentials= {
+      email:this.email,
+      password:this.password
     };
 
     this.authService.login(credentials).subscribe({
       next: () => {
-        this.http.get<any>(`${environment.apiUrl}/users/profile`,{ withCredentials: true }).subscribe({
-            next: (userDto) => {
-              localStorage.setItem('user', JSON.stringify(userDto));
-              this.router.navigate(['/home']);
-            },
-            error: (err) => {
-              console.error('Errore nel recupero profilo:', err);
-              this.router.navigate(['/home']);
-            }
-          });
+        this.router.navigate(['/home']).then(() => { });
       },
       error: (errore) => {
-        console.error('Login Fallito:', errore);
+        console.error('Login Fallito (dal componente):', errore);
         this.errorMessage = 'Incorrect email or password. Please try again.';
       }
     });
   }
-  async passwordRecover(): Promise<void>{
+  async passwordRecover(): Promise<void> {
     this.errorMessage = '';
 
     const emailError = FieldRegex.validateEmail(this.email);
     if (emailError) {
-      this.errorMessage ="Please enter a valid email before recovering your password.";
+      this.errorMessage = "Please enter a valid email before recovering your password.";
       return;
     }
 
-    this.authService.sendPasswordRecoverEmail(this.email).subscribe ({
+    this.authService.sendPasswordRecoverEmail(this.email).subscribe({
       next: (exists) => {
         if (exists) {
           this.router.navigate(['/password-recover'], { state: { email: this.email } });
@@ -83,7 +74,7 @@ export class Login extends AuthForm {
           this.errorMessage = "No account found with this email address.";
         }
       },
-      error:() => this.errorMessage= "Could not verify email. Please try again later."
+      error: () => this.errorMessage = "Could not verify email. Please try again later."
     });
   }
 }

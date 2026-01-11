@@ -10,7 +10,6 @@ public class Submission {
     private int timeTakenSeconds;
     private LocalDateTime completedAt;
     private String code;
-
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     public int getIdUser() { return idUser; }
