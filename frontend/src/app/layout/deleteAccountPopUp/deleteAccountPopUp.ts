@@ -36,7 +36,6 @@ export class DeleteAccountPopUp {
 
     this.userService.deleteUser(this.passwordConfirmation).subscribe({
       next: (response) => {
-        console.log(response);
         this.authService.logout();
         this.router.navigate(['/login']);
         this.closePopUp()

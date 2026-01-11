@@ -6,7 +6,6 @@ public class TestCase {
     private String input;
     private String expected_output;
     private boolean passed;
-
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     public int getId_exercise() { return id_exercise; }

@@ -154,6 +154,9 @@ export class SolveComponent implements OnInit, OnDestroy {
       this.isDemoMode = this.DEMO_LANGUAGES.includes(this.selectedLanguage);
       this.solutionDemo = data.solutionDemo || '';
 
+      // Set initial code template based on language
+      this.userCode = this.getCodeTemplate(this.selectedLanguage);
+
       if (this.isDemoMode) {
         this.formattedTime = '--:--';
       } else {
@@ -163,6 +166,59 @@ export class SolveComponent implements OnInit, OnDestroy {
         this.checkIfAlreadyCompleted();
       }
     });
+  }
+
+  getCodeTemplate(language: string): string {
+    switch (language) {
+      case 'C++':
+        return `#include <iostream>
+
+// Write your code here
+
+int main() {
+    
+    return 0;
+}`;
+      case 'Java':
+        return `public class Main {
+    public static void main(String[] args) {
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+        
+        // Write your code here
+        
+    }
+}`;
+      case 'Python':
+        return `# Write your function here
+
+
+# Read input and call your function
+# Example: result = your_function(input())
+# print(result)`;
+      case 'JavaScript':
+        return `// Write your function here
+
+
+// Call your function and log the result
+// console.log(yourFunction(input));`;
+      case 'HTML':
+        return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Page</title>
+</head>
+<body>
+    <!-- Write your HTML here -->
+    
+</body>
+</html>`;
+      case 'SQL':
+        return `-- Write your SQL query here
+SELECT `;
+      default:
+        return '// Write your code here';
+    }
   }
 
   checkIfAlreadyCompleted(): void {
