@@ -32,6 +32,8 @@ interface NewExerciseRequest {
   testCases: TestCaseData[];
 }
 
+//Loads exercises for selected programming language, filters/sorts the list, shows cards and navigates to Solve page when clicked
+
 @Component({
   selector: 'app-exercises',
   standalone: true,

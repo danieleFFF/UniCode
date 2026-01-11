@@ -15,6 +15,8 @@ interface CachedResult {
   programOutput: string;
 }
 
+//Loads exercise, shows code editor, executes tests, shows results, saves completed exercise and assign points to user
+
 @Component({
   selector: 'app-solve',
   standalone: true,
@@ -24,10 +26,8 @@ interface CachedResult {
 })
 export class SolveComponent implements OnInit, OnDestroy {
   @ViewChild('previewFrame') previewFrame!: ElementRef<HTMLIFrameElement>;
-
   exercise: any
   userCode = ''
-  previewHtml = ''
   testResults: any[] = []
   showResults = false
   allPassed = false
@@ -51,9 +51,6 @@ export class SolveComponent implements OnInit, OnDestroy {
   private readonly DEMO_LANGUAGES = ['HTML'];
   constructor(private route: ActivatedRoute, private http: HttpClient, private userService: UserService) { }
 
-  onCodeChange(code: string): void {
-  }
-
   validateHtml(): void {
     if (!this.userCode || this.userCode.trim() === '') {
       this.consoleOutput = 'Please write some HTML code first';
@@ -64,11 +61,9 @@ export class SolveComponent implements OnInit, OnDestroy {
     this.isRunning = true;
     this.showResults = false;
     this.testResults = [];
-
     const requirements = this.getHtmlRequirements();
     const parser = new DOMParser();
     const doc = parser.parseFromString(this.userCode.replace(/\\n/g, '\n'), 'text/html');
-
     let passedCount = 0;
 
     requirements.forEach((req, index) => {
@@ -89,7 +84,7 @@ export class SolveComponent implements OnInit, OnDestroy {
     this.showResults = true;
     this.isRunning = false;
 
-    if (this.allPassed) {
+    if (this.allPassed){
       this.submitSolution();
     }
   }
@@ -154,7 +149,7 @@ export class SolveComponent implements OnInit, OnDestroy {
       this.isDemoMode = this.DEMO_LANGUAGES.includes(this.selectedLanguage);
       this.solutionDemo = data.solutionDemo || '';
 
-      // Set initial code template based on language
+      //Sets initial code template based on language selected
       this.userCode = this.getCodeTemplate(this.selectedLanguage);
 
       if (this.isDemoMode) {
@@ -176,16 +171,16 @@ export class SolveComponent implements OnInit, OnDestroy {
 // Write your code here
 
 int main() {
-    
+
     return 0;
 }`;
       case 'Java':
         return `public class Main {
     public static void main(String[] args) {
         java.util.Scanner sc = new java.util.Scanner(System.in);
-        
+
         // Write your code here
-        
+
     }
 }`;
       case 'Python':
@@ -210,7 +205,7 @@ int main() {
 </head>
 <body>
     <!-- Write your HTML here -->
-    
+
 </body>
 </html>`;
       case 'SQL':
@@ -270,7 +265,7 @@ SELECT `;
     }
   }
 
-  updateFormattedTime(): void {
+  updateFormattedTime(): void{
     const minutes = Math.floor(this.timeLeft / 60)
     const seconds = this.timeLeft % 60
     this.formattedTime = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
@@ -292,16 +287,17 @@ SELECT `;
         difficultyMultiplier = 2.0;
         break;
     }
-
     const timePenalty = Math.floor(elapsedSeconds / 30);
     const basePoints = Math.floor(maxPoints * difficultyMultiplier);
     const finalPoints = Math.max(Math.floor(maxPoints * 0.3), basePoints - timePenalty);
+
     return finalPoints;
   }
 
   private addToCache(key: string, value: CachedResult): void {
-    if (this.testCache.size >= this.MAX_CACHE_SIZE) {
+    if(this.testCache.size >= this.MAX_CACHE_SIZE) {
       const firstKey = this.testCache.keys().next().value;
+
       if (typeof firstKey === "string") {
         this.testCache.delete(firstKey);
       }
@@ -312,12 +308,14 @@ SELECT `;
   runTests(): void {
     if (!this.exercise || !this.exercise.id) {
       console.warn('No exercise loaded');
+
       return;
     }
 
     if (!this.userCode || this.userCode.trim() === '') {
       this.consoleOutput = 'Please write some code first';
       this.showResults = true;
+
       return;
     }
 
@@ -334,6 +332,7 @@ SELECT `;
       this.allPassed = cached.allPassed;
       this.consoleOutput = cached.consoleOutput;
       this.programOutput = cached.programOutput;
+
       return;
     }
 
@@ -361,6 +360,7 @@ SELECT `;
       this.consoleOutput = `Language ${this.selectedLanguage} not supported`;
       this.showResults = true;
       this.isRunning = false;
+
       return;
     }
 
@@ -395,7 +395,6 @@ SELECT `;
               const status = res?.status?.description || 'Unknown';
               const expected = normalizeOutput(test.expected_output || '');
               const passed = stdout === expected;
-
               const testName = `Test ${index + 1}`;
               let detailMessage = `========================================\n`;
               detailMessage += `${testName}\n`;
@@ -406,12 +405,8 @@ SELECT `;
               detailMessage += `Status: ${status}\n`;
               detailMessage += `Result: ${passed ? 'PASSED' : 'FAILED'}\n`;
 
-              if (stderr) {
-                detailMessage += `\nError Output:\n${stderr}\n`;
-              }
-              if (compileOutput) {
-                detailMessage += `\nCompilation Output:\n${compileOutput}\n`;
-              }
+              if(stderr){ detailMessage += `\nError Output:\n${stderr}\n`; }
+              if (compileOutput) { detailMessage += `\nCompilation Output:\n${compileOutput}\n`; }
 
               this.detailedOutput.push(detailMessage);
               this.testResults.push({
@@ -426,19 +421,19 @@ SELECT `;
               if (passed) passedCount++;
               completed++;
 
-              if (completed === tests.length) {
+              if(completed === tests.length) {
                 this.allPassed = passedCount === tests.length;
 
                 if (this.allPassed) {
                   this.stopTimer();
                   this.earnedPoints = this.calculatePoints();
                   this.submitSolution();
-                } else {
+                }
+                else {
                   this.consoleOutput = `${passedCount}/${tests.length} tests passed`;
                 }
 
                 this.programOutput = this.detailedOutput.join('\n\n');
-
                 this.addToCache(cacheKey, {
                   showResults: this.showResults,
                   testResults: this.testResults,
@@ -446,7 +441,6 @@ SELECT `;
                   consoleOutput: this.consoleOutput,
                   programOutput: this.programOutput
                 });
-
                 this.isRunning = false;
               }
             },
@@ -466,7 +460,7 @@ SELECT `;
                 passed: false
               });
 
-              if (completed === tests.length) {
+              if(completed === tests.length) {
                 this.consoleOutput = 'Compilation or runtime error occurred';
                 this.programOutput = this.detailedOutput.join('\n\n');
                 this.isRunning = false;
@@ -487,12 +481,13 @@ SELECT `;
 
   submitSolution(): void {
     const user = this.userService.getCurrentUser();
+
     if (!user) {
       this.consoleOutput = "User not logged in!";
       return;
     }
-    const elapsedSeconds = Math.floor((Date.now() - this.startTime) / 1000);
 
+    const elapsedSeconds = Math.floor((Date.now() - this.startTime) / 1000);
     const payload = {
       idUser: user.id,
       idExercise: this.exercise.id,
@@ -525,6 +520,4 @@ SELECT `;
   ngOnDestroy(): void {
     this.stopTimer();
   }
-
 }
-
