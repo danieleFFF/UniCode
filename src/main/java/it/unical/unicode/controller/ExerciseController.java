@@ -52,14 +52,22 @@ public class ExerciseController {
     }
 
     private String getLanguageName(int idLanguage) {
-        return switch (idLanguage) {
-            case 1 -> "Python";
-            case 2 -> "C++";
-            case 3 -> "SQL";
-            case 4 -> "JavaScript";
-            case 5 -> "HTML";
-            default -> "Unknown";
-        };
+        switch (idLanguage) {
+            case 1:
+                return "Python";
+            case 2:
+                return "Java";
+            case 3:
+                return "C++";
+            case 4:
+                return "HTML";
+            case 5:
+                return "JavaScript";
+            case 6:
+                return "SQL";
+            default:
+                return "Unknown";
+        }
     }
 
     @GetMapping("/{id}/tests")

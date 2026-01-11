@@ -41,7 +41,7 @@ interface NewExerciseRequest {
 })
 export class ExercisesComponent implements OnInit {
   exercises: Exercise[] = []
-  languages = ['C++', 'Python', 'JavaScript', 'HTML', 'SQL']
+  languages = ['C++', 'Python', 'Java', 'JavaScript', 'HTML', 'SQL']
   selectedLanguage = 'C++'
   sortBy = 'title'
   sortOrder: 'asc' | 'desc' = 'asc'
@@ -259,10 +259,11 @@ export class ExercisesComponent implements OnInit {
   getLanguageId(name: string): number {
     switch (name) {
       case 'Python': return 1
-      case 'C++': return 2
-      case 'SQL': return 3
-      case 'JavaScript': return 4
-      case 'HTML': return 5
+      case 'Java': return 2
+      case 'C++': return 3
+      case 'HTML': return 4
+      case 'JavaScript': return 5
+      case 'SQL': return 6
       default: return 0
     }
   }
