@@ -92,24 +92,17 @@ export class ExercisesComponent implements OnInit {
           console.error('Errore parsing JSON locale', e);
         }
       }
-      if (!this.isUserAdmin) {
-        this.http.get<any>(`${environment.apiUrl}/users/profile`, { withCredentials: true })
-          .subscribe({
-            next: (userDto) => {
-              console.log("Profilo recuperato in ritardo:", userDto);
-              localStorage.setItem('user', JSON.stringify(userDto));
-              if (userDto.is_admin === true || userDto.admin === true) {
-                this.isUserAdmin = true;
-              }
-            },
-            error: () => {
-              console.log("Utente non loggato o sessione scaduta.");
-              this.isUserAdmin = false;
-            }
-          });
-      }
+      this.http.get<any>(`${environment.apiUrl}/users/profile`, { withCredentials: true })
+        .subscribe({
+          next: (userDto) => {
+            localStorage.setItem('user', JSON.stringify(userDto));
+            this.isUserAdmin = userDto.is_admin === true || userDto.admin === true;
+          },
+          error: () => {
+            this.isUserAdmin = false;
+          }
+        });
     }
-
     this.selectedFilterName = this.mapSortName(this.sortBy)
     this.loadExercises(true)
   }

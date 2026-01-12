@@ -19,7 +19,6 @@ public class TestCaseDAOImpl implements TestCaseDAO {
     }
 
     public void saveAll(List<TestCase> tests, int exerciseId){
-        //Saves more test cases for a certain exercise (batch = group)
         jdbcTemplate.batchUpdate(INSERT_TEST_CASE, new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
@@ -31,7 +30,7 @@ public class TestCaseDAOImpl implements TestCaseDAO {
 
             @Override
             public int getBatchSize() {
-                return tests.size(); //Number of INSERT to do.
+                return tests.size();
             }
         });
     }

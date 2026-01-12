@@ -93,10 +93,9 @@ public class ExerciseDAOImpl implements ExerciseDAO {
 
     @Override
     public int save(Exercise exercise) {
-        KeyHolder keyHolder = new GeneratedKeyHolder(); //id that will be assigned to the new exercise
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
-            //Prepares query
             PreparedStatement ps = connection.prepareStatement(INSERT_EXERCISE, new String[]{"id"});
             ps.setInt(1, exercise.getId_language());
             ps.setString(2, exercise.getTitle());
@@ -104,10 +103,9 @@ public class ExerciseDAOImpl implements ExerciseDAO {
             ps.setString(4, exercise.getDifficulty());
             ps.setInt(5, exercise.getPoints());
             ps.setString(6, exercise.getSolution_demo() != null ? exercise.getSolution_demo() : "");
-
             return ps;
         }, keyHolder);
-        return Objects.requireNonNull(keyHolder.getKey()).intValue(); //Returns new exercise's id
+        return Objects.requireNonNull(keyHolder.getKey()).intValue();
     }
 
     @Override
