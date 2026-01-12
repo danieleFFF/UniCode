@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface TestCaseDAO {
     void saveAll(List<TestCase> tests, int exerciseId);
+    void deleteByExerciseId(int exerciseId);
 }

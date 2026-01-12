@@ -12,6 +12,7 @@ import java.util.List;
 public class TestCaseDAOImpl implements TestCaseDAO {
     private final JdbcTemplate jdbcTemplate;
     private static final String INSERT_TEST_CASE = "INSERT INTO test_cases (id_exercise, input, expected_output) VALUES (?, ?, ?)";
+    private static final String DELETE_TEST_CASE = "DELETE FROM test_cases WHERE id_exercise = ?";
 
     public TestCaseDAOImpl(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
@@ -33,5 +34,10 @@ public class TestCaseDAOImpl implements TestCaseDAO {
                 return tests.size(); //Number of INSERT to do.
             }
         });
+    }
+
+    @Override
+    public void deleteByExerciseId(int exerciseId) {
+        jdbcTemplate.update(DELETE_TEST_CASE, exerciseId);
     }
 }

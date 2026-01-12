@@ -58,9 +58,12 @@
             </div>
           </div>
 
-          <div class="col-12 col-md-3 col-lg-2 mt-3 mt-md-0 d-flex justify-content-md-end">
-            <button class="solve-btn btn w-100 w-md-auto" [routerLink]="['/solve', ex.id]">
+          <div class="col-12 col-md-3 col-lg-2 mt-3 mt-md-0 d-flex justify-content-md-end gap-2">
+            <button class="solve-btn btn w-100" [routerLink]="['/solve', ex.id]">
               SOLVE
+            </button>
+            <button *ngIf="isUserAdmin" class="delete-btn btn" (click)="askDeleteExercise(ex)">
+              &times;
             </button>
           </div>
         </div>
@@ -139,6 +142,23 @@
           </div>
 
         </form>
+      </div>
+    </div>
+  </div>
+  <div class="admin-popup-overlay" *ngIf="showDeletePopup" (click)="closeDeletePopup()">
+    <div class="admin-popup-content delete-popup" (click)="$event.stopPropagation()">
+      <div class="popup-header">
+        <h3>Confirm Deletion</h3>
+        <button class="close-popup" (click)="closeDeletePopup()">&times;</button>
+      </div>
+      <div class="popup-body text-center">
+        <p>Are you sure to delete this exercise?</p>
+        <p class="fw-bold text-white">"{{ exerciseToDeleteTitle }}"</p>
+
+        <div class="d-flex justify-content-center gap-3 mt-4">
+          <button class="btn btn-secondary" (click)="closeDeletePopup()">Cancel</button>
+          <button class="btn btn-danger" (click)="confirmDeleteExercise()">Delete Exercise</button>
+        </div>
       </div>
     </div>
   </div>

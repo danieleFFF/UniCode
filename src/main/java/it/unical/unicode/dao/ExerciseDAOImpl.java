@@ -20,6 +20,7 @@ public class ExerciseDAOImpl implements ExerciseDAO {
     private static final String FIND_BY_ID = "SELECT * FROM exercises WHERE id = ?";
     private static final String FIND_TESTS_BY_EXERCISE = "SELECT * FROM test_cases WHERE id_exercise = ?";
     private static final String INSERT_EXERCISE="INSERT INTO exercises (id_language, title, description, difficulty, points, solution_demo) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String DELETE_EXERCISE="DELETE FROM exercises WHERE id = ?";
     private static final List<String> VALID_SORT_COLUMNS = Arrays.asList("title", "difficulty", "points");
     private static final List<String> VALID_ORDERS = Arrays.asList("asc", "desc");
 
@@ -107,5 +108,10 @@ public class ExerciseDAOImpl implements ExerciseDAO {
             return ps;
         }, keyHolder);
         return Objects.requireNonNull(keyHolder.getKey()).intValue(); //Returns new exercise's id
+    }
+
+    @Override
+    public void delete(int id) {
+        jdbcTemplate.update(DELETE_EXERCISE, id);
     }
 }

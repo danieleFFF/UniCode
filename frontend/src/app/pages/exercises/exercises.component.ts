@@ -55,6 +55,9 @@ export class ExercisesComponent implements OnInit {
   isUserAdmin: boolean = false;
   showAdminPopup: boolean = false;
   errorMessage: string = '';
+  showDeletePopup: boolean = false;
+  exerciseToDeleteId: number | null = null;
+  exerciseToDeleteTitle: string = '';
 
   newExerciseData: NewExerciseRequest = {
     exercise: {
@@ -189,6 +192,33 @@ export class ExercisesComponent implements OnInit {
         this.loading = false
       }
     })
+  }
+
+  askDeleteExercise(ex: Exercise) {
+    this.exerciseToDeleteId = ex.id;
+    this.exerciseToDeleteTitle = ex.title;
+    this.showDeletePopup = true;
+  }
+
+  closeDeletePopup() {
+    this.showDeletePopup = false;
+    this.exerciseToDeleteId = null;
+    this.exerciseToDeleteTitle = '';
+  }
+
+  confirmDeleteExercise() {
+    if (this.exerciseToDeleteId === null) return;
+    this.http.delete(`${environment.apiUrl}/exercises/${this.exerciseToDeleteId}`, { withCredentials: true, responseType: 'text' })
+      .subscribe({
+        next: (res) => {
+          this.exercises = this.exercises.filter(e => e.id !== this.exerciseToDeleteId);
+          this.closeDeletePopup();
+        },
+        error: (err) => {
+          console.error("Errore eliminazione:", err);
+          this.closeDeletePopup();
+        }
+      });
   }
 
   @HostListener('window:scroll', [])
