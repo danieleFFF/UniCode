@@ -50,7 +50,7 @@
               </span>
               <span class="title">{{ ex.title }}</span>
             </div>
-            <div class="points" *ngIf="ex.points > 0">(Max points: {{ ex.points }})</div>
+            <div class="points" *ngIf="ex.points > 0 && ex.id_language !== 4">(Max points: {{ ex.points }})</div>
             <div class="description">
               <p class="mb-0">{{ ex.description }}</p>
             </div>
@@ -83,7 +83,8 @@
           <div class="row g-2 mb-3">
             <div class="col-8">
               <label class="form-label">Title</label>
-              <input type="text" class="form-control" [(ngModel)]="newExerciseData.exercise.title" name="title" required>
+              <input type="text" class="form-control" [(ngModel)]="newExerciseData.exercise.title" name="title"
+                required>
             </div>
             <div class="col-4">
               <label class="form-label">Language</label>
@@ -108,22 +109,27 @@
 
           <div class="mb-3">
             <label class="form-label">Description / Prompt</label>
-            <textarea class="form-control" rows="4" [(ngModel)]="newExerciseData.exercise.description" name="desc"></textarea>
+            <textarea class="form-control" rows="4" [(ngModel)]="newExerciseData.exercise.description"
+              name="desc"></textarea>
           </div>
 
           <hr class="popup-divider">
 
           <h5 class="mb-2">Test Cases (Input &rarr; Output)</h5>
           <div class="test-cases-list mb-2">
-            <div class="d-flex gap-2 mb-2 align-items-center" *ngFor="let test of newExerciseData.testCases; let i = index">
+            <div class="d-flex gap-2 mb-2 align-items-center"
+              *ngFor="let test of newExerciseData.testCases; let i = index">
               <input type="text" class="form-control form-control-sm" [(ngModel)]="test.input" [name]="'in'+i">
               <span class="arrow">&rarr;</span>
-              <input type="text" class="form-control form-control-sm" [(ngModel)]="test.expected_output" [name]="'out'+i">
-              <button type="button" class="btn btn-sm btn-remove-test" (click)="removeTestCase(i)" *ngIf="newExerciseData.testCases.length > 1">&times;</button>
+              <input type="text" class="form-control form-control-sm" [(ngModel)]="test.expected_output"
+                [name]="'out'+i">
+              <button type="button" class="btn btn-sm btn-remove-test" (click)="removeTestCase(i)"
+                *ngIf="newExerciseData.testCases.length > 1">&times;</button>
             </div>
           </div>
 
-          <button type="button" class="btn btn-sm btn-add-test w-100 mb-4" (click)="addTestCase()">+ Add Test Case</button>
+          <button type="button" class="btn btn-sm btn-add-test w-100 mb-4" (click)="addTestCase()">+ Add Test
+            Case</button>
           <div *ngIf="errorMessage" class="error-banner mb-3">
             {{ errorMessage }}
           </div>
