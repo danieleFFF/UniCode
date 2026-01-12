@@ -10,7 +10,6 @@
     radial-gradient(circle at 50% 50%, rgba(20, 20, 20, 1) 0%, rgba(18, 18, 18, 1) 100%);
   min-height: 100vh;
   box-sizing: border-box;
-  padding-bottom: 3rem;
 }
 
 .course-details-card {
@@ -18,72 +17,65 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   border-radius: 1rem;
-  padding: 24px 28px;
-  margin: 0 0 3rem 0;
-}
-
-.course-header {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 16px;
-}
-
-.course-icon {
-  width: 40px;
-  height: 40px;
+  margin-bottom: 2rem;
 }
 
 .title {
   color: #ffffff;
-  font-size: 24px;
+  font-size: clamp(20px, 5vw, 28px);
   font-weight: 600;
+  line-height: 1.2;
 }
 
 .difficulty {
   font-size: 17px;
   font-weight: 600;
-
-  &.easy {
-    color: #6eff7f;
-  }
-
-  &.medium {
-    color: #ffc66e;
-  }
-
-  &.hard {
-    color: #ff6e6e;
-  }
 }
 
 .description {
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #ccc;
 
   h3 {
-    font-size: 20px;
+    font-size: clamp(18px, 4vw, 22px);
     color: #f0f0f0;
-    margin-top: 28px;
+    margin-top: 32px;
     margin-bottom: 12px;
-    padding-bottom: 4px;
-    border-bottom: 1px solid #444;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   pre {
     background-color: #1a1a1a;
     border: 1px solid #333;
-    border-radius: 5px;
+    border-radius: 8px;
     padding: 16px;
     font-family: 'Inconsolata', monospace;
     color: #cda1f0;
-    white-space: pre-wrap;
-    word-wrap: break-word;
+    white-space: pre;
+    word-wrap: normal;
     overflow-x: auto;
+    &::-webkit-scrollbar {
+      height: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #444;
+      border-radius: 10px;
+    }
   }
 
   code {
     font-family: 'Inconsolata', monospace;
+    font-size: 15px;
   }
+}
+
+.no-results {
+  text-align: center;
+  color: #aaa;
+  padding: 30px;
+  background: #141414;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }

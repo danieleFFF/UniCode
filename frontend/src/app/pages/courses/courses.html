@@ -28,18 +28,6 @@
             <button class="start-btn" (click)="goToTopic(i)">START</button>
           </div>
         }
-
-        @if(topicList.length === 0){
-          <div class="no-results">
-            No topics available yet.
-          </div>
-        }
-      </div>
-    }
-
-    @if(errorMessage){
-      <div class="no-results">
-        {{ errorMessage }}
       </div>
     }
   </div>

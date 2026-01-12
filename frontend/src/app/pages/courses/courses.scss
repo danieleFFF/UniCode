@@ -58,7 +58,6 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  gap: 16px;
   margin-left: 0;
   margin-right: 0;
   padding-bottom: 3rem;
@@ -74,19 +73,27 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   background: #141414;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   border-radius: 1rem;
   padding: 16px 20px;
+  margin-bottom: 16px;
   transition: background-color 0.3s, transform 0.2s, backdrop-filter 0.3s;
-}
 
-.topic-card:hover {
-  background: rgba(39, 39, 39, 0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transform: translateY(-3px);
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  &:hover {
+    background: rgba(39, 39, 39, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transform: translateY(-3px);
+  }
 }
 
 .topic-content {
@@ -94,15 +101,6 @@
   align-items: baseline;
   gap: 8px;
   font-weight: 600;
-}
-
-.difficulty {
-  font-size: 17px;
-}
-
-.topic-title {
-  color: #ffffff;
-  font-size: 17px;
 }
 
 .start-btn {
@@ -114,12 +112,22 @@
   border-radius: 10px;
   width: 160px;
   height: 50px;
+  flex-shrink: 0;
+
   font-size: 17px;
   font-weight: 600;
   letter-spacing: 0.5px;
   cursor: pointer;
-  align-self: center;
   transition: background-color 0.3s, transform 0.2s, backdrop-filter 0.3s;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+
+  &:hover {
+    background: rgba(39, 39, 39, 0.7);
+    transform: translateY(-2px);
+  }
 }
 
 .start-btn:hover {
