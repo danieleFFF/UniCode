@@ -12,13 +12,13 @@ import java.util.List;
 public class TestCaseDAOImpl implements TestCaseDAO {
     private final JdbcTemplate jdbcTemplate;
     private static final String INSERT_TEST_CASE = "INSERT INTO test_cases (id_exercise, input, expected_output) VALUES (?, ?, ?)";
+    private static final String DELETE_TEST_CASE = "DELETE FROM test_cases WHERE id_exercise = ?";
 
     public TestCaseDAOImpl(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
     }
 
     public void saveAll(List<TestCase> tests, int exerciseId){
-        //Saves more test cases for a certain exercise (batch = group)
         jdbcTemplate.batchUpdate(INSERT_TEST_CASE, new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
@@ -30,8 +30,13 @@ public class TestCaseDAOImpl implements TestCaseDAO {
 
             @Override
             public int getBatchSize() {
-                return tests.size(); //Number of INSERT to do.
+                return tests.size();
             }
         });
+    }
+
+    @Override
+    public void deleteByExerciseId(int exerciseId) {
+        jdbcTemplate.update(DELETE_TEST_CASE, exerciseId);
     }
 }

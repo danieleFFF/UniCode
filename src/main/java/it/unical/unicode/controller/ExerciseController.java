@@ -3,7 +3,7 @@ package it.unical.unicode.controller;
 import it.unical.unicode.dto.ExerciseCreationRequest;
 import it.unical.unicode.model.Exercise;
 import it.unical.unicode.model.TestCase;
-import it.unical.unicode.service.IExerciseService;
+import it.unical.unicode.service.ExerciseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,7 @@ import java.util.Map;
 @RequestMapping("/api/exercises")
 public class ExerciseController {
     @Autowired
-    private IExerciseService exerciseService;
+    private ExerciseService exerciseService;
 
     @GetMapping
     public List<Exercise> getExercises(
@@ -75,6 +75,17 @@ public class ExerciseController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(500).body("Error creating exercise: " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteExercise(@PathVariable Integer id) {
+        try {
+            exerciseService.deleteExercise(id);
+            return ResponseEntity.ok("Exercise deleted successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error deleting exercise: " + e.getMessage());
         }
     }
 }

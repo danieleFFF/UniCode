@@ -11,4 +11,5 @@ public interface ExerciseDAO {
     List<TestCase> findTestsByExerciseId(Integer id);
     List<Exercise> findAll(String sortBy, String order);
     int save(Exercise exercise);
+    void delete(int id);
 }

@@ -420,5 +420,50 @@
   }
 }
 
+.delete-btn {
+  background-color: rgba(255, 111, 111, 0.1);
+  border: 1px solid #ff6f6f;
+  color: #ff6f6f;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  line-height: 1;
+  padding: 0;
+  border-radius: 1rem;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: #ff6f6f;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(255, 111, 111, 0.3);
+  }
+}
+
+.admin-popup-content.delete-popup {
+  max-width: 400px;
+  border: 1px solid #ff6f6f;
+
+  h3 {
+    color: #ff6f6f;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    border: none;
+    &:hover { background-color: #bb2d3b; }
+  }
+}
+
+@media (max-width: 767px) {
+  .delete-btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }

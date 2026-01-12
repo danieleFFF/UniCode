@@ -6,6 +6,8 @@ import it.unical.unicode.dto.ExerciseCreationRequest;
 import it.unical.unicode.model.Exercise;
 import it.unical.unicode.model.TestCase;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Comparator;
 import java.util.List;
 
@@ -44,9 +46,8 @@ public class ExerciseService implements IExerciseService {
     }
 
     public List<Exercise> findByLanguagePaged(Integer idLanguage, String sortBy, String order, int page, int size){
-        List<Exercise> esercizi = exerciseDAO.findByLanguagePaged(idLanguage, sortBy, order, page, size);
 
-        return esercizi;
+        return exerciseDAO.findByLanguagePaged(idLanguage, sortBy, order, page, size);
     }
 
     public Exercise findById(Integer id){
@@ -66,5 +67,11 @@ public class ExerciseService implements IExerciseService {
         if (request.getTestCases() != null && !request.getTestCases().isEmpty()) {
             testCaseDAO.saveAll(request.getTestCases(), newId);
         }
+    }
+
+    @Transactional
+    public void deleteExercise(int id) {
+        testCaseDAO.deleteByExerciseId(id);
+        exerciseDAO.delete(id);
     }
 }
