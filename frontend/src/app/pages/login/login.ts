@@ -63,15 +63,13 @@ export class Login extends AuthForm {
       return;
     }
 
-    this.authService.sendPasswordRecoverEmail(this.email).subscribe ({
-      next: (exists) => {
-        if (exists) {
-          this.router.navigate(['/password-recover'], { state: { email: this.email } });
-        } else {
-          this.errorMessage = "No account found with this email address.";
-        }
+    this.authService.sendPasswordRecoverEmail(this.email).subscribe({
+      next: () => {
+        this.router.navigate(['/password-recover'], { state: { email: this.email } });
       },
-      error:() => this.errorMessage= "Could not verify email. Please try again later."
+      error: () => {
+        this.errorMessage = "Could not send recovery email. Please try again later.";
+      }
     });
   }
 }

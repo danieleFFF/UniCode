@@ -40,7 +40,7 @@ public class UserController {
         try {
             registerService.registerUser(registerRequest);
             return ResponseEntity.ok("User successfully registered.");
-        } catch (IllegalStateException e) {
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
