@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
+//Rest controller for saving completed exercises and assign points/trophies
+
 @RestController
 @RequestMapping("/api/submissions")
 public class SubmissionController {
@@ -21,14 +23,14 @@ public class SubmissionController {
 
     @PostMapping
     public Map<String, Object> submitSolution(@RequestBody Map<String, Object> payload) {
+        //Data
         int idUser = (int) payload.get("idUser");
         int idExercise = (int) payload.get("idExercise");
         int pointsEarned = (int) payload.get("pointsEarned");
         int timeTaken = (int) payload.get("timeTaken");
         String code = (String) payload.get("code");
-
         boolean alreadyCompleted = submissionDAO.hasUserCompletedExercise(idUser, idExercise);
-
+        //Creates and saves current submission
         Submission submission = new Submission();
         submission.setIdUser(idUser);
         submission.setIdExercise(idExercise);
@@ -40,18 +42,17 @@ public class SubmissionController {
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
 
-        if (!alreadyCompleted) {
-            if (pointsEarned > 0) {
-                userService.addPoints(idUser, pointsEarned);
-            }
+        //Anticheat check
+        if(!alreadyCompleted){
+            if(pointsEarned > 0) userService.addPoints(idUser, pointsEarned);
             response.put("message", "Congratulations! You earned " + pointsEarned + " points!");
-        } else {
-            response.put("message", "Congratulations! You have already earned points for this exercise.");
-        }
+        } else response.put("message", "Congratulations! You have already earned points for this exercise.");
 
+        //Assigns trophies and prepares response
         List<Trophy> newTrophies = trophyService.checkAndAssignTrophies(idUser);
         response.put("pointsEarned", alreadyCompleted ? 0 : pointsEarned);
         response.put("newTrophies", newTrophies);
+
         return response;
     }
 
@@ -61,7 +62,8 @@ public class SubmissionController {
         Map<String, Object> response = new HashMap<>();
         response.put("completed", completed);
 
-        if (completed) {
+        if(completed){
+            //Add points.
             Submission submission = submissionDAO.getSubmission(idUser, idExercise);
             response.put("pointsEarned", submission.getPointsEarned());
         }

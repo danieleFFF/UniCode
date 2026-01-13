@@ -1,33 +1,38 @@
 package it.unical.unicode.service;
 
-import it.unical.unicode.dao.EsercizioDAO;
-import it.unical.unicode.model.Esercizio;
+import it.unical.unicode.dao.ExerciseDAO;
+import it.unical.unicode.dao.TestCaseDAO;
+import it.unical.unicode.dto.ExerciseCreationRequest;
+import it.unical.unicode.model.Exercise;
 import it.unical.unicode.model.TestCase;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Comparator;
 import java.util.List;
 
-@Service
-public class ExerciseService {
-    private final EsercizioDAO esercizioDAO;
+@Service("exerciseServiceImpl")
+public class ExerciseService implements IExerciseService {
+    private final ExerciseDAO exerciseDAO;
+    private final TestCaseDAO testCaseDAO;
 
-    public ExerciseService(EsercizioDAO esercizioDAO) {
-        this.esercizioDAO = esercizioDAO;
+    public ExerciseService(ExerciseDAO exerciseDAO, TestCaseDAO testCaseDAO) {
+        this.exerciseDAO = exerciseDAO;
+        this.testCaseDAO = testCaseDAO;
     }
 
-    public List<Esercizio> findByLanguage(Integer idLanguage, String sortBy, String order) {
-        List<Esercizio> esercizi = esercizioDAO.findByLanguage(idLanguage);
+    public List<Exercise> findByLanguage(Integer idLanguage, String sortBy, String order) {
+        List<Exercise> esercizi = exerciseDAO.findByLanguage(idLanguage);
 
-        Comparator<Esercizio> comparator = switch (sortBy) {
+        Comparator<Exercise> comparator = switch (sortBy){
             case "difficulty" -> Comparator.comparingInt(e -> getDifficultyOrder(e.getDifficulty()));
-            case "points" -> Comparator.comparing(Esercizio::getPoints);
-            default -> Comparator.comparing(Esercizio::getTitle, String.CASE_INSENSITIVE_ORDER);
+            case "points" -> Comparator.comparing(Exercise::getPoints);
+            default -> Comparator.comparing(Exercise::getTitle, String.CASE_INSENSITIVE_ORDER);
         };
 
-        if ("desc".equalsIgnoreCase(order)) {
-            comparator = comparator.reversed();
-        }
+        if("desc".equalsIgnoreCase(order)) comparator = comparator.reversed();
         esercizi.sort(comparator);
+
         return esercizi;
     }
 
@@ -40,20 +45,33 @@ public class ExerciseService {
         };
     }
 
-    public List<Esercizio> findByLanguagePaged(Integer idLanguage, String sortBy, String order, int page, int size) {
-        List<Esercizio> esercizi = esercizioDAO.findByLanguagePaged(idLanguage, sortBy, order, page, size);
-        return esercizi;
+    public List<Exercise> findByLanguagePaged(Integer idLanguage, String sortBy, String order, int page, int size){
+
+        return exerciseDAO.findByLanguagePaged(idLanguage, sortBy, order, page, size);
     }
 
-    public Esercizio findById(Integer id) {
-        return esercizioDAO.findById(id);
+    public Exercise findById(Integer id){
+        return exerciseDAO.findById(id);
     }
 
     public List<TestCase> findTestsByExerciseId(Integer id) {
-        return esercizioDAO.findTestsByExerciseId(id);
+        return exerciseDAO.findTestsByExerciseId(id);
     }
 
-    public List<Esercizio> findAll(String sortBy, String order) {
-        return esercizioDAO.findAll(sortBy, order);
+    public List<Exercise> findAll(String sortBy, String order){
+        return exerciseDAO.findAll(sortBy, order);
+    }
+
+    public void createExercise(ExerciseCreationRequest request){
+        int newId = exerciseDAO.save(request.getExercise());
+        if (request.getTestCases() != null && !request.getTestCases().isEmpty()) {
+            testCaseDAO.saveAll(request.getTestCases(), newId);
+        }
+    }
+
+    @Transactional
+    public void deleteExercise(int id) {
+        testCaseDAO.deleteByExerciseId(id);
+        exerciseDAO.delete(id);
     }
 }

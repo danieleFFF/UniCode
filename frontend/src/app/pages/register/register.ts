@@ -20,7 +20,7 @@ import { FieldRegex } from '../../shared/field-regex';
   templateUrl: './register.html',
   styleUrl: './register.scss'
 })
-export class Register extends AuthForm{
+export class Register extends AuthForm {
   username = '';
   confirmPassword = '';
 
@@ -68,7 +68,7 @@ export class Register extends AuthForm{
       return;
     }
 
-    const userData : RegisterPayload = {
+    const userData: RegisterPayload = {
       username: this.username,
       email: this.email,
       password: this.password
@@ -76,7 +76,6 @@ export class Register extends AuthForm{
 
     this.authService.register(userData).subscribe({
       next: (response) => {
-        console.log('Registration successful:', response);
         this.router.navigate(['/login']);
       },
       error: (error) => {

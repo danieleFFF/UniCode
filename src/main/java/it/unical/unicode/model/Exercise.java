@@ -1,6 +1,6 @@
 package it.unical.unicode.model;
 
-public class Esercizio {
+public class Exercise {
     private int id;
     private int id_language;
     private String title;
@@ -8,7 +8,6 @@ public class Esercizio {
     private String difficulty;
     private String solution_demo;
     private int points;
-
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     public int getId_language() { return id_language; }

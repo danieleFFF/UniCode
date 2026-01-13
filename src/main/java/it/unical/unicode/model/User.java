@@ -12,7 +12,17 @@ public class User {
     private String password_hash;
     private int total_points;
     private int id_avatar;
+    private boolean isAdmin;
     public User() {}
+
+    public User(String username, String email, String password_hash, int id_avatar, boolean isAdmin) {
+        this.username = username;
+        this.email = email;
+        this.password_hash = password_hash;
+        this.id_avatar = id_avatar;
+        this.isAdmin = isAdmin;
+    }
+
     public User(String username, String email, String password_hash, int id_avatar) {
         this.username = username;
         this.email = email;

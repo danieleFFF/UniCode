@@ -1,9 +1,11 @@
 package it.unical.unicode.controller;
 
-import it.unical.unicode.model.Esercizio;
+import it.unical.unicode.dto.ExerciseCreationRequest;
+import it.unical.unicode.model.Exercise;
 import it.unical.unicode.model.TestCase;
 import it.unical.unicode.service.ExerciseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
@@ -16,58 +18,74 @@ public class ExerciseController {
     private ExerciseService exerciseService;
 
     @GetMapping
-    public List<Esercizio> getExercises(
+    public List<Exercise> getExercises(
             @RequestParam(required = false) Integer idLanguage,
             @RequestParam(defaultValue = "title") String sortBy,
             @RequestParam(defaultValue = "asc") String order) {
-        if (idLanguage != null && idLanguage > 0) {
+
+        if (idLanguage != null && idLanguage > 0)
             return exerciseService.findByLanguage(idLanguage, sortBy, order);
-        } else {
+        else
             return exerciseService.findAll(sortBy, order);
-        }
     }
 
     @GetMapping("/{id}")
     public Map<String, Object> getExerciseById(@PathVariable Integer id) {
-        Esercizio esercizio = exerciseService.findById(id);
-        if (esercizio == null) {
+        Exercise exercise = exerciseService.findById(id);
+
+        if (exercise == null)
             throw new RuntimeException("Exercise not found with id: " + id);
-        }
 
         Map<String, Object> response = new HashMap<>();
-        response.put("id", esercizio.getId());
-        response.put("title", esercizio.getTitle());
-        response.put("description", esercizio.getDescription());
-        response.put("difficulty", esercizio.getDifficulty());
-        response.put("points", esercizio.getPoints());
-        response.put("id_language", esercizio.getId_language());
-        String languageName = getLanguageName(esercizio.getId_language());
+        response.put("id", exercise.getId());
+        response.put("title", exercise.getTitle());
+        response.put("description", exercise.getDescription());
+        response.put("difficulty", exercise.getDifficulty());
+        response.put("points", exercise.getPoints());
+        response.put("id_language", exercise.getId_language());
+        String languageName = getLanguageName(exercise.getId_language());
         response.put("languageName", languageName);
-        response.put("solutionDemo", esercizio.getSolution_demo());
+        response.put("solutionDemo", exercise.getSolution_demo());
+
         return response;
     }
 
-    private String getLanguageName(int idLanguage) {
-        switch (idLanguage) {
-            case 1:
-                return "Python";
-            case 2:
-                return "Java";
-            case 3:
-                return "C++";
-            case 4:
-                return "HTML";
-            case 5:
-                return "JavaScript";
-            case 6:
-                return "SQL";
-            default:
-                return "Unknown";
-        }
+    private String getLanguageName(int idLanguage){
+        return switch (idLanguage) {
+            case 1 -> "Python";
+            case 2 -> "Java";
+            case 3 -> "C++";
+            case 4 -> "HTML";
+            case 5 -> "JavaScript";
+            case 6 -> "SQL";
+            default -> "Unknown";
+        };
     }
 
     @GetMapping("/{id}/tests")
     public List<TestCase> getExerciseTests(@PathVariable Integer id) {
         return exerciseService.findTestsByExerciseId(id);
+    }
+
+    @PostMapping
+    public ResponseEntity<String> createExercise(@RequestBody ExerciseCreationRequest request){
+        try {
+            exerciseService.createExercise(request);
+            return ResponseEntity.ok("Exercise created successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error creating exercise: " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteExercise(@PathVariable Integer id) {
+        try {
+            exerciseService.deleteExercise(id);
+            return ResponseEntity.ok("Exercise deleted successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error deleting exercise: " + e.getMessage());
+        }
     }
 }

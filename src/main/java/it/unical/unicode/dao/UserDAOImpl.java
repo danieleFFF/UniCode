@@ -40,6 +40,7 @@ public class UserDAOImpl implements UserDAO {
             user.setPassword_hash(rs.getString("password_hash"));
             user.setTotal_points(rs.getInt("total_points"));
             user.setId_avatar(rs.getInt("id_avatar"));
+            user.setAdmin(rs.getBoolean("is_admin"));
             return user;
         }
     }
@@ -57,13 +58,13 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User findByEmail(String email) {
         List<User> users = jdbcTemplate.query(FIND_USER_BY_EMAIL, USER_MAP, email);
-        return users.isEmpty() ? null : users.get(0);
+        return users.isEmpty() ? null : users.getFirst();
     }
 
     @Override
     public User findByUsername(String username) {
         List<User> users = jdbcTemplate.query(FIND_USER_BY_USERNAME, USER_MAP, username);
-        return users.isEmpty() ? null : users.get(0);
+        return users.isEmpty() ? null : users.getFirst();
     }
 
     @Override
@@ -74,7 +75,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User findById(int id) {
         List<User> users = jdbcTemplate.query(FIND_USER_BY_ID, USER_MAP, id);
-        return users.isEmpty() ? null : users.get(0);
+        return users.isEmpty() ? null : users.getFirst();
     }
 
     @Override

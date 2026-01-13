@@ -2,7 +2,7 @@ package it.unical.unicode.service;
 
 import it.unical.unicode.dao.*;
 import it.unical.unicode.dto.TrophyDTO;
-import it.unical.unicode.model.Esercizio;
+import it.unical.unicode.model.Exercise;
 import it.unical.unicode.model.Submission;
 import it.unical.unicode.model.Trophy;
 import it.unical.unicode.model.User;
@@ -16,17 +16,17 @@ public class TrophyService {
     private final TrophyDAO trophyDAO;
     private final UserTrophyDAO userTrophyDAO;
     private final SubmissionDAO submissionDAO;
-    private final EsercizioDAO esercizioDAO;
+    private final ExerciseDAO exerciseDAO;
     private final UserDAO userDAO;
     private final UserService userService;
 
     public TrophyService(TrophyDAO trophyDAO, UserTrophyDAO userTrophyDAO,
-            SubmissionDAO submissionDAO, EsercizioDAO esercizioDAO,
+            SubmissionDAO submissionDAO, ExerciseDAO exerciseDAO,
             UserDAO userDAO, UserService userService) {
         this.trophyDAO = trophyDAO;
         this.userTrophyDAO = userTrophyDAO;
         this.submissionDAO = submissionDAO;
-        this.esercizioDAO = esercizioDAO;
+        this.exerciseDAO = exerciseDAO;
         this.userDAO = userDAO;
         this.userService = userService;
     }
@@ -63,7 +63,7 @@ public class TrophyService {
 
         checkThreshold(userId, "CODE_MASTER", completedCount >= 5, newlyunlocked);
 
-        List<Esercizio> pythonExercises = esercizioDAO.findByLanguage(1);
+        List<Exercise> pythonExercises = exerciseDAO.findByLanguage(1);
         long pythonCompleted = userSubmissions.stream()
                 .filter(s -> pythonExercises.stream().anyMatch(pe -> pe.getId() == s.getIdExercise()))
                 .count();

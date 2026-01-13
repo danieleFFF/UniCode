@@ -1,10 +1,10 @@
-import { Component, HostListener, OnInit, ElementRef } from '@angular/core'
-import { CommonModule } from '@angular/common'
-import { FormsModule } from '@angular/forms'
-import { HttpClient, HttpClientModule, HttpParams } from '@angular/common/http'
-import { RouterLink } from '@angular/router'
-import { Navbar } from '../../layout/navbar/navbar';
-import { environment } from '../../../environments/environment';
+import {Component, ElementRef, HostListener, OnInit} from '@angular/core'
+import {CommonModule} from '@angular/common'
+import {FormsModule} from '@angular/forms'
+import {HttpClient, HttpClientModule, HttpParams} from '@angular/common/http'
+import {RouterLink} from '@angular/router'
+import {Navbar} from '../../layout/navbar/navbar';
+import {environment} from '../../../environments/environment';
 
 interface Exercise {
   id: number
@@ -13,6 +13,23 @@ interface Exercise {
   points: number
   description: string
   id_language: number
+}
+
+interface TestCaseData {
+  input: string;
+  expected_output: string;
+}
+
+interface NewExerciseRequest {
+  exercise: {
+    title: string;
+    description: string;
+    difficulty: 'Easy' | 'Medium' | 'Hard';
+    points: number;
+    id_language: number;
+    solution_demo?: string;
+  };
+  testCases: TestCaseData[];
 }
 
 @Component({
@@ -35,6 +52,24 @@ export class ExercisesComponent implements OnInit {
   size = 10
   hasMore = true
   selectedFilterName = 'Alphabetic'
+  isUserAdmin: boolean = false;
+  showAdminPopup: boolean = false;
+  errorMessage: string = '';
+  showDeletePopup: boolean = false;
+  exerciseToDeleteId: number | null = null;
+  exerciseToDeleteTitle: string = '';
+
+  newExerciseData: NewExerciseRequest = {
+    exercise: {
+      title: '',
+      description: '',
+      //informazioni di default provvisorie
+      difficulty: 'Easy',
+      points: 10,
+      id_language: 1
+    },
+    testCases: [{ input: '', expected_output: '' }]
+  };
 
   constructor(private http: HttpClient, private eRef: ElementRef) { }
 
@@ -43,13 +78,85 @@ export class ExercisesComponent implements OnInit {
       const savedLang = localStorage.getItem('selectedLanguage')
       const savedSort = localStorage.getItem('sortBy')
       const savedOrder = localStorage.getItem('sortOrder')
-
       this.selectedLanguage = savedLang || 'C++'
       this.sortBy = savedSort || 'title'
       this.sortOrder = (savedOrder as 'asc' | 'desc') || 'asc'
+      const userJson = localStorage.getItem('user');
+      if (userJson) {
+        try {
+          const user = JSON.parse(userJson);
+          if (user.is_admin === true || user.admin === true) {
+            this.isUserAdmin = true;
+          }
+        } catch (e) {
+          console.error('Errore parsing JSON locale', e);
+        }
+      }
+      this.http.get<any>(`${environment.apiUrl}/users/profile`, { withCredentials: true })
+        .subscribe({
+          next: (userDto) => {
+            localStorage.setItem('user', JSON.stringify(userDto));
+            this.isUserAdmin = userDto.is_admin === true || userDto.admin === true;
+          },
+          error: () => {
+            this.isUserAdmin = false;
+          }
+        });
     }
     this.selectedFilterName = this.mapSortName(this.sortBy)
     this.loadExercises(true)
+  }
+
+  toggleAdminPopup() {
+    this.showAdminPopup = !this.showAdminPopup;
+    if (this.showAdminPopup) {
+      this.newExerciseData.exercise.id_language = this.getLanguageId(this.selectedLanguage);
+      this.errorMessage = '';
+    }
+  }
+
+  closeAdminPopup() {
+    this.showAdminPopup = false;
+    this.errorMessage = '';
+  }
+
+  addTestCase() {
+    this.newExerciseData.testCases.push({ input: '', expected_output: '' });
+  }
+
+  removeTestCase(index: number) {
+    if (this.newExerciseData.testCases.length > 1) {
+      this.newExerciseData.testCases.splice(index, 1);
+    }
+  }
+
+  saveExercise() {
+    this.errorMessage = '';
+    if (!this.newExerciseData.exercise.title || !this.newExerciseData.exercise.description) {
+      this.errorMessage = 'Insert all required fields';
+      return;
+    }
+
+    this.http.post(`${environment.apiUrl}/exercises`, this.newExerciseData, { withCredentials: true, responseType: 'text' })
+      .subscribe({
+        next: () => {
+          this.closeAdminPopup();
+          this.loadExercises(true);
+          this.newExerciseData = {
+            exercise: {
+              title: '',
+              description: '',
+              difficulty: 'Easy',
+              points: 10,
+              id_language: this.getLanguageId(this.selectedLanguage)
+            },
+            testCases: [{ input: '', expected_output: '' }]
+          };
+        },
+        error: (err) => {
+          console.error('Errore salvataggio:', err);
+        }
+      });
   }
 
   loadExercises(reset: boolean = false) {
@@ -78,6 +185,33 @@ export class ExercisesComponent implements OnInit {
         this.loading = false
       }
     })
+  }
+
+  askDeleteExercise(ex: Exercise) {
+    this.exerciseToDeleteId = ex.id;
+    this.exerciseToDeleteTitle = ex.title;
+    this.showDeletePopup = true;
+  }
+
+  closeDeletePopup() {
+    this.showDeletePopup = false;
+    this.exerciseToDeleteId = null;
+    this.exerciseToDeleteTitle = '';
+  }
+
+  confirmDeleteExercise() {
+    if (this.exerciseToDeleteId === null) return;
+    this.http.delete(`${environment.apiUrl}/exercises/${this.exerciseToDeleteId}`, { withCredentials: true, responseType: 'text' })
+      .subscribe({
+        next: (res) => {
+          this.exercises = this.exercises.filter(e => e.id !== this.exerciseToDeleteId);
+          this.closeDeletePopup();
+        },
+        error: (err) => {
+          console.error("Errore eliminazione:", err);
+          this.closeDeletePopup();
+        }
+      });
   }
 
   @HostListener('window:scroll', [])

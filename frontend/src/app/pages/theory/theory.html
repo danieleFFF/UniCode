@@ -1,10 +1,11 @@
 <div class="course-container">
   <app-navbar></app-navbar>
-  <div class="course-page-content container-fluid px-3 px-md-4 px-lg-5">
+
+  <div class="container py-4">
 
     @if(currentTopic) {
-      <div class="course-details-card">
-        <div class="course-header">
+      <div class="course-details-card p-3 p-sm-4 p-md-5">
+        <div class="course-header d-flex flex-wrap align-items-baseline gap-2 mb-4">
           <span class="title">{{ currentTopic.title }}</span>
 
           @if(topicDifficulty) {
@@ -15,12 +16,11 @@
         </div>
 
         <div class="description">
-          <h3>Introduction to Topic</h3>
+          <h3 class="mt-0">Introduction to Topic</h3>
           <p>{{ currentTopic.introduction }}</p>
 
           <h3>Code Example</h3>
-
-          <pre><code>{{ currentTopic.codeExample }}</code></pre>
+          <pre class="overflow-x-auto"><code>{{ currentTopic.codeExample }}</code></pre>
 
           <h3>Key Concepts</h3>
           <div class="key-concepts">
@@ -29,15 +29,15 @@
 
           @if(currentTopic.urlVideo) {
             <h3>Recommended Video</h3>
-            <iframe
-              width="100%"
-              height="315"
-              [src]="safeVideoUrl"
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen>
-            </iframe>
+            <div class="ratio ratio-16x9 mt-3 shadow-sm rounded">
+              <iframe
+                [src]="safeVideoUrl"
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+              </iframe>
+            </div>
           }
         </div>
       </div>

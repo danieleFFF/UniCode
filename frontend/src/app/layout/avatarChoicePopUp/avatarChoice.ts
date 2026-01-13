@@ -99,7 +99,6 @@ export class AvatarChoice implements OnInit {
 
     this.userService.changeAvatar(idAvatarSelected).subscribe({
       next: () => {
-        console.log("Avatar modificato con successo");
         this.userService.getProfile().subscribe();
         this.avatarUpdate.emit();
         this.closePopUp();
