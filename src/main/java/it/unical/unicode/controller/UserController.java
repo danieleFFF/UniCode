@@ -115,4 +115,21 @@ public class UserController {
         return ResponseEntity.ok(dtos);
     }
 
+    @GetMapping("/nonadmin-emails")
+    public ResponseEntity<?> getNonAdminEmails(Authentication authentication) {
+        try {
+            User user = getCurrentUser(authentication);
+
+            // Controllo di sicurezza: solo gli admin possono vedere questa lista
+            if (!user.isAdmin()) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied.");
+            }
+
+            List<String> emails = userService.getStudentEmails();
+            return ResponseEntity.ok(emails);
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
 }

@@ -79,4 +79,7 @@ public class UserService {
         }
     }
 
+    public List<String> getStudentEmails() {
+        return userDAO.getNonAdminEmails();
+    }
 }
