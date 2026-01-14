@@ -26,8 +26,8 @@ export class AuthService{
     });
   }
 
-  sendPasswordRecoverEmail(email: string): Observable<number> {
-    return this.http.post<number>(`${this.apiUrl}/auth/send-reset-code`, email, {
+  sendPasswordRecoverEmail(email: string): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/auth/send-reset-code`, email, {
       withCredentials: true
     });
   }

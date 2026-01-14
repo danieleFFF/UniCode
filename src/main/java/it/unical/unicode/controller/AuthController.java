@@ -20,9 +20,9 @@ public class AuthController{
     }
 
     @PostMapping("/send-reset-code")
-    public ResponseEntity<Integer> sendPasswordRecoverEmail(@RequestBody String email) {
-        Integer exists = passwordRecoverService.sendPasswordRecoverEmail(email);
-        return ResponseEntity.ok(exists);
+    public ResponseEntity<Void> sendPasswordRecoverEmail(@RequestBody String email) {
+        passwordRecoverService.sendPasswordRecoverEmail(email);
+        return ResponseEntity.ok().build();
     }
     @PostMapping("/reset-password")
     public ResponseEntity<Void> resetPassword (@RequestBody Credentials credentials){
@@ -31,7 +31,7 @@ public class AuthController{
             return ResponseEntity.ok().build();
         }
         catch (AuthenticationServiceException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
 

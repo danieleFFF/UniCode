@@ -96,18 +96,14 @@ export class PasswordRecover extends AuthForm implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.secretCode.trim().length === 0) {
+    const normalizedCode = this.secretCode.trim();
+    if (normalizedCode.length === 0) {
       this.secretCodeError = 'Secret code cannot be empty.';
       return;
     }
 
-    if (this.secretCode.length < 4) {
-      this.secretCodeError = 'Secret code is too short.';
-      return;
-    }
-
-    if (this.secretCode.length > 20) {
-      this.secretCodeError = 'Secret code is too long.';
+    if (!/^\d{6}$/.test(normalizedCode)) {
+      this.secretCodeError = 'Secret code must be 6 digits.';
     }
   }
 
@@ -150,11 +146,8 @@ export class PasswordRecover extends AuthForm implements OnInit, OnDestroy {
     } else if (this.secretCode.trim().length === 0) {
       this.secretCodeError = 'Secret code cannot be empty.';
       isValid = false;
-    } else if (this.secretCode.length < 4) {
-      this.secretCodeError = 'Secret code is too short.';
-      isValid = false;
-    } else if (this.secretCode.length > 20) {
-      this.secretCodeError = 'Secret code is too long.';
+    } else if (!/^\d{6}$/.test(this.secretCode.trim())) {
+      this.secretCodeError = 'Secret code must be 6 digits.';
       isValid = false;
     }
 
@@ -191,19 +184,12 @@ export class PasswordRecover extends AuthForm implements OnInit, OnDestroy {
         console.error('Password reset failed:', err);
         this.isSubmitting = false;
 
-        // Gestione errori specifici dal server
-        if (err.status === 400) {
-          this.errorMessage = 'Invalid secret code or password. Please check and try again.';
-        } else if (err.status === 404) {
-          this.errorMessage = 'Email not found. Please check your email address.';
-        } else if (err.status === 401) {
-          this.errorMessage = 'Invalid or expired secret code. Please request a new one.';
-        } else if (err.status === 429) {
+        if (err.status === 429) {
           this.errorMessage = 'Too many attempts. Please try again later.';
         } else if (err.status === 0) {
           this.errorMessage = 'Network error. Please check your connection and try again.';
         } else {
-          this.errorMessage = 'Failed to reset password. Please try again later.';
+          this.errorMessage = 'Reset failed. Please try again or request a new code.';
         }
       }
     });

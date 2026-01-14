@@ -4,6 +4,7 @@ import jakarta.mail.*;
 import jakarta.mail.internet.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
@@ -15,19 +16,26 @@ public class PasswordRecoverService {
 
     private final JavaMailSender mailSender;
     private final String senderEmail;
+    private final PasswordEncoder passwordEncoder;
     private final SecureRandom random = new SecureRandom();
     private final Map<String, ResetCodeEntry> resetCodes = new ConcurrentHashMap<>();
     private static final long RESET_CODE_TTL_MS = 190 * 1000;
 
-    public PasswordRecoverService(JavaMailSender mailSender, @Value("${app.mail.from}") String senderEmail) {
+    public PasswordRecoverService(
+        JavaMailSender mailSender,
+        @Value("${app.mail.from}") String senderEmail,
+        PasswordEncoder passwordEncoder
+    ) {
         this.mailSender = mailSender;
         this.senderEmail = senderEmail;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public Integer sendPasswordRecoverEmail(String recipientEmail) {
+    public void sendPasswordRecoverEmail(String recipientEmail) {
         try {
             int verificationCode = 100000 + random.nextInt(900000);
-            resetCodes.put(recipientEmail, new ResetCodeEntry(String.valueOf(verificationCode),
+            String codeHash = passwordEncoder.encode(String.valueOf(verificationCode));
+            resetCodes.put(recipientEmail, new ResetCodeEntry(codeHash,
                 System.currentTimeMillis() + RESET_CODE_TTL_MS));
 
             String subject = "Your UniCode Password Reset Code";
@@ -51,7 +59,6 @@ public class PasswordRecoverService {
             mailSender.send(message);
 
             System.out.println("EmailService: Email sent successfully to " + recipientEmail);
-            return verificationCode;
         }
         catch (MessagingException e) {
             System.err.println("EmailService: Failed to send email: " + e.getMessage());
@@ -75,7 +82,7 @@ public class PasswordRecoverService {
             return false;
         }
 
-        if (!entry.code().equals(normalizedCode)) {
+        if (!passwordEncoder.matches(normalizedCode, entry.codeHash())) {
             return false;
         }
 
@@ -83,5 +90,5 @@ public class PasswordRecoverService {
         return true;
     }
 
-    private record ResetCodeEntry(String code, long expiresAtMillis) {}
+    private record ResetCodeEntry(String codeHash, long expiresAtMillis) {}
 }
