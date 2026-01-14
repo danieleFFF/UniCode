@@ -19,7 +19,6 @@ public class UserDAOImpl implements UserDAO {
     private static final String FIND_USER_BY_USERNAME = "SELECT * FROM users WHERE username = ?"; // Added this line
     private static final String RESET_PASSWORD = "UPDATE users SET password_hash = ? WHERE email = ?";
     private static final String FIND_USER_BY_ID = "SELECT * FROM users WHERE id = ?";
-    private static final String FIND_ALL = "SELECT * FROM users";
     private static final String UPDATE_TOT_POINTS = "UPDATE users SET total_points = total_points + ? WHERE id = ?";
     private static final String UPDATE_AVATAR = "UPDATE users SET id_avatar = ? WHERE id = ?";
     private static final String GET_RANKING = "SELECT * FROM users ORDER BY total_points DESC LIMIT ?";
