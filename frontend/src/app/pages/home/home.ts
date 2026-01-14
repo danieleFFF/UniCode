@@ -27,7 +27,7 @@ import {environment} from '../../../environments/environment';
 export class Home implements OnInit {
   isUserAdmin: boolean = false;
   showAdminPopup: boolean = false;
-  studentEmails: string[] = [];
+  studentUsernames: string[] = [];
 
   constructor(private http: HttpClient) {}
 
@@ -61,7 +61,7 @@ export class Home implements OnInit {
   toggleAdminPopup() {
     this.showAdminPopup = !this.showAdminPopup;
     if (this.showAdminPopup) {
-      this.loadStudentsEmails();
+      this.loadStudentUsernames();
     }
   }
 
@@ -69,11 +69,11 @@ export class Home implements OnInit {
     this.showAdminPopup = false;
   }
 
-  loadStudentsEmails() {
-    this.http.get<string[]>(`${environment.apiUrl}/users/nonadmin-emails`, { withCredentials: true })
+  loadStudentUsernames() {
+    this.http.get<string[]>(`${environment.apiUrl}/users/nonadmin-usernames`, { withCredentials: true })
       .subscribe({
-        next: (emails) => {
-          this.studentEmails= emails;
+        next: (usernames) => {
+          this.studentUsernames= usernames;
         },
         error: (err) => {
           console.error('Error fetching emails', err);

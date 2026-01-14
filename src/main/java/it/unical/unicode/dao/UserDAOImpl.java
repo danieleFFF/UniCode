@@ -23,7 +23,7 @@ public class UserDAOImpl implements UserDAO {
     private static final String UPDATE_TOT_POINTS = "UPDATE users SET total_points = total_points + ? WHERE id = ?";
     private static final String UPDATE_AVATAR = "UPDATE users SET id_avatar = ? WHERE id = ?";
     private static final String GET_RANKING = "SELECT * FROM users ORDER BY total_points DESC LIMIT ?";
-    private static final String FIND_NON_ADMIN_EMAILS = "SELECT email FROM users WHERE is_admin = false OR is_admin IS NULL";
+    private static final String FIND_NON_ADMIN_USERNAMES = "SELECT username FROM users WHERE is_admin = false OR is_admin IS NULL";
 
     public UserDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -110,7 +110,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<String> getNonAdminEmails() {
-        return jdbcTemplate.queryForList(FIND_NON_ADMIN_EMAILS, String.class);
+    public List<String> getNonAdminUsernames() {
+        return jdbcTemplate.queryForList(FIND_NON_ADMIN_USERNAMES, String.class);
     }
 }

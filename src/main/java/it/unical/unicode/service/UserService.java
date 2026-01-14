@@ -67,7 +67,7 @@ public class UserService {
         }
     }
 
-    public List<String> getStudentEmails() {
-        return userDAO.getNonAdminEmails();
+    public List<String> getStudentUsernames() {
+        return userDAO.getNonAdminUsernames();
     }
 }

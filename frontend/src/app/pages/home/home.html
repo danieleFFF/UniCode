@@ -24,11 +24,11 @@
       </div>
 
       <div class="popup-body">
-        <div *ngIf="studentEmails.length > 0; else noStudents">
+        <div *ngIf="studentUsernames.length > 0; else noStudents">
           <ul style="list-style: none; padding: 0; margin: 0;">
-            <li *ngFor="let email of studentEmails"
+            <li *ngFor="let username of studentUsernames"
                 style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 1.1rem;">
-              {{ email }}
+              {{ username }}
             </li>
           </ul>
         </div>

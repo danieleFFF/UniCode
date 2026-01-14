@@ -27,5 +27,5 @@ public interface UserDAO {
 
     void updatePassword(String newPassword, int id);
 
-    List<String> getNonAdminEmails();
+    List<String> getNonAdminUsernames();
 }
