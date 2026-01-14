@@ -7,7 +7,6 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { FieldRegex } from '../../shared/field-regex';
 import { AuthForm } from '../../shared/auth-form';
-import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
