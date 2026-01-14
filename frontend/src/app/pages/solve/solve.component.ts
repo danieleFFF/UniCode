@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core'
-import { CommonModule } from '@angular/common'
-import { FormsModule } from '@angular/forms'
-import { ActivatedRoute } from '@angular/router'
-import { HttpClient, HttpClientModule } from '@angular/common/http'
-import { Navbar } from '../../layout/navbar/navbar'
-import { UserService } from '../../services/user.service';
-import { environment } from '../../../environments/environment';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core'
+import {CommonModule} from '@angular/common'
+import {FormsModule} from '@angular/forms'
+import {ActivatedRoute} from '@angular/router'
+import {HttpClient, HttpClientModule} from '@angular/common/http'
+import {Navbar} from '../../layout/navbar/navbar'
+import {UserService} from '../../services/user.service';
+import {environment} from '../../../environments/environment';
 
 interface CachedResult {
   showResults: boolean;
@@ -289,9 +289,7 @@ SELECT `;
     }
     const timePenalty = Math.floor(elapsedSeconds / 30);
     const basePoints = Math.floor(maxPoints * difficultyMultiplier);
-    const finalPoints = Math.max(Math.floor(maxPoints * 0.3), basePoints - timePenalty);
-
-    return finalPoints;
+    return Math.max(Math.floor(maxPoints * 0.3), basePoints - timePenalty);
   }
 
   private addToCache(key: string, value: CachedResult): void {
