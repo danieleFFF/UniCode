@@ -93,7 +93,7 @@ export class AvatarChoice implements OnInit {
     const idAvatarSelected = this.currentAvatarId;
 
     if (idAvatarSelected === null) {
-      console.error("Nessun avatar selezionato");
+      console.error();
       return;
     }
 
@@ -104,7 +104,7 @@ export class AvatarChoice implements OnInit {
         this.closePopUp();
       },
       error: (err) => {
-        console.error("Errore durante la modifica dell'avatar", err);
+        console.error(err);
       }
     });
   }

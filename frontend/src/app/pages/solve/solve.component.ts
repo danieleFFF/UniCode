@@ -227,7 +227,7 @@ SELECT `;
           this.consoleOutput = `You have already completed this exercise and earned ${response.pointsEarned} points!`;
         }
       },
-      error: (err) => console.error('Error checking completion:', err)
+      error: (err) => console.error(err)
     });
   }
 
@@ -471,7 +471,7 @@ SELECT `;
       },
 
       error: err => {
-        console.error('Error loading tests:', err);
+        console.error(err);
         this.consoleOutput = 'Error loading test cases';
         this.showResults = true;
         this.isRunning = false;
@@ -508,7 +508,7 @@ SELECT `;
         }
       },
       error: (err) => {
-        console.error('Error submitting solution:', err);
+        console.error(err);
         if (this.allPassed) {
           const points = this.earnedPoints > 0 ? this.earnedPoints : 0;
           this.consoleOutput = `Congratulations! You completed the exercise!`;

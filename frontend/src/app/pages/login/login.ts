@@ -52,7 +52,7 @@ export class Login extends AuthForm {
         this.router.navigate(['/home']).then(() => { });
       },
       error: (errore) => {
-        console.error('Login Fallito (dal componente):', errore);
+        console.error(errore);
         this.errorMessage = 'Incorrect email or password. Please try again.';
       }
     });

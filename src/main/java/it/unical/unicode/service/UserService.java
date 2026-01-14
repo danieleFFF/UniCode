@@ -67,7 +67,17 @@ public class UserService {
         }
     }
 
-    public List<String> getStudentUsernames() {
-        return userDAO.getNonAdminUsernames();
+    public List<User> getNonAdminUsers() {
+        return userDAO.getNonAdminUsers();
+    }
+
+    public void promoteToAdmin(int userId) {
+        User user = userDAO.findById(userId);
+        if (user != null) {
+            userDAO.makeUserAdmin(userId);
+        }
+        else {
+            throw new RuntimeException("User not found with id: " + userId);
+        }
     }
 }

@@ -188,7 +188,7 @@ export class PasswordRecover extends AuthForm implements OnInit, OnDestroy {
         }, 2000);
       },
       error: (err) => {
-        console.error('Password reset failed:', err);
+        console.error(err);
         this.isSubmitting = false;
 
         // Gestione errori specifici dal server
@@ -252,7 +252,7 @@ export class PasswordRecover extends AuthForm implements OnInit, OnDestroy {
         this.secretCodeError = '';
       },
       error: (err) => {
-        console.error('Failed to resend code:', err);
+        console.error(err);
         this.isSubmitting = false;
 
         if (err.status === 429) {

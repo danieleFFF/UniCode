@@ -8,6 +8,12 @@ import {FormsModule} from '@angular/forms';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 
+
+interface SimpleUser {
+  id: number;
+  username: string;
+}
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -24,11 +30,15 @@ import {environment} from '../../../environments/environment';
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
+
 export class Home implements OnInit {
   isUserAdmin: boolean = false;
   showAdminPopup: boolean = false;
-  studentUsernames: string[] = [];
+  students: SimpleUser[] = [];
   searchTerm: string = '';
+  showPromotePopup: boolean = false;
+  userToPromoteId: number | null = null;
+  userToPromoteName: string = '';
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
@@ -41,7 +51,7 @@ export class Home implements OnInit {
             this.isUserAdmin = true;
           }
         } catch (e) {
-          console.error('Errore parsing JSON locale', e);
+          console.error(e);
         }
       }
 
@@ -58,12 +68,12 @@ export class Home implements OnInit {
     }
   }
 
-  get filteredUsernames(): string[] {
+  get filteredStudents(): SimpleUser[] {
     if (!this.searchTerm) {
-      return this.studentUsernames;
+      return this.students;
     }
-    return this.studentUsernames.filter(username =>
-      username.toLowerCase().startsWith(this.searchTerm.toLowerCase())
+    return this.students.filter(student =>
+      student.username.toLowerCase().startsWith(this.searchTerm.toLowerCase())
     );
   }
 
@@ -71,7 +81,7 @@ export class Home implements OnInit {
     this.showAdminPopup = !this.showAdminPopup;
     if (this.showAdminPopup) {
       this.searchTerm = '';
-      this.loadStudentUsernames();
+      this.loadStudents();
     }
   }
 
@@ -79,15 +89,42 @@ export class Home implements OnInit {
     this.showAdminPopup = false;
   }
 
-  loadStudentUsernames() {
-    this.http.get<string[]>(`${environment.apiUrl}/users/nonadmin-usernames`, { withCredentials: true })
+  loadStudents() {
+    this.http.get<SimpleUser[]>(`${environment.apiUrl}/users/nonadmin-users`, {withCredentials: true})
       .subscribe({
-        next: (usernames) => {
-          this.studentUsernames= usernames;
+        next: (users) => {
+          this.students = users;
         },
-        error: (err) => {
-          console.error('Error fetching emails', err);
-        }
+        error: (err) => console.error(err)
       });
+  }
+
+  askMakeAdmin(userId: number, username: string) {
+    this.userToPromoteId = userId;
+    this.userToPromoteName = username;
+    this.showPromotePopup = true;
+  }
+
+  closePromotePopup() {
+    this.showPromotePopup = false;
+    this.userToPromoteId = null;
+    this.userToPromoteName = '';
+  }
+
+  confirmMakeAdmin() {
+    if (this.userToPromoteId === null) return;
+
+    this.http.put(`${environment.apiUrl}/users/make-admin`, {}, {
+      withCredentials: true,
+      params: { userId: this.userToPromoteId.toString() }
+    }).subscribe({
+      next: () => {
+        this.loadStudents();
+        this.closePromotePopup();
+      },
+      error: (err) => {
+        this.closePromotePopup();
+      }
+    });
   }
 }

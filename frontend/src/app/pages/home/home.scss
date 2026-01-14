@@ -112,7 +112,6 @@
 
     .search-container {
       margin-bottom: 1.5rem;
-
       .popup-search-input {
         width: 100%;
         padding: 10px 15px;
@@ -136,6 +135,79 @@
         }
       }
     }
+
+    .student-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      .student-list-item {
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background-color 0.2s;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .student-name {
+          font-size: 1.1rem;
+          color: #e0e0e0;
+          font-weight: 500;
+        }
+
+        .action-buttons {
+          display: flex;
+          gap: 10px;
+
+          .btn-action {
+            font-family: 'Inconsolata', monospace;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: transparent;
+
+            &.btn-promote {
+              border: 1px solid rgba(46, 204, 113, 0.5);
+              color: #2ecc71;
+
+              &:hover {
+                background-color: rgba(46, 204, 113, 0.15);
+                border-color: #2ecc71;
+                box-shadow: 0 0 8px rgba(46, 204, 113, 0.3);
+              }
+
+              &:active {
+                transform: scale(0.96);
+              }
+            }
+
+            &.btn-ban {
+              border: 1px solid rgba(231, 76, 60, 0.5);
+              color: #e74c3c;
+
+              &:hover {
+                background-color: rgba(231, 76, 60, 0.15);
+                border-color: #e74c3c;
+                box-shadow: 0 0 8px rgba(231, 76, 60, 0.3);
+              }
+
+              &:active {
+                transform: scale(0.96);
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
 
@@ -147,4 +219,57 @@
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+.admin-popup-content.promote-popup {
+  max-width: 400px;
+  border: 1px solid #2ecc71;
+  text-align: center;
+
+  h3 {
+    color: #2ecc71;
+  }
+
+  .popup-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    color: white;
+    font-family: 'Inconsolata', monospace;
+    cursor: pointer;
+    transition: background 0.2s;
+    &:hover { background-color: #5a6268; }
+  }
+
+  .btn-success-custom {
+    background-color: #2ecc71;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    color: #000;
+    font-weight: 700;
+    font-family: 'Inconsolata', monospace;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+
+    &:hover {
+      background-color: #27ae60;
+      transform: translateY(-2px);
+    }
+  }
+}
+
+.admin-popup-overlay {
+
+  &.z-high {
+    z-index: 3000;
+    background-color: rgba(0, 0, 0, 0.85);
+  }
 }

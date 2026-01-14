@@ -37,7 +37,7 @@ export class BoardComponent implements OnChanges {
         this.loading = false;
       },
       error: (err) => {
-        console.error('Error loading trophies:', err);
+        console.error(err);
         this.loading = false;
       }
     });

@@ -115,17 +115,33 @@ public class UserController {
         return ResponseEntity.ok(dtos);
     }
 
-    @GetMapping("/nonadmin-usernames")
-    public ResponseEntity<?> getNonAdminUsernames(Authentication authentication) {
+    @GetMapping("/nonadmin-users")
+    public ResponseEntity<?> getNonAdminUsers(Authentication authentication) {
         try {
             User user = getCurrentUser(authentication);
             if (!user.isAdmin()) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied.");
             }
+            List<User> users = userService.getNonAdminUsers();
+            List<UserDTO> dtos = new ArrayList<>();
+            for (User u : users) {
+                dtos.add(UserDTO.toDTO(u));
+            }
+            return ResponseEntity.ok(dtos);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
 
-            List<String> emails = userService.getStudentUsernames();
-            return ResponseEntity.ok(emails);
-
+    @PutMapping("/make-admin")
+    public ResponseEntity<String> makeAdmin(@RequestParam int userId, Authentication authentication) {
+        try {
+            User requester = getCurrentUser(authentication);
+            if (!requester.isAdmin()) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied.");
+            }
+            userService.promoteToAdmin(userId);
+            return ResponseEntity.ok("User promoted to admin.");
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
