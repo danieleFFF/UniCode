@@ -24,9 +24,18 @@
       </div>
 
       <div class="popup-body">
-        <div *ngIf="studentUsernames.length > 0; else noStudents">
+        <div class="search-container">
+          <input
+            type="text"
+            [(ngModel)]="searchTerm"
+            placeholder="Search username..."
+            class="popup-search-input"
+          >
+        </div>
+
+        <div *ngIf="filteredUsernames.length > 0; else noStudents">
           <ul style="list-style: none; padding: 0; margin: 0;">
-            <li *ngFor="let username of studentUsernames"
+            <li *ngFor="let username of filteredUsernames"
                 style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 1.1rem;">
               {{ username }}
             </li>
@@ -35,10 +44,10 @@
 
         <ng-template #noStudents>
           <p style="text-align: center; color: #888; margin-top: 20px;">
-            No students found.
+            No students found matching "{{ searchTerm }}".
           </p>
         </ng-template>
       </div>
     </div>
-    </div>
+  </div>
 </div>

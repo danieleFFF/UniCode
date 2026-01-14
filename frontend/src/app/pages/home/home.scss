@@ -109,6 +109,33 @@
   .popup-body {
     color: #ccc;
     min-height: 100px;
+
+    .search-container {
+      margin-bottom: 1.5rem;
+
+      .popup-search-input {
+        width: 100%;
+        padding: 10px 15px;
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        color: white;
+        font-family: 'Inconsolata', monospace;
+        font-size: 1rem;
+        transition: border-color 0.2s, background-color 0.2s;
+        box-sizing: border-box;
+
+        &:focus {
+          outline: none;
+          border-color: rgba(195, 79, 219, 0.8);
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        &::placeholder {
+          color: rgba(255, 255, 255, 0.4);
+        }
+      }
+    }
   }
 }
 

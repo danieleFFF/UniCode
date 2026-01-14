@@ -28,7 +28,7 @@ export class Home implements OnInit {
   isUserAdmin: boolean = false;
   showAdminPopup: boolean = false;
   studentUsernames: string[] = [];
-
+  searchTerm: string = '';
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
@@ -58,9 +58,19 @@ export class Home implements OnInit {
     }
   }
 
+  get filteredUsernames(): string[] {
+    if (!this.searchTerm) {
+      return this.studentUsernames;
+    }
+    return this.studentUsernames.filter(username =>
+      username.toLowerCase().startsWith(this.searchTerm.toLowerCase())
+    );
+  }
+
   toggleAdminPopup() {
     this.showAdminPopup = !this.showAdminPopup;
     if (this.showAdminPopup) {
+      this.searchTerm = '';
       this.loadStudentUsernames();
     }
   }
