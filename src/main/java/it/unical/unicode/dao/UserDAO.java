@@ -2,7 +2,6 @@ package it.unical.unicode.dao;
 
 import it.unical.unicode.model.User;
 import java.util.List;
-import java.util.Optional;
 
 public interface UserDAO {
 

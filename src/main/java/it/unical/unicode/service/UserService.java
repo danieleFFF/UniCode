@@ -18,24 +18,12 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User getUserById(int id){
-        User user = userDAO.findById(id);
-        if (user == null) {
-            throw new RuntimeException("User not found by id");
-        }
-        return user;
-    }
-
     public User getUserByEmail(String email){
         User user = userDAO.findByEmail(email);
         if (user == null) {
             throw new RuntimeException("User not found by email");
         }
         return user;
-    }
-
-    public List<User> getAllUsers(){
-        return userDAO.findAll();
     }
 
     public void deleteUser(int id){
