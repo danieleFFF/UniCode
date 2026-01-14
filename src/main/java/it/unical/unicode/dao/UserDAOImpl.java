@@ -80,11 +80,6 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<User> findAll() {
-        return jdbcTemplate.query(FIND_ALL, USER_MAP);
-    }
-
-    @Override
     public void updateTotalPoints(int userId, int pointsToAdd) {
         jdbcTemplate.update(UPDATE_TOT_POINTS, pointsToAdd, userId);
     }
