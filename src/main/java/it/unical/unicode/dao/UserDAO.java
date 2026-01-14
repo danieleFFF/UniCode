@@ -15,8 +15,6 @@ public interface UserDAO {
 
     User findById(int id);
 
-    List<User> findAll();
-
     void updateTotalPoints(int userId, int pointsToAdd);
 
     List<User> getRanking(int limit);
