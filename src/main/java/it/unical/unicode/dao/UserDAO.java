@@ -2,7 +2,6 @@ package it.unical.unicode.dao;
 
 import it.unical.unicode.model.User;
 import java.util.List;
-import java.util.Optional;
 
 public interface UserDAO {
 
@@ -16,8 +15,6 @@ public interface UserDAO {
 
     User findById(int id);
 
-    List<User> findAll();
-
     void updateTotalPoints(int userId, int pointsToAdd);
 
     List<User> getRanking(int limit);
@@ -27,4 +24,8 @@ public interface UserDAO {
     void deleteUser(int id);
 
     void updatePassword(String newPassword, int id);
+
+    List<User> getNonAdminUsers();
+
+    void makeUserAdmin(int userId);
 }

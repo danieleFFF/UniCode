@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
+
 .home-container {
   margin: 0;
   background-color: #121212;
@@ -7,6 +9,267 @@
     radial-gradient(circle at 50% 50%, rgba(20, 20, 20, 1) 0%, rgba(18, 18, 18, 1) 100%);
   min-height: 100vh;
   color: white;
-  font-family: "Inconsolata";
+  font-family: "Inconsolata", monospace;
   overflow-x: hidden;
+  position: relative;
+}
+
+.admin-students-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(195, 79, 219, 1) 0%, rgba(143, 28, 166, 1) 100%);
+  color: white;
+  font-family: 'Inconsolata', monospace;
+  border: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  padding: 0;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(195, 79, 219, 0.6);
+  }
+}
+
+.users-icon {
+  width: 46px;
+  height: 46px;
+  fill: white;
+}
+
+.admin-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.admin-popup-content {
+  background-color: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  position: relative;
+  font-family: 'Inconsolata', monospace;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+  .popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+
+    h3 {
+      margin: 0;
+      color: #f0f0f0;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .close-popup {
+      background: none;
+      border: none;
+      color: #aaa;
+      font-size: 2rem;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0;
+      transition: color 0.2s;
+
+      &:hover {
+        color: #ff6f6f;
+      }
+    }
+  }
+
+  .popup-body {
+    color: #ccc;
+    min-height: 100px;
+
+    .search-container {
+      margin-bottom: 1.5rem;
+      .popup-search-input {
+        width: 100%;
+        padding: 10px 15px;
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        color: white;
+        font-family: 'Inconsolata', monospace;
+        font-size: 1rem;
+        transition: border-color 0.2s, background-color 0.2s;
+        box-sizing: border-box;
+
+        &:focus {
+          outline: none;
+          border-color: rgba(195, 79, 219, 0.8);
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        &::placeholder {
+          color: rgba(255, 255, 255, 0.4);
+        }
+      }
+    }
+
+    .student-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      .student-list-item {
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background-color 0.2s;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .student-name {
+          font-size: 1.1rem;
+          color: #e0e0e0;
+          font-weight: 500;
+        }
+
+        .action-buttons {
+          display: flex;
+          gap: 10px;
+
+          .btn-action {
+            font-family: 'Inconsolata', monospace;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: transparent;
+
+            &.btn-promote {
+              border: 1px solid rgba(46, 204, 113, 0.5);
+              color: #2ecc71;
+
+              &:hover {
+                background-color: rgba(46, 204, 113, 0.15);
+                border-color: #2ecc71;
+                box-shadow: 0 0 8px rgba(46, 204, 113, 0.3);
+              }
+
+              &:active {
+                transform: scale(0.96);
+              }
+            }
+
+            &.btn-ban {
+              border: 1px solid rgba(231, 76, 60, 0.5);
+              color: #e74c3c;
+
+              &:hover {
+                background-color: rgba(231, 76, 60, 0.15);
+                border-color: #e74c3c;
+                box-shadow: 0 0 8px rgba(231, 76, 60, 0.3);
+              }
+
+              &:active {
+                transform: scale(0.96);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.admin-popup-content.promote-popup {
+  max-width: 400px;
+  border: 1px solid #2ecc71;
+  text-align: center;
+
+  h3 {
+    color: #2ecc71;
+  }
+
+  .popup-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    color: white;
+    font-family: 'Inconsolata', monospace;
+    cursor: pointer;
+    transition: background 0.2s;
+    &:hover { background-color: #5a6268; }
+  }
+
+  .btn-success-custom {
+    background-color: #2ecc71;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    color: #000;
+    font-weight: 700;
+    font-family: 'Inconsolata', monospace;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+
+    &:hover {
+      background-color: #27ae60;
+      transform: translateY(-2px);
+    }
+  }
+}
+
+.admin-popup-overlay {
+
+  &.z-high {
+    z-index: 3000;
+    background-color: rgba(0, 0, 0, 0.85);
+  }
 }

@@ -79,7 +79,7 @@ export class Register extends AuthForm {
         this.router.navigate(['/login']);
       },
       error: (error) => {
-        console.error('Registration error:', error);
+        console.error(error);
         if (error.status === 0) {
           this.generalError = 'Server unavailable. Please check your connection and try again.';
         } else if (error.status === 409) {

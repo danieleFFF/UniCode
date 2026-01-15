@@ -67,7 +67,7 @@ export class Theory implements OnInit {
         }
       },
       error: (err) => {
-        console.error('errore http:', err);
+        console.error(err);
         this.errorMessage = "Error loading topic from server.";
       }
     });

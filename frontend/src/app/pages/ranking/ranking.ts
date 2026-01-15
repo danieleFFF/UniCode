@@ -31,7 +31,7 @@ export class Ranking implements OnInit {
       next: (data) => {
         this.users = data;
       }, error: (err) => {
-        console.error(err);
+        console.error();
       }
     });
   }

@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core'
-import { CommonModule } from '@angular/common'
-import { FormsModule } from '@angular/forms'
-import { ActivatedRoute } from '@angular/router'
-import { HttpClient, HttpClientModule } from '@angular/common/http'
-import { Navbar } from '../../layout/navbar/navbar'
-import { UserService } from '../../services/user.service';
-import { environment } from '../../../environments/environment';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core'
+import {CommonModule} from '@angular/common'
+import {FormsModule} from '@angular/forms'
+import {ActivatedRoute} from '@angular/router'
+import {HttpClient, HttpClientModule} from '@angular/common/http'
+import {Navbar} from '../../layout/navbar/navbar'
+import {UserService} from '../../services/user.service';
+import {environment} from '../../../environments/environment';
 
 interface CachedResult {
   showResults: boolean;
@@ -227,7 +227,7 @@ SELECT `;
           this.consoleOutput = `You have already completed this exercise and earned ${response.pointsEarned} points!`;
         }
       },
-      error: (err) => console.error('Error checking completion:', err)
+      error: (err) => console.error(err)
     });
   }
 
@@ -289,9 +289,7 @@ SELECT `;
     }
     const timePenalty = Math.floor(elapsedSeconds / 30);
     const basePoints = Math.floor(maxPoints * difficultyMultiplier);
-    const finalPoints = Math.max(Math.floor(maxPoints * 0.3), basePoints - timePenalty);
-
-    return finalPoints;
+    return Math.max(Math.floor(maxPoints * 0.3), basePoints - timePenalty);
   }
 
   private addToCache(key: string, value: CachedResult): void {
@@ -471,7 +469,7 @@ SELECT `;
       },
 
       error: err => {
-        console.error('Error loading tests:', err);
+        console.error(err);
         this.consoleOutput = 'Error loading test cases';
         this.showResults = true;
         this.isRunning = false;
@@ -508,7 +506,7 @@ SELECT `;
         }
       },
       error: (err) => {
-        console.error('Error submitting solution:', err);
+        console.error(err);
         if (this.allPassed) {
           const points = this.earnedPoints > 0 ? this.earnedPoints : 0;
           this.consoleOutput = `Congratulations! You completed the exercise!`;

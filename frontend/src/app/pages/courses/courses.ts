@@ -48,7 +48,7 @@ export class Courses implements OnInit {
         this.errorMessage = null;
       },
       error: (err) => {
-        console.error('errore nel caricamento dei topic:', err);
+        console.error(err);
       }
     });
   }

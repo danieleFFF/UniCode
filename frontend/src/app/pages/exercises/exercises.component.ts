@@ -89,7 +89,7 @@ export class ExercisesComponent implements OnInit {
             this.isUserAdmin = true;
           }
         } catch (e) {
-          console.error('Errore parsing JSON locale', e);
+          console.error(e);
         }
       }
       this.http.get<any>(`${environment.apiUrl}/users/profile`, { withCredentials: true })
@@ -154,7 +154,7 @@ export class ExercisesComponent implements OnInit {
           };
         },
         error: (err) => {
-          console.error('Errore salvataggio:', err);
+          console.error(err);
         }
       });
   }
@@ -181,7 +181,7 @@ export class ExercisesComponent implements OnInit {
         this.loading = false
       },
       error: (err) => {
-        console.error('Error loading exercises:', err)
+        console.error(err)
         this.loading = false
       }
     })
@@ -208,7 +208,7 @@ export class ExercisesComponent implements OnInit {
           this.closeDeletePopup();
         },
         error: (err) => {
-          console.error("Errore eliminazione:", err);
+          console.error(err);
           this.closeDeletePopup();
         }
       });

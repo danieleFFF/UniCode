@@ -19,10 +19,11 @@ public class UserDAOImpl implements UserDAO {
     private static final String FIND_USER_BY_USERNAME = "SELECT * FROM users WHERE username = ?"; // Added this line
     private static final String RESET_PASSWORD = "UPDATE users SET password_hash = ? WHERE email = ?";
     private static final String FIND_USER_BY_ID = "SELECT * FROM users WHERE id = ?";
-    private static final String FIND_ALL = "SELECT * FROM users";
     private static final String UPDATE_TOT_POINTS = "UPDATE users SET total_points = total_points + ? WHERE id = ?";
     private static final String UPDATE_AVATAR = "UPDATE users SET id_avatar = ? WHERE id = ?";
     private static final String GET_RANKING = "SELECT * FROM users ORDER BY total_points DESC LIMIT ?";
+    private static final String FIND_NON_ADMIN_USERS = "SELECT * FROM users WHERE is_admin = false OR is_admin IS NULL";
+    private static final String MAKE_USER_ADMIN = "UPDATE users SET is_admin = true WHERE id = ?";
 
     public UserDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -79,11 +80,6 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<User> findAll() {
-        return jdbcTemplate.query(FIND_ALL, USER_MAP);
-    }
-
-    @Override
     public void updateTotalPoints(int userId, int pointsToAdd) {
         jdbcTemplate.update(UPDATE_TOT_POINTS, pointsToAdd, userId);
     }
@@ -108,4 +104,13 @@ public class UserDAOImpl implements UserDAO {
         jdbcTemplate.update(UPDATE_USER_PASSWORD, newPassword, id);
     }
 
+    @Override
+    public List<User> getNonAdminUsers() {
+        return jdbcTemplate.query(FIND_NON_ADMIN_USERS, USER_MAP);
+    }
+
+    @Override
+    public void makeUserAdmin(int userId) {
+        jdbcTemplate.update(MAKE_USER_ADMIN, userId);
+    }
 }

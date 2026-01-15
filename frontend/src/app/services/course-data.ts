@@ -56,7 +56,7 @@ export class CourseDataService {
     const languageId = this.languageIdMap[languageKey];
 
     if (!languageId) {
-      console.error(`Language ID not found for key: ${languageKey}`);
+      console.error();
       return of([]);
     }
 
