@@ -46,9 +46,19 @@
                   (click)="askMakeAdmin(student.id, student.username)">
                   Make Admin
                 </button>
-
-                <button type="button" class="btn-action btn-ban">
+                <button
+                  *ngIf="!student.isBanned"
+                  type="button"
+                  class="btn-action btn-ban"
+                  (click)="banUser(student.id, student.username)">
                   Ban
+                </button>
+                <button
+                  *ngIf="student.isBanned"
+                  type="button"
+                  class="btn-action btn-unban"
+                  (click)="unbanUser(student.id, student.username)">
+                  Unban
                 </button>
               </div>
             </li>

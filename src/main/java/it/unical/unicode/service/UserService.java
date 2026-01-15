@@ -80,4 +80,23 @@ public class UserService {
             throw new RuntimeException("User not found with id: " + userId);
         }
     }
+
+    public void banUser(int userId){
+        User user = userDAO.findById(userId);
+        if(user != null){
+            userDAO.banUser(userId);
+        }else{
+            throw new RuntimeException("User not found with id: " + userId);
+        }
+    }
+
+    public void unbanUser(int userId){
+        User user = userDAO.findById(userId);
+        if(user != null){
+            userDAO.unbanUser(userId);
+        }
+        else{
+            throw new RuntimeException("User not found with id: " + userId);
+        }
+    }
 }

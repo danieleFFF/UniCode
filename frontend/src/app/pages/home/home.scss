@@ -204,6 +204,21 @@
                 transform: scale(0.96);
               }
             }
+
+            &.btn-unban {
+              border: 1px solid rgba(241, 196, 15, 0.5);
+              color: #f1c40f;
+
+              &:hover {
+                background-color: rgba(241, 196, 15, 0.15);
+                border-color: #f1c40f;
+                box-shadow: 0 0 8px rgba(241, 196, 15, 0.3);
+              }
+
+              &:active {
+                transform: scale(0.96);
+              }
+            }
           }
         }
       }

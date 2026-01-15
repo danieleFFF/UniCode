@@ -13,6 +13,7 @@ public class User {
     private int total_points;
     private int id_avatar;
     private boolean isAdmin;
+    private boolean isBanned;
     public User() {}
 
     public User(String username, String email, String password_hash, int id_avatar, boolean isAdmin) {

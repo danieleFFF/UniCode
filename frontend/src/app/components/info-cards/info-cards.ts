@@ -20,12 +20,12 @@ export class InfoCards implements OnInit {
   private allInfoCards: InfoCard[] = [
     {
       title: 'Instant Feedback',
-      text: 'Challenge yourself with our exercises using the integrated code editor. Write your solution, run it directly on our platform, and receive instant feedback to easily test and correct your work.',
+      text: 'Challenge yourself with our exercises using the integrated console. Write your solution, run it directly on our platform, and receive instant feedback to easily test and correct your work.',
       iconPath: 'assets/images/fileimage.png'
     },
     {
       title: 'Your Milestones',
-      text: 'It\'s not just practice: track your progress with stats, earn trophies, and climb the leaderboard to compare your skills.',
+      text: 'It\'s not just practice: track your progress with points, earn trophies, and climb the leaderboard to compare your skills.',
       iconPath: 'assets/images/statisticimage.png'
     },
     {

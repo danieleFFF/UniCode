@@ -28,4 +28,8 @@ public interface UserDAO {
     List<User> getNonAdminUsers();
 
     void makeUserAdmin(int userId);
+
+    void banUser(int userId);
+
+    void unbanUser(int userId);
 }

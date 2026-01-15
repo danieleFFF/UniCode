@@ -24,6 +24,8 @@ public class UserDAOImpl implements UserDAO {
     private static final String GET_RANKING = "SELECT * FROM users ORDER BY total_points DESC LIMIT ?";
     private static final String FIND_NON_ADMIN_USERS = "SELECT * FROM users WHERE is_admin = false OR is_admin IS NULL";
     private static final String MAKE_USER_ADMIN = "UPDATE users SET is_admin = true WHERE id = ?";
+    private static final String BAN_USER = "UPDATE users SET is_banned = true WHERE id = ?";
+    private static final String UNBAN_USER = "UPDATE users SET is_banned = false WHERE id = ?";
 
     public UserDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -42,6 +44,7 @@ public class UserDAOImpl implements UserDAO {
             user.setTotal_points(rs.getInt("total_points"));
             user.setId_avatar(rs.getInt("id_avatar"));
             user.setAdmin(rs.getBoolean("is_admin"));
+            user.setBanned(rs.getBoolean("is_banned"));
             return user;
         }
     }
@@ -112,5 +115,15 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void makeUserAdmin(int userId) {
         jdbcTemplate.update(MAKE_USER_ADMIN, userId);
+    }
+
+    @Override
+    public void banUser(int userId) {
+        jdbcTemplate.update(BAN_USER, userId);
+    }
+
+    @Override
+    public void unbanUser(int userId){
+        jdbcTemplate.update(UNBAN_USER, userId);
     }
 }

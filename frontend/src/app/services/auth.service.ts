@@ -54,18 +54,22 @@ export class AuthService{
     });
   }
 
-  logout():void{
+  logout(redirect: boolean = true): void {
     this.http.post(`${this.apiUrl}/logout`, {}, {
       withCredentials: true,
       responseType: 'text'
     }).subscribe({
       next: () => {
         this.userService.clearUser();
-        this.router.navigate(['/home']);
+        if (redirect) {
+          this.router.navigate(['/home']);
+        }
       },
       error: () => {
         this.userService.clearUser();
-        this.router.navigate(['/home']);
+        if (redirect) {
+          this.router.navigate(['/home']);
+        }
       }
     });
   }

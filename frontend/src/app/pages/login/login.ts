@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { FieldRegex } from '../../shared/field-regex';
 import { AuthForm } from '../../shared/auth-form';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -26,8 +27,8 @@ export class Login extends AuthForm {
   ){
     super(location);
   }
-  onSubmit(){
-    console.log('Tentativo di login con:',this.email,this.password);
+  onSubmit() {
+    console.log('Tentativo di login con:', this.email);
     this.errorMessage = '';
 
     const emailError = FieldRegex.validateEmail(this.email);
@@ -36,19 +37,35 @@ export class Login extends AuthForm {
       return;
     }
 
-    if(!this.password){
+    if (!this.password) {
       this.errorMessage = 'Password is required.';
       return;
     }
 
-    const credentials= {
-      email:this.email,
-      password:this.password
+    const credentials = {
+      email: this.email,
+      password: this.password
     };
 
     this.authService.login(credentials).subscribe({
       next: () => {
-        this.router.navigate(['/home']).then(() => { });
+        this.http.get<any>(`${environment.apiUrl}/users/profile`, { withCredentials: true })
+          .subscribe({
+            next: (userDto) => {
+              if (userDto.isBanned === true || userDto.banned === true) {
+                this.errorMessage = 'Your account has been suspended.';
+                this.authService.logout(false);
+              } else {
+                localStorage.setItem('user', JSON.stringify(userDto));
+                this.router.navigate(['/home']);
+              }
+            },
+            error: (err) => {
+              console.error('Errore recupero profilo dopo il login', err);
+              this.errorMessage = 'Login error. Please try again.';
+              this.authService.logout();
+            }
+          });
       },
       error: (errore) => {
         console.error(errore);

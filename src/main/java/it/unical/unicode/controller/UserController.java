@@ -116,34 +116,66 @@ public class UserController {
     }
 
     @GetMapping("/nonadmin-users")
-    public ResponseEntity<?> getNonAdminUsers(Authentication authentication) {
-        try {
-            User user = getCurrentUser(authentication);
-            if (!user.isAdmin()) {
+    public ResponseEntity<?> getNonAdminUsers(Authentication authentication){
+        try{
+            User user=getCurrentUser(authentication);
+            if(!user.isAdmin()){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied.");
             }
-            List<User> users = userService.getNonAdminUsers();
-            List<UserDTO> dtos = new ArrayList<>();
-            for (User u : users) {
+            List<User> users=userService.getNonAdminUsers();
+            List<UserDTO> dtos=new ArrayList<>();
+            for(User u:users){
                 dtos.add(UserDTO.toDTO(u));
             }
             return ResponseEntity.ok(dtos);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+        catch(RuntimeException e){
+            return ResponseEntity.badRequest().body("Error: "+e.getMessage());
         }
     }
 
     @PutMapping("/make-admin")
-    public ResponseEntity<String> makeAdmin(@RequestParam int userId, Authentication authentication) {
-        try {
-            User requester = getCurrentUser(authentication);
-            if (!requester.isAdmin()) {
+    public ResponseEntity<String> makeAdmin(@RequestParam int userId, Authentication authentication){
+        try{
+            User requester=getCurrentUser(authentication);
+            if(!requester.isAdmin()){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied.");
             }
             userService.promoteToAdmin(userId);
             return ResponseEntity.ok("User promoted to admin.");
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+        catch(RuntimeException e){
+            return ResponseEntity.badRequest().body("Error: "+e.getMessage());
+        }
+    }
+
+    @PutMapping("/ban-user")
+    public ResponseEntity<String> banUser(@RequestParam int userId, Authentication authentication){
+        try{
+            User requester=getCurrentUser(authentication);
+            if(!requester.isAdmin()){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied.");
+            }
+            userService.banUser(userId);
+            return ResponseEntity.ok("User has been banned.");
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.badRequest().body("Error: "+e.getMessage());
+        }
+    }
+
+    @PutMapping("/unban-user")
+    public ResponseEntity<String> unbanUser(@RequestParam int userId, Authentication authentication){
+        try{
+            User requester=getCurrentUser(authentication);
+            if(!requester.isAdmin()){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied.");
+            }
+            userService.unbanUser(userId);
+            return ResponseEntity.ok("User has been unbanned.");
+        }
+        catch(RuntimeException e){
+            return ResponseEntity.badRequest().body("Error: "+e.getMessage());
         }
     }
 }

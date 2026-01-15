@@ -1,5 +1,6 @@
 package it.unical.unicode.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.unical.unicode.model.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,13 +15,17 @@ public class UserDTO {
     private int total_points;
     private boolean isAdmin;
 
-    public UserDTO(int id, String username, String email, int id_avatar, int total_points, boolean isAdmin) {
+    @JsonProperty("isBanned")
+    private boolean isBanned;
+
+    public UserDTO(int id, String username, String email, int id_avatar, int total_points, boolean isAdmin, boolean isBanned) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.id_avatar = id_avatar;
         this.total_points = total_points;
         this.isAdmin = isAdmin;
+        this.isBanned=isBanned;
     }
 
     public static UserDTO toDTO(User user) {
@@ -30,7 +35,8 @@ public class UserDTO {
                 user.getEmail(),
                 user.getId_avatar(),
                 user.getTotal_points(),
-                user.isAdmin()
+                user.isAdmin(),
+                user.isBanned()
         );
     }
 }

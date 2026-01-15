@@ -8,10 +8,10 @@ import {FormsModule} from '@angular/forms';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 
-
 interface SimpleUser {
   id: number;
   username: string;
+  isBanned: boolean;
 }
 
 @Component({
@@ -39,6 +39,7 @@ export class Home implements OnInit {
   showPromotePopup: boolean = false;
   userToPromoteId: number | null = null;
   userToPromoteName: string = '';
+
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
@@ -93,7 +94,7 @@ export class Home implements OnInit {
     this.http.get<SimpleUser[]>(`${environment.apiUrl}/users/nonadmin-users`, {withCredentials: true})
       .subscribe({
         next: (users) => {
-          this.students = users;
+          this.students = users.sort((a, b) => a.username.localeCompare(b.username));
         },
         error: (err) => console.error(err)
       });
@@ -113,18 +114,52 @@ export class Home implements OnInit {
 
   confirmMakeAdmin() {
     if (this.userToPromoteId === null) return;
-
+    const idToRemove = this.userToPromoteId;
     this.http.put(`${environment.apiUrl}/users/make-admin`, {}, {
       withCredentials: true,
-      params: { userId: this.userToPromoteId.toString() }
+      params: { userId: idToRemove.toString() },
+      responseType: 'text'
     }).subscribe({
       next: () => {
-        this.loadStudents();
+        this.students = this.students.filter(u => String(u.id) !== String(idToRemove));
         this.closePromotePopup();
       },
       error: (err) => {
+        console.error('Error making admin', err);
         this.closePromotePopup();
       }
+    });
+  }
+
+  banUser(userId: number, username: string) {
+    this.http.put(`${environment.apiUrl}/users/ban-user`, {}, {
+      withCredentials: true,
+      params: { userId: userId.toString() },
+      responseType: 'text'
+    }).subscribe({
+      next: () => {
+        const user = this.students.find(u => u.id === userId);
+        if (user) {
+          user.isBanned = true;
+        }
+      },
+      error: (err) => console.error('Error banning user', err)
+    });
+  }
+
+  unbanUser(userId: number, username: string) {
+    this.http.put(`${environment.apiUrl}/users/unban-user`, {}, {
+      withCredentials: true,
+      params: { userId: userId.toString() },
+      responseType: 'text'
+    }).subscribe({
+      next: () => {
+        const user = this.students.find(u => u.id === userId);
+        if (user) {
+          user.isBanned = false;
+        }
+      },
+      error: () => alert('Error unbanning user')
     });
   }
 }
