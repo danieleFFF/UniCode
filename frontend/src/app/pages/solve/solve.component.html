@@ -50,14 +50,14 @@
         <button *ngIf="!isDemoMode" class="btn" (click)="runTests()" [disabled]="isRunning">
           {{ isRunning ? 'Running...' : 'Test' }}
         </button>
-        <button *ngIf="isDemoMode" class="btn btn-primary" (click)="validateHtml()" [disabled]="isRunning">
-          {{ isRunning ? 'Validating...' : 'Verify Structure' }}
+        <button *ngIf="isDemoMode" class="btn btn-primary" (click)="validateDemo()" [disabled]="isRunning">
+          {{ isRunning ? 'Validating...' : 'Verify' }}
         </button>
         <span class="console-label small">{{ isDemoMode ? 'Editor' : 'Console' }}</span>
       </div>
 
       <textarea name="code" [(ngModel)]="userCode" (keydown)="onKeyDown($event)"
-        [placeholder]="isDemoMode ? '<!-- Write your HTML code here -->' : '// Write your code here...'"
+        [placeholder]="selectedLanguage === 'SQL' ? '-- Write your SQL query here' : (isDemoMode ? '<!-- Write your HTML code here -->' : '// Write your code here...')"
         class="code-textarea flex-grow-1 w-100 p-3"></textarea>
     </div>
   </div>

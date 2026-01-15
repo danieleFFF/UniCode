@@ -1,11 +1,11 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core'
-import {CommonModule} from '@angular/common'
-import {FormsModule} from '@angular/forms'
-import {ActivatedRoute} from '@angular/router'
-import {HttpClient, HttpClientModule} from '@angular/common/http'
-import {Navbar} from '../../layout/navbar/navbar'
-import {UserService} from '../../services/user.service';
-import {environment} from '../../../environments/environment';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { FormsModule } from '@angular/forms'
+import { ActivatedRoute } from '@angular/router'
+import { HttpClient, HttpClientModule } from '@angular/common/http'
+import { Navbar } from '../../layout/navbar/navbar'
+import { UserService } from '../../services/user.service';
+import { environment } from '../../../environments/environment';
 
 interface CachedResult {
   showResults: boolean;
@@ -48,12 +48,12 @@ export class SolveComponent implements OnInit, OnDestroy {
   showSolution = false
   private testCache: Map<string, CachedResult> = new Map();
   private readonly MAX_CACHE_SIZE = 50;
-  private readonly DEMO_LANGUAGES = ['HTML'];
+  private readonly DEMO_LANGUAGES = ['HTML', 'SQL'];
   constructor(private route: ActivatedRoute, private http: HttpClient, private userService: UserService) { }
 
-  validateHtml(): void {
+  validateDemo(): void {
     if (!this.userCode || this.userCode.trim() === '') {
-      this.consoleOutput = 'Please write some HTML code first';
+      this.consoleOutput = this.selectedLanguage === 'SQL' ? 'Please write your SQL query first' : 'Please write some HTML code first';
       this.showResults = true;
       return;
     }
@@ -61,6 +61,31 @@ export class SolveComponent implements OnInit, OnDestroy {
     this.isRunning = true;
     this.showResults = false;
     this.testResults = [];
+
+    if (this.selectedLanguage === 'SQL') {
+      const requirements = this.getSqlRequirements();
+      const codeUpper = this.userCode.toUpperCase();
+      let passedCount = 0;
+
+      requirements.forEach((req, index) => {
+        const passed = req.keywords.some(kw => codeUpper.includes(kw.toUpperCase()));
+
+        if (passed) passedCount++;
+
+        this.testResults.push({
+          name: `Requirement ${index + 1}`,
+          message: passed ? req.successMsg : req.failMsg,
+          passed
+        });
+      });
+
+      this.allPassed = passedCount === requirements.length;
+      this.consoleOutput = `${passedCount}/${requirements.length} requirements met`;
+      this.showResults = true;
+      this.isRunning = false;
+      return;
+    }
+
     const requirements = this.getHtmlRequirements();
     const parser = new DOMParser();
     const doc = parser.parseFromString(this.userCode.replace(/\\n/g, '\n'), 'text/html');
@@ -84,7 +109,7 @@ export class SolveComponent implements OnInit, OnDestroy {
     this.showResults = true;
     this.isRunning = false;
 
-    if (this.allPassed){
+    if (this.allPassed) {
       this.submitSolution();
     }
   }
@@ -117,10 +142,127 @@ export class SolveComponent implements OnInit, OnDestroy {
       ];
     }
 
+    if (title.includes('Image Gallery')) {
+      return [
+        { selector: '.gallery, div[class*="gallery"]', minCount: 1, successMsg: 'Gallery container found', failMsg: 'Missing gallery container' },
+        { selector: 'img', minCount: 2, successMsg: 'At least 2 images found', failMsg: 'Need at least 2 images' },
+        { selector: 'img[alt]', minCount: 2, successMsg: 'Images have alt attributes', failMsg: 'Images missing alt attributes' }
+      ];
+    }
+
+    if (title.includes('Responsive Table')) {
+      return [
+        { selector: 'table', minCount: 1, successMsg: '<table> element found', failMsg: 'Missing <table> element' },
+        { selector: 'thead, th', minCount: 1, successMsg: 'Table header found', failMsg: 'Missing table header (thead or th)' },
+        { selector: 'tbody', minCount: 1, successMsg: '<tbody> element found', failMsg: 'Missing <tbody> element' },
+        { selector: 'tr', minCount: 2, successMsg: 'At least 2 table rows found', failMsg: 'Need at least 2 table rows' }
+      ];
+    }
+
+    if (title.includes('HTML Email Template')) {
+      return [
+        { selector: 'table', minCount: 1, successMsg: 'Table layout found', failMsg: 'Missing table-based layout' },
+        { selector: 'table[width], table[cellpadding], table[cellspacing]', minCount: 1, successMsg: 'Table with email attributes', failMsg: 'Table missing width/cellpadding/cellspacing attributes' },
+        { selector: 'td', minCount: 3, successMsg: 'At least 3 cells (header, content, footer)', failMsg: 'Need at least 3 table cells for email structure' }
+      ];
+    }
+
+    if (title.includes('Video Embed')) {
+      return [
+        { selector: 'video', minCount: 1, successMsg: '<video> element found', failMsg: 'Missing <video> element' },
+        { selector: 'video[controls]', minCount: 1, successMsg: 'Video has controls', failMsg: 'Video missing controls attribute' },
+        { selector: 'source, video[src]', minCount: 1, successMsg: 'Video source found', failMsg: 'Missing video source' }
+      ];
+    }
+
     return [
-      { selector: 'html', minCount: 1, successMsg: 'Valid HTML document', failMsg: 'Invalid HTML structure' }
+      { selector: 'body *', minCount: 3, successMsg: 'Content elements found', failMsg: 'Add more content to your HTML' },
+      { selector: 'h1, h2, h3, p, div, section, article', minCount: 1, successMsg: 'Semantic content found', failMsg: 'Add semantic elements like headings or paragraphs' }
     ];
   }
+
+  private getSqlRequirements(): { keywords: string[]; successMsg: string; failMsg: string }[] {
+    const title = this.exercise?.title || '';
+
+    if (title.includes('Find Most Popular Product')) {
+      return [
+        { keywords: ['SELECT'], successMsg: 'SELECT statement found', failMsg: 'Missing SELECT statement' },
+        { keywords: ['JOIN'], successMsg: 'JOIN clause found', failMsg: 'Missing JOIN clause' },
+        { keywords: ['GROUP BY'], successMsg: 'GROUP BY clause found', failMsg: 'Missing GROUP BY clause' },
+        { keywords: ['ORDER BY'], successMsg: 'ORDER BY clause found', failMsg: 'Missing ORDER BY clause' },
+        { keywords: ['LIMIT', 'TOP'], successMsg: 'LIMIT/TOP clause found', failMsg: 'Missing LIMIT or TOP clause' }
+      ];
+    }
+
+    if (title.includes('Employees with Salary')) {
+      return [
+        { keywords: ['SELECT'], successMsg: 'SELECT statement found', failMsg: 'Missing SELECT statement' },
+        { keywords: ['WHERE'], successMsg: 'WHERE clause found', failMsg: 'Missing WHERE clause' },
+        { keywords: ['50000', '>'], successMsg: 'Salary condition found', failMsg: 'Missing salary comparison' }
+      ];
+    }
+
+    if (title.includes('Top Department')) {
+      return [
+        { keywords: ['SELECT'], successMsg: 'SELECT statement found', failMsg: 'Missing SELECT statement' },
+        { keywords: ['AVG'], successMsg: 'AVG function found', failMsg: 'Missing AVG function' },
+        { keywords: ['GROUP BY'], successMsg: 'GROUP BY clause found', failMsg: 'Missing GROUP BY clause' },
+        { keywords: ['ORDER BY'], successMsg: 'ORDER BY clause found', failMsg: 'Missing ORDER BY clause' }
+      ];
+    }
+
+    if (title.includes('Select All Users')) {
+      return [
+        { keywords: ['SELECT'], successMsg: 'SELECT statement found', failMsg: 'Missing SELECT statement' },
+        { keywords: ['*', 'FROM USERS'], successMsg: 'Selecting from users', failMsg: 'Missing * or FROM users' }
+      ];
+    }
+
+    if (title.includes('Count by Category')) {
+      return [
+        { keywords: ['SELECT'], successMsg: 'SELECT statement found', failMsg: 'Missing SELECT statement' },
+        { keywords: ['COUNT'], successMsg: 'COUNT function found', failMsg: 'Missing COUNT function' },
+        { keywords: ['GROUP BY'], successMsg: 'GROUP BY clause found', failMsg: 'Missing GROUP BY clause' }
+      ];
+    }
+
+    if (title.includes('Join Tables')) {
+      return [
+        { keywords: ['SELECT'], successMsg: 'SELECT statement found', failMsg: 'Missing SELECT statement' },
+        { keywords: ['JOIN'], successMsg: 'JOIN clause found', failMsg: 'Missing JOIN clause' },
+        { keywords: ['ON'], successMsg: 'ON condition found', failMsg: 'Missing ON condition' }
+      ];
+    }
+
+    if (title.includes('Subquery Filter')) {
+      return [
+        { keywords: ['SELECT'], successMsg: 'SELECT statement found', failMsg: 'Missing SELECT statement' },
+        { keywords: ['WHERE'], successMsg: 'WHERE clause found', failMsg: 'Missing WHERE clause' },
+        { keywords: ['(SELECT', 'AVG'], successMsg: 'Subquery with AVG found', failMsg: 'Missing subquery or AVG function' }
+      ];
+    }
+
+    if (title.includes('Window Functions')) {
+      return [
+        { keywords: ['SELECT'], successMsg: 'SELECT statement found', failMsg: 'Missing SELECT statement' },
+        { keywords: ['OVER'], successMsg: 'Window function (OVER) found', failMsg: 'Missing OVER clause' },
+        { keywords: ['PARTITION BY', 'RANK', 'ROW_NUMBER', 'DENSE_RANK'], successMsg: 'Window function found', failMsg: 'Missing PARTITION BY or ranking function' }
+      ];
+    }
+
+    if (title.includes('Recursive CTE')) {
+      return [
+        { keywords: ['WITH RECURSIVE', 'WITH'], successMsg: 'CTE found', failMsg: 'Missing WITH clause' },
+        { keywords: ['UNION'], successMsg: 'UNION found', failMsg: 'Missing UNION for recursion' },
+        { keywords: ['SELECT'], successMsg: 'SELECT statement found', failMsg: 'Missing SELECT statement' }
+      ];
+    }
+
+    return [
+      { keywords: ['SELECT'], successMsg: 'SELECT statement found', failMsg: 'Missing SELECT statement' }
+    ];
+  }
+
 
   onKeyDown(event: KeyboardEvent): void {
     if (event.key === 'Tab') {
@@ -149,7 +291,6 @@ export class SolveComponent implements OnInit, OnDestroy {
       this.isDemoMode = this.DEMO_LANGUAGES.includes(this.selectedLanguage);
       this.solutionDemo = data.solutionDemo || '';
 
-      //Sets initial code template based on language selected
       this.userCode = this.getCodeTemplate(this.selectedLanguage);
 
       if (this.isDemoMode) {
@@ -265,7 +406,7 @@ SELECT `;
     }
   }
 
-  updateFormattedTime(): void{
+  updateFormattedTime(): void {
     const minutes = Math.floor(this.timeLeft / 60)
     const seconds = this.timeLeft % 60
     this.formattedTime = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
@@ -293,7 +434,7 @@ SELECT `;
   }
 
   private addToCache(key: string, value: CachedResult): void {
-    if(this.testCache.size >= this.MAX_CACHE_SIZE) {
+    if (this.testCache.size >= this.MAX_CACHE_SIZE) {
       const firstKey = this.testCache.keys().next().value;
 
       if (typeof firstKey === "string") {
@@ -403,7 +544,7 @@ SELECT `;
               detailMessage += `Status: ${status}\n`;
               detailMessage += `Result: ${passed ? 'PASSED' : 'FAILED'}\n`;
 
-              if(stderr){ detailMessage += `\nError Output:\n${stderr}\n`; }
+              if (stderr) { detailMessage += `\nError Output:\n${stderr}\n`; }
               if (compileOutput) { detailMessage += `\nCompilation Output:\n${compileOutput}\n`; }
 
               this.detailedOutput.push(detailMessage);
@@ -419,7 +560,7 @@ SELECT `;
               if (passed) passedCount++;
               completed++;
 
-              if(completed === tests.length) {
+              if (completed === tests.length) {
                 this.allPassed = passedCount === tests.length;
 
                 if (this.allPassed) {
@@ -458,7 +599,7 @@ SELECT `;
                 passed: false
               });
 
-              if(completed === tests.length) {
+              if (completed === tests.length) {
                 this.consoleOutput = 'Compilation or runtime error occurred';
                 this.programOutput = this.detailedOutput.join('\n\n');
                 this.isRunning = false;
