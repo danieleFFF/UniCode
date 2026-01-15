@@ -16,9 +16,9 @@ https://github.com/user-attachments/assets/bdc623d4-ad05-42e7-972d-670ff3ae0816
 
 ### Database
 Open DBeaver
-Create postgreSql connection with your personal data
-Insert your  db-credentials in @application.yml in the datasource section
-Insert your connection-password in @pom.xml at line 127 in the flyway plugin section
+Create postgreSql connection with your personal data.
+Insert your  db-credentials in @application.yml in the datasource section.
+Insert your connection-password in @pom.xml at line 127 in the flyway plugin section.
 
 ### Judge0 (for code compilation)
 Create 'application-local.yml' file under 'application.yml' containing the code:
