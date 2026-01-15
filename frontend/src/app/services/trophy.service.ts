@@ -18,11 +18,6 @@ export class TrophyService {
     });
   }
 
-  checkTrophies(userId: number): Observable<Trophy[]> {
-    return this.http.post<Trophy[]>(`${this.apiUrl}/check/${userId}`, {}, {
-      withCredentials: true
-    });
-  }
 
   getTrophyImagePath(trophyCode: string): string {
     const imageMap: { [key: string]: string } = {
