@@ -17,7 +17,7 @@ https://github.com/user-attachments/assets/bdc623d4-ad05-42e7-972d-670ff3ae0816
 ###
 # How to run
 
-**Prerequisites:** Java 21, PostgreSQL, Node.js, RapidAPI account (with a Judge0 plan and API key).
+**Prerequisites:** Java 21, PostgreSQL, Node.js.
 
 ### Database
 Open DBeaver and create a PostgreSQL connection with any credentials (name & password). 
@@ -28,7 +28,9 @@ Insert the same credentials in the **pom.xml** file at line 126, in the flyway p
 ###
 Check for any thread running on ports 8080 and terminate it.
 
-### Judge0 API (for code compilation, not necessary to run application correctly)
+### Judge0 API woth RapidAPI account (for code compilation, not necessary to run application correctly)
+Get a Judge0 plan and API key.
+###
 Create 'application-local.yml' file under 'application.yml' containing the code:
 ```bash
 judge0:
