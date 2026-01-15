@@ -16,6 +16,7 @@ https://github.com/user-attachments/assets/bdc623d4-ad05-42e7-972d-670ff3ae0816
 
 ### Database
 Open DBeaver
+Insert your  db-credentials in @application.yml in the datasource section
 
 ### Judge0 (for code compilation)
 Create 'application-local.yml' file under 'application.yml' containing the code:
