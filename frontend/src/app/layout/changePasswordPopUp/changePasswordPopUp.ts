@@ -32,12 +32,12 @@ export class ChangePasswordPopUp {
     this.successMessage  = '';
 
     if (!this.currentPassword || !this.newPassword || !this.confirmNewPassword) {
-      this.errorMessage = 'Compila tutti i campi';
+      this.errorMessage = 'Please fill in all fields';
       return;
     }
 
     if (this.newPassword !== this.confirmNewPassword) {
-      this.errorMessage = 'Le password non corrispondono';
+      this.errorMessage = 'Passwords do not match';
       return;
     }
 
@@ -48,13 +48,13 @@ export class ChangePasswordPopUp {
     }
     this.userService.changePassword(this.currentPassword, this.newPassword).subscribe({
       next: () => {
-        this.successMessage = 'Password cambiata con successo!';
+        this.successMessage = 'Password changed successfully!';
       },
       error: (err) => {
         if (err.status === 400) {
-          this.errorMessage = 'Password attuale non corretta';
+          this.errorMessage = 'Incorrect current password';
         } else {
-          this.errorMessage = 'Errore durante il cambio password';
+          this.errorMessage = ' Error changing password';
         }
       }
     });

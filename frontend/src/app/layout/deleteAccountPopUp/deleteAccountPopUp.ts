@@ -30,7 +30,7 @@ export class DeleteAccountPopUp {
     this.errorMessage = '';
 
     if (!this.passwordConfirmation) {
-      this.errorMessage = 'Inserisci la password';
+      this.errorMessage = 'Enter password';
       return;
     }
 
@@ -42,9 +42,9 @@ export class DeleteAccountPopUp {
       },
       error: (error) => {
         if (error.status === 401 || error.status === 403 || error.status === 400) {
-          this.errorMessage = 'Password non corretta';
+          this.errorMessage = 'Password incorrect';
         } else {
-          this.errorMessage = 'Errore';
+          this.errorMessage = 'Error';
         }
       }
     })
