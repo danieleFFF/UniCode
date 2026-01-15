@@ -15,28 +15,21 @@ public class UserDTO {
     private int total_points;
     private boolean isAdmin;
 
-    @JsonProperty("isBanned")
+    @JsonProperty("isBanned") //serve per forzare il nome del campo nel JSON ad essere isBanned, altrimenti era banned e dava problemi
     private boolean isBanned;
 
-    public UserDTO(int id, String username, String email, int id_avatar, int total_points, boolean isAdmin, boolean isBanned) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.id_avatar = id_avatar;
-        this.total_points = total_points;
-        this.isAdmin = isAdmin;
+    public UserDTO(int id, String username, String email, int id_avatar, int total_points, boolean isAdmin, boolean isBanned){
+        this.id=id;
+        this.username=username;
+        this.email=email;
+        this.id_avatar=id_avatar;
+        this.total_points=total_points;
+        this.isAdmin=isAdmin;
         this.isBanned=isBanned;
     }
 
-    public static UserDTO toDTO(User user) {
-        return new UserDTO(
-                user.getId(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getId_avatar(),
-                user.getTotal_points(),
-                user.isAdmin(),
-                user.isBanned()
+    public static UserDTO toDTO(User user){
+        return new UserDTO(user.getId(),user.getUsername(),user.getEmail(),user.getId_avatar(),user.getTotal_points(),user.isAdmin(),user.isBanned()
         );
     }
 }

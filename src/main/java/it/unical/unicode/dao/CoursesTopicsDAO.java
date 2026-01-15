@@ -5,5 +5,4 @@ import it.unical.unicode.dto.CoursesTopicsDTO;
 
 public interface CoursesTopicsDAO {
     List<CoursesTopicsDTO> getTopicsByLanguageId(int languageId);
-    CoursesTopicsDTO getTopicById(int topicId);
 }

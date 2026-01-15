@@ -3,7 +3,6 @@
   <app-hero></app-hero>
   <app-info-cards></app-info-cards>
   <app-courses></app-courses>
-
   <button *ngIf="isUserAdmin" class="admin-students-btn" (click)="toggleAdminPopup()">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 0 34 24" fill="currentColor" class="users-icon">
       <g transform="translate(-4, 1) scale(0.75)" opacity="0.6">
@@ -17,14 +16,12 @@
       </g>
     </svg>
   </button>
-
   <div class="admin-popup-overlay" *ngIf="showAdminPopup" (click)="closeAdminPopup()">
     <div class="admin-popup-content" (click)="$event.stopPropagation()">
       <div class="popup-header">
         <h3>Students List</h3>
         <button class="close-popup" (click)="closeAdminPopup()">&times;</button>
       </div>
-
       <div class="popup-body">
         <div class="search-container">
           <input
@@ -34,7 +31,6 @@
             class="popup-search-input"
           >
         </div>
-
         <div *ngIf="filteredStudents.length > 0; else noStudents">
           <ul class="student-list">
             <li *ngFor="let student of filteredStudents" class="student-list-item">
@@ -64,7 +60,6 @@
             </li>
           </ul>
         </div>
-
         <ng-template #noStudents>
           <p style="text-align: center; color: #888; margin-top: 20px;">
             No students found matching "{{ searchTerm }}".
@@ -82,7 +77,6 @@
       <div class="popup-body text-center">
         <p>Are you sure you want to promote this user to Admin?</p>
         <p class="fw-bold text-white fs-5">"{{ userToPromoteName }}"</p>
-
         <div class="d-flex justify-content-center gap-3 mt-4">
           <button class="btn btn-secondary" (click)="closePromotePopup()">Cancel</button>
           <button class="btn btn-success-custom" (click)="confirmMakeAdmin()">Make Admin</button>

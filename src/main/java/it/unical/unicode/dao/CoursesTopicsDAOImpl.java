@@ -10,10 +10,8 @@ import java.util.List;
 
 @Repository
 public class CoursesTopicsDAOImpl implements CoursesTopicsDAO {
-
     private final JdbcTemplate jdbcTemplate;
-    private static final String FIND_TOPICS_BY_LANGUAGE_ID = "SELECT * FROM courses_topics WHERE id_language = ? ORDER BY id ASC";
-    private static final String FIND_TOPIC_BY_ID = "SELECT * FROM courses_topics WHERE id = ?";
+    private static final String FIND_TOPICS_BY_LANGUAGE_ID="SELECT * FROM courses_topics WHERE id_language = ? ORDER BY id ASC";
     private static final RowMapper<CoursesTopicsDTO> TOPIC_MAPPER=new TopicRowMapper();
     public CoursesTopicsDAOImpl(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate=jdbcTemplate;
@@ -38,11 +36,5 @@ public class CoursesTopicsDAOImpl implements CoursesTopicsDAO {
     @Override
     public List<CoursesTopicsDTO> getTopicsByLanguageId(int languageId){
         return jdbcTemplate.query(FIND_TOPICS_BY_LANGUAGE_ID,TOPIC_MAPPER,languageId);
-    }
-
-    @Override
-    public CoursesTopicsDTO getTopicById(int topicId){
-        List<CoursesTopicsDTO> topics=jdbcTemplate.query(FIND_TOPIC_BY_ID,TOPIC_MAPPER,topicId);
-        return topics.isEmpty() ? null : topics.getFirst();
     }
 }

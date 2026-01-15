@@ -63,14 +63,14 @@ public class ExerciseService implements IExerciseService {
     }
 
     public void createExercise(ExerciseCreationRequest request){
-        int newId = exerciseDAO.save(request.getExercise());
-        if (request.getTestCases() != null && !request.getTestCases().isEmpty()) {
-            testCaseDAO.saveAll(request.getTestCases(), newId);
+        int newId=exerciseDAO.save(request.getExercise());
+        if(request.getTestCases()!=null&&!request.getTestCases().isEmpty()){
+            testCaseDAO.saveAll(request.getTestCases(),newId);
         }
     }
 
     @Transactional
-    public void deleteExercise(int id) {
+    public void deleteExercise(int id){
         testCaseDAO.deleteByExerciseId(id);
         exerciseDAO.delete(id);
     }

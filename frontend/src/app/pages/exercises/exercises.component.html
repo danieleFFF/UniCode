@@ -16,14 +16,12 @@
             <button class="filter-btn language-button btn btn-dark" (click)="toggleLanguageMenu($event)">
               {{ selectedLanguage }} ▾
             </button>
-
             <div class="dropdown language-menu" *ngIf="showLanguageMenu">
               <button *ngFor="let lang of languages" (click)="selectLanguage(lang)">
                 {{ lang }}
               </button>
             </div>
           </div>
-
           <div class="filter-group d-flex align-items-center gap-2 flex-wrap position-relative">
             <button (click)="toggleFilterMenu($event)" class="filter-btn filter-button btn btn-dark">
               {{ selectedFilterName }} ▾
@@ -33,14 +31,12 @@
               <button (click)="applySort('difficulty')">Difficulty</button>
               <button (click)="applySort('points')">Points</button>
             </div>
-
             <button (click)="toggleOrder()" class="order-btn btn btn-dark">
               {{ sortOrder === 'asc' ? 'Asc ↑' : 'Desc ↓' }}
             </button>
           </div>
         </div>
       </div>
-
       <div *ngIf="exercises.length > 0; else noExercises" class="exercise-list">
         <div class="exercise-card row g-0 align-items-center p-3 mb-3" *ngFor="let ex of exercises">
           <div class="exercise-content col-12 col-md-9 col-lg-10">
@@ -55,7 +51,6 @@
               <p class="mb-0">{{ ex.description }}</p>
             </div>
           </div>
-
           <div class="col-12 col-md-3 col-lg-2 mt-3 mt-md-0 d-flex justify-content-md-end gap-2">
             <button class="solve-btn btn w-100" [routerLink]="['/solve', ex.id]">
               SOLVE
@@ -71,16 +66,13 @@
       </ng-template>
     </div>
   </div>
-
   <button *ngIf="isUserAdmin" class="admin-add-btn" (click)="toggleAdminPopup()"> + </button>
-
   <div class="admin-popup-overlay" *ngIf="showAdminPopup" (click)="closeAdminPopup()">
     <div class="admin-popup-content" (click)="$event.stopPropagation()">
       <div class="popup-header">
         <h3>Create New Exercise</h3>
         <button class="close-popup" (click)="closeAdminPopup()">&times;</button>
       </div>
-
       <div class="popup-body">
         <form (ngSubmit)="saveExercise()">
           <div class="row g-2 mb-3">
@@ -93,7 +85,6 @@
               <input type="text" class="form-control text-center" [value]="selectedLanguage" disabled readonly>
             </div>
           </div>
-
           <div class="row g-2 mb-3">
             <div class="col-6">
               <label class="form-label">Difficulty</label>
@@ -108,14 +99,11 @@
               <input type="number" class="form-control" [(ngModel)]="newExerciseData.exercise.points" name="points">
             </div>
           </div>
-
           <div class="mb-3">
             <label class="form-label">Description / Prompt</label>
             <textarea class="form-control" rows="4" [(ngModel)]="newExerciseData.exercise.description" name="desc"></textarea>
           </div>
-
           <hr class="popup-divider">
-
           <h5 class="mb-2">Test Cases (Input &rarr; Output)</h5>
           <div class="test-cases-list mb-2">
             <div class="d-flex gap-2 mb-2 align-items-center" *ngFor="let test of newExerciseData.testCases; let i = index">
@@ -125,16 +113,13 @@
               <button type="button" class="btn btn-sm btn-remove-test" (click)="removeTestCase(i)" *ngIf="newExerciseData.testCases.length > 1">&times;</button>
             </div>
           </div>
-
           <button type="button" class="btn btn-sm btn-add-test w-100 mb-4" (click)="addTestCase()">+ Add Test Case</button>
           <div *ngIf="errorMessage" class="error-banner mb-3">
             {{ errorMessage }}
           </div>
-
           <div class="d-grid">
             <button type="submit" class="btn btn-save">Save Exercise</button>
           </div>
-
         </form>
       </div>
     </div>
@@ -148,7 +133,6 @@
       <div class="popup-body text-center">
         <p>Are you sure to delete this exercise?</p>
         <p class="fw-bold text-white">"{{ exerciseToDeleteTitle }}"</p>
-
         <div class="d-flex justify-content-center gap-3 mt-4">
           <button class="btn btn-secondary" (click)="closeDeletePopup()">Cancel</button>
           <button class="btn btn-danger" (click)="confirmDeleteExercise()">Delete Exercise</button>

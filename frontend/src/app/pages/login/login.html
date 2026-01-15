@@ -3,9 +3,7 @@
     <div class="back-link-container text-start mb-3">
       <a routerLink="/home" class="back-link" title="Home">🏠︎</a>
     </div>
-
     <img src="../../../assets/images/logo.png" alt="Logo" class="auth-logo d-block mx-auto mb-4 img-fluid" style="max-width: 150px;">
-
     <div class="auth-input-group mb-3">
       <div class="auth-input-group input-group">
         <img src="../../../assets/images/emailicon.png" class="auth-input-icon" alt="Email icon">
@@ -13,11 +11,9 @@
           required>
       </div>
     </div>
-
     <div class="auth-input-group mb-3">
       <div class="auth-input-group input-group position-relative">
         <img src="../../../assets/images/lockicon.png" class="auth-input-icon" alt="Password icon">
-
         <input class="auth-input-field form-control" [type]="showPassword ? 'text' : 'password'" id="password" name="password"
           placeholder="Password" [(ngModel)]="password" required (copy)="disableCopy($event)"
           (cut)="disableCopy($event)" autocomplete="off">
@@ -25,7 +21,6 @@
           class="auth-password-eye position-absolute" alt="Toggle password visibility" (click)="togglePassword()" style="right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;">
       </div>
     </div>
-
     <div class="mb-3">
       <a (click)="passwordRecover()" class="link d-inline-block">Forgotten password?</a>
       @if (errorMessage){
@@ -34,13 +29,10 @@
       </div>
       }
     </div>
-
     <button type="submit" class="auth-submit-btn btn btn-primary w-100 mb-3">Sign in</button>
-
     <div class="auth-link-container text-center">
       <span>Don't have an account?</span>
       <a routerLink="/register" class="link ms-1">Register</a>
     </div>
   </form>
-
 </div>

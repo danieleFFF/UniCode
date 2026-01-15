@@ -11,32 +11,30 @@ import java.util.List;
 @Repository
 public class UserDAOImpl implements UserDAO {
     private final JdbcTemplate jdbcTemplate;
-
-    private static final String INSERT_USER = "INSERT INTO users (username, email, password_hash, total_points, id_avatar) VALUES (?, ?, ?, ?, ?)";
-    private static final String UPDATE_USER_PASSWORD = "UPDATE users SET password_hash = ? WHERE id = ?";
-    private static final String DELETE_USER = "DELETE FROM users WHERE id = ?";
-    private static final String FIND_USER_BY_EMAIL = "SELECT * FROM users WHERE email = ?";
-    private static final String FIND_USER_BY_USERNAME = "SELECT * FROM users WHERE username = ?"; // Added this line
-    private static final String RESET_PASSWORD = "UPDATE users SET password_hash = ? WHERE email = ?";
-    private static final String FIND_USER_BY_ID = "SELECT * FROM users WHERE id = ?";
-    private static final String UPDATE_TOT_POINTS = "UPDATE users SET total_points = total_points + ? WHERE id = ?";
-    private static final String UPDATE_AVATAR = "UPDATE users SET id_avatar = ? WHERE id = ?";
-    private static final String GET_RANKING = "SELECT * FROM users ORDER BY total_points DESC LIMIT ?";
-    private static final String FIND_NON_ADMIN_USERS = "SELECT * FROM users WHERE is_admin = false OR is_admin IS NULL";
-    private static final String MAKE_USER_ADMIN = "UPDATE users SET is_admin = true WHERE id = ?";
-    private static final String BAN_USER = "UPDATE users SET is_banned = true WHERE id = ?";
-    private static final String UNBAN_USER = "UPDATE users SET is_banned = false WHERE id = ?";
+    private static final String INSERT_USER="INSERT INTO users (username, email, password_hash, total_points, id_avatar) VALUES (?, ?, ?, ?, ?)";
+    private static final String UPDATE_USER_PASSWORD="UPDATE users SET password_hash = ? WHERE id = ?";
+    private static final String DELETE_USER="DELETE FROM users WHERE id = ?";
+    private static final String FIND_USER_BY_EMAIL="SELECT * FROM users WHERE email = ?";
+    private static final String FIND_USER_BY_USERNAME="SELECT * FROM users WHERE username = ?";
+    private static final String RESET_PASSWORD="UPDATE users SET password_hash = ? WHERE email = ?";
+    private static final String FIND_USER_BY_ID="SELECT * FROM users WHERE id = ?";
+    private static final String UPDATE_TOT_POINTS="UPDATE users SET total_points = total_points + ? WHERE id = ?";
+    private static final String UPDATE_AVATAR="UPDATE users SET id_avatar = ? WHERE id = ?";
+    private static final String GET_RANKING="SELECT * FROM users ORDER BY total_points DESC LIMIT ?";
+    private static final String FIND_NON_ADMIN_USERS="SELECT * FROM users WHERE is_admin = false OR is_admin IS NULL";
+    private static final String MAKE_USER_ADMIN="UPDATE users SET is_admin = true WHERE id = ?";
+    private static final String BAN_USER="UPDATE users SET is_banned = true WHERE id = ?";
+    private static final String UNBAN_USER="UPDATE users SET is_banned = false WHERE id = ?";
+    private static final RowMapper<User> USER_MAP=new UserRowMapper();
 
     public UserDAOImpl(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+        this.jdbcTemplate=jdbcTemplate;
     }
 
-    private static final RowMapper<User> USER_MAP = new UserRowMapper();
-
-    private static class UserRowMapper implements RowMapper<User> {
+    private static class UserRowMapper implements RowMapper<User>{
         @Override
-        public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-            User user = new User();
+        public User mapRow(ResultSet rs, int rowNum) throws SQLException{
+            User user=new User();
             user.setId(rs.getInt("id"));
             user.setUsername(rs.getString("username"));
             user.setEmail(rs.getString("email"));
@@ -50,80 +48,84 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void save(User user) {
-        jdbcTemplate.update(INSERT_USER, user.getUsername(),
-                user.getEmail(),
-                user.getPassword_hash(),
-                0, // Default starting points
-                1 // Default Avatar
-        );
+    public void save(User user){
+        jdbcTemplate.update(INSERT_USER,user.getUsername(),user.getEmail(),user.getPassword_hash(),0,1);
     }
 
     @Override
-    public User findByEmail(String email) {
-        List<User> users = jdbcTemplate.query(FIND_USER_BY_EMAIL, USER_MAP, email);
-        return users.isEmpty() ? null : users.getFirst();
+    public User findByEmail(String email){
+        List<User> users=jdbcTemplate.query(FIND_USER_BY_EMAIL,USER_MAP,email);
+        if(users.isEmpty()){
+            return null;
+        }
+        return users.getFirst();
     }
 
     @Override
-    public User findByUsername(String username) {
-        List<User> users = jdbcTemplate.query(FIND_USER_BY_USERNAME, USER_MAP, username);
-        return users.isEmpty() ? null : users.getFirst();
+    public User findByUsername(String username){
+        List<User> users = jdbcTemplate.query(FIND_USER_BY_USERNAME,USER_MAP,username);
+        if(users.isEmpty()){
+            return null;
+        }
+        return users.getFirst();
     }
 
     @Override
-    public void resetPassword(String email, String newPassword) {
-        jdbcTemplate.update(RESET_PASSWORD, newPassword, email);
+    public void resetPassword(String email, String newPassword){
+        jdbcTemplate.update(RESET_PASSWORD,newPassword,email);
     }
 
     @Override
-    public User findById(int id) {
-        List<User> users = jdbcTemplate.query(FIND_USER_BY_ID, USER_MAP, id);
-        return users.isEmpty() ? null : users.getFirst();
+    public User findById(int id){
+        List<User> users=jdbcTemplate.query(FIND_USER_BY_ID,USER_MAP,id);
+        if(users.isEmpty()){
+            return null;
+        }
+        return users.getFirst();
     }
 
     @Override
-    public void updateTotalPoints(int userId, int pointsToAdd) {
-        jdbcTemplate.update(UPDATE_TOT_POINTS, pointsToAdd, userId);
+    public void updateTotalPoints(int userId, int pointsToAdd){
+        jdbcTemplate.update(UPDATE_TOT_POINTS,pointsToAdd,userId);
     }
 
     @Override
     public List<User> getRanking(int limit) {
-        return jdbcTemplate.query(GET_RANKING, USER_MAP, limit);
+        return jdbcTemplate.query(GET_RANKING,USER_MAP,limit);
     }
 
     @Override
     public void updateAvatar(int userId, int avatarId) {
-        jdbcTemplate.update(UPDATE_AVATAR, avatarId, userId);
+        jdbcTemplate.update(UPDATE_AVATAR,avatarId,userId);
     }
 
     @Override
     public void deleteUser(int id) {
-        jdbcTemplate.update(DELETE_USER, id);
+        jdbcTemplate.update(DELETE_USER,id);
     }
 
     @Override
-    public void updatePassword(String newPassword, int id) {
-        jdbcTemplate.update(UPDATE_USER_PASSWORD, newPassword, id);
+    public void updatePassword(String newPassword, int id){
+        jdbcTemplate.update(UPDATE_USER_PASSWORD,newPassword,id);
     }
 
     @Override
-    public List<User> getNonAdminUsers() {
-        return jdbcTemplate.query(FIND_NON_ADMIN_USERS, USER_MAP);
+    public List<User> getNonAdminUsers(){
+        return jdbcTemplate.query(FIND_NON_ADMIN_USERS,USER_MAP);
     }
 
     @Override
-    public void makeUserAdmin(int userId) {
-        jdbcTemplate.update(MAKE_USER_ADMIN, userId);
+    public void makeUserAdmin(int userId){
+        jdbcTemplate.update(MAKE_USER_ADMIN,userId);
     }
 
     @Override
-    public void banUser(int userId) {
-        jdbcTemplate.update(BAN_USER, userId);
+    public void banUser(int userId){
+        jdbcTemplate.update(BAN_USER,userId);
     }
 
     @Override
     public void unbanUser(int userId){
-        jdbcTemplate.update(UNBAN_USER, userId);
+        jdbcTemplate.update(UNBAN_USER,userId);
     }
 }

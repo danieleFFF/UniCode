@@ -25,7 +25,7 @@ public class ExerciseDAOImpl implements ExerciseDAO {
     private static final List<String> VALID_ORDERS = Arrays.asList("asc", "desc");
 
     public ExerciseDAOImpl(JdbcTemplate jdbcTemplate){
-        this.jdbcTemplate = jdbcTemplate;
+        this.jdbcTemplate=jdbcTemplate;
     }
 
     private String validateSortColumn(String sortBy) {
@@ -93,23 +93,24 @@ public class ExerciseDAOImpl implements ExerciseDAO {
 
     @Override
     public int save(Exercise exercise) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-
-        jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(INSERT_EXERCISE, new String[]{"id"});
-            ps.setInt(1, exercise.getId_language());
-            ps.setString(2, exercise.getTitle());
-            ps.setString(3, exercise.getDescription());
-            ps.setString(4, exercise.getDifficulty());
-            ps.setInt(5, exercise.getPoints());
-            ps.setString(6, exercise.getSolution_demo() != null ? exercise.getSolution_demo() : "");
+        KeyHolder keyHolder=new GeneratedKeyHolder();
+        jdbcTemplate.update(connection->{
+            PreparedStatement ps=connection.prepareStatement(INSERT_EXERCISE,new String[]{"id"});
+            ps.setInt(1,exercise.getId_language());
+            ps.setString(2,exercise.getTitle());
+            ps.setString(3,exercise.getDescription());
+            ps.setString(4,exercise.getDifficulty());
+            ps.setInt(5,exercise.getPoints());
+            String solutionDemo=exercise.getSolution_demo();
+            ps.setString(6,Objects.requireNonNullElse(solutionDemo,""));
             return ps;
-        }, keyHolder);
-        return Objects.requireNonNull(keyHolder.getKey()).intValue();
+        },keyHolder);
+        Number key=keyHolder.getKey();
+        return Objects.requireNonNullElseGet(key,()->Objects.requireNonNull(keyHolder.getKey())).intValue();
     }
 
     @Override
     public void delete(int id) {
-        jdbcTemplate.update(DELETE_EXERCISE, id);
+        jdbcTemplate.update(DELETE_EXERCISE,id);
     }
 }

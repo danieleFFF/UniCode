@@ -3,7 +3,7 @@
     @for(course of courses; track course.name){
       <div class="col-auto">
         <a class="lang-card" [routerLink]="course.path">
-          <img [src]="course.iconPath" loading="lazy" />
+          <img [src]="course.iconPath" loading="lazy"  alt=""/>
         </a>
       </div>
     }

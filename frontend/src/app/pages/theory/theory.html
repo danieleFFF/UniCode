@@ -1,32 +1,25 @@
 <div class="course-container">
   <app-navbar></app-navbar>
-
   <div class="container py-4">
-
     @if(currentTopic) {
       <div class="course-details-card p-3 p-sm-4 p-md-5">
         <div class="course-header d-flex flex-wrap align-items-baseline gap-2 mb-4">
           <span class="title">{{ currentTopic.title }}</span>
-
           @if(topicDifficulty) {
             <span class="difficulty" [style.color]="courseService.getXpColor(topicDifficulty)">
                ({{ topicDifficulty }})
              </span>
           }
         </div>
-
         <div class="description">
           <h3 class="mt-0">Introduction to Topic</h3>
           <p>{{ currentTopic.introduction }}</p>
-
           <h3>Code Example</h3>
           <pre class="overflow-x-auto"><code>{{ currentTopic.codeExample }}</code></pre>
-
           <h3>Key Concepts</h3>
           <div class="key-concepts">
             <p style="white-space: pre-line">{{ currentTopic.keyConcepts }}</p>
           </div>
-
           @if(currentTopic.urlVideo) {
             <h3>Recommended Video</h3>
             <div class="ratio ratio-16x9 mt-3 shadow-sm rounded">
@@ -42,7 +35,6 @@
         </div>
       </div>
     }
-
     @if(errorMessage){
       <div class="no-results">
         {{ errorMessage }}

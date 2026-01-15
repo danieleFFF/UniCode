@@ -4,32 +4,18 @@ import it.unical.unicode.model.User;
 import java.util.List;
 
 public interface UserDAO {
-
     void save(User user);
-
     User findByEmail(String email);
-
-    User findByUsername(String username); // Added this line
-
+    User findByUsername(String username);
     void resetPassword(String email, String newPassword);
-
     User findById(int id);
-
     void updateTotalPoints(int userId, int pointsToAdd);
-
     List<User> getRanking(int limit);
-
     void updateAvatar(int userId, int avatarId);
-
     void deleteUser(int id);
-
     void updatePassword(String newPassword, int id);
-
     List<User> getNonAdminUsers();
-
     void makeUserAdmin(int userId);
-
     void banUser(int userId);
-
     void unbanUser(int userId);
 }

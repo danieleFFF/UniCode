@@ -12,12 +12,11 @@ import { UserService } from './user.service';
 })
 export class AuthService{
   private apiUrl=environment.apiUrl;
-
   constructor(
-    private http: HttpClient,
-    private router: Router,
-    private userService: UserService
-  ) {}
+    private http:HttpClient,
+    private router:Router,
+    private userService:UserService
+  ){}
 
   register(userData:RegisterPayload):Observable<any>{
     return this.http.post(`${this.apiUrl}/users/register`, userData, {
@@ -38,36 +37,24 @@ export class AuthService{
     });
   }
 
-  login(credentials: { email: string; password: string }): Observable<any> {
-    const body = new URLSearchParams();
-    body.set('username', credentials.email);
-    body.set('password', credentials.password);
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
-    });
-
-    return this.http.post(`${this.apiUrl}/login`, body.toString() , {
-      headers,
-      withCredentials:true,
-      responseType:'text'
-    });
+  login(credentials:{email:string; password:string}):Observable<any>{
+    const body=new URLSearchParams();
+    body.set('username',credentials.email);
+    body.set('password',credentials.password);
+    const headers=new HttpHeaders({'Content-Type':'application/x-www-form-urlencoded'});
+    return this.http.post(`${this.apiUrl}/login`,body.toString(),{headers,withCredentials:true,responseType:'text'});
   }
 
-  logout(redirect: boolean = true): void {
-    this.http.post(`${this.apiUrl}/logout`, {}, {
-      withCredentials: true,
-      responseType: 'text'
-    }).subscribe({
-      next: () => {
-        this.userService.clearUser();
-        if (redirect) {
+  logout(redirect:boolean=true):void{
+    this.http.post(`${this.apiUrl}/logout`,{},{withCredentials:true,responseType:'text'}).subscribe({
+      next:()=>{this.userService.clearUser();
+        if(redirect){
           this.router.navigate(['/home']);
         }
       },
-      error: () => {
+      error:()=>{
         this.userService.clearUser();
-        if (redirect) {
+        if(redirect){
           this.router.navigate(['/home']);
         }
       }
