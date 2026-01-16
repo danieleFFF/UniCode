@@ -47,14 +47,14 @@ public class ExerciseDAOImpl implements ExerciseDAO {
         return jdbcTemplate.query(FIND_BY_LANGUAGE, new BeanPropertyRowMapper<>(Exercise.class), idLanguage);
     }
 
-    //Searches exercises by loading a page at a time
+    //cerca esercizi caricando la pagina un po per volta
     @Override
     public List<Exercise> findByLanguagePaged(Integer idLanguage, String sortBy, String order, int page, int size) {
-        //Validates sorting parameters and prevents injections
+        //Valida i parametri di sorting e previene injections
         String sortColumn = validateSortColumn(sortBy);
         String validOrder = validateOrder(order);
 
-        StringBuilder sql = new StringBuilder(FIND_ALL); //Selects all from 'exercises'.
+        StringBuilder sql = new StringBuilder(FIND_ALL); //seleziona tutto da 'exercises'.
         Object[] params;
 
         if (idLanguage != null && idLanguage > 0){

@@ -4,7 +4,6 @@ import it.unical.unicode.dao.UserDAO;
 import it.unical.unicode.model.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service

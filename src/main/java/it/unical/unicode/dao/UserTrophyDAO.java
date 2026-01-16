@@ -1,8 +1,6 @@
 package it.unical.unicode.dao;
 
 import it.unical.unicode.model.Trophy;
-import it.unical.unicode.model.UserTrophy;
-
 import java.util.List;
 
 public interface UserTrophyDAO {

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-//Proxy pattern: adds caching functionality for exercises by language (language '1' -> exercises 'N')
+//Proxy pattern: aggiunge funzionalita caching per linguaggio/eseercizi (language '1' -> exercises 'N')
 @Service
 @Primary
 public class ExerciseServiceProxy implements IExerciseService {
@@ -40,7 +40,7 @@ public class ExerciseServiceProxy implements IExerciseService {
 
     @Override
     public List<Exercise> findByLanguagePaged(Integer idLanguage, String sortBy, String order, int page, int size) {
-        //Queries with filters bypass cache for simplicity.
+        //le query con filtri non sono prese in considerazione per semplicità
         return realService.findByLanguagePaged(idLanguage, sortBy, order, page, size);
     }
 
@@ -74,7 +74,7 @@ public class ExerciseServiceProxy implements IExerciseService {
     @Override
     public void createExercise(ExerciseCreationRequest request){
         realService.createExercise(request);
-        //Clears cache because new exercise was added
+        //pulisce cache perchè un nuovo esercizio è stato aggiunto
         clearCache();
     }
 

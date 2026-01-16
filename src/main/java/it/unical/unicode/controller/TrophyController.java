@@ -4,7 +4,6 @@ import it.unical.unicode.dto.TrophyDTO;
 import it.unical.unicode.model.Trophy;
 import it.unical.unicode.service.TrophyService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController

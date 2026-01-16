@@ -12,7 +12,6 @@ import java.util.List;
 
 @Service
 public class TrophyService {
-
     private final TrophyDAO trophyDAO;
     private final UserTrophyDAO userTrophyDAO;
     private final SubmissionDAO submissionDAO;

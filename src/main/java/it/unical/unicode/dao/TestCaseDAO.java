@@ -1,7 +1,6 @@
 package it.unical.unicode.dao;
 
 import it.unical.unicode.model.TestCase;
-
 import java.util.List;
 
 public interface TestCaseDAO {

@@ -12,7 +12,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import java.util.List;
 
 
@@ -27,12 +26,12 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        // Autenticazione
+                        //Autenticazione
                         .requestMatchers("/api/login", "/api/logout").permitAll()
                         .requestMatchers("/api/users/register").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
 
-                        // Lettura esercizi, avatar e argomenti teoria (pubblici)
+                        //Lettura esercizi, avatar e argomenti teoria
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/exercises").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/exercises/{id}").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/exercises/{id}/tests")
@@ -41,7 +40,7 @@ public class SecurityConfig {
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/users/leaderboard").permitAll()
                         .requestMatchers("/api/topics/**").permitAll()
 
-                        // === ENDPOINT PROTETTI (richiedono autenticazione) ===
+                        //end point che richiedono autenticazione
                         .requestMatchers("/api/users/profile").authenticated()
                         .requestMatchers("/api/users/password").authenticated()
                         .requestMatchers("/api/users/avatar").authenticated()
@@ -49,8 +48,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/submissions/**").authenticated()
                         .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/exercises/{id}/run")
                         .authenticated()
-
-                        // Tutto il resto richiede autenticazione
+                        //tutto il resto richiede autenticazione
                         .anyRequest().authenticated()
                 )
 
@@ -58,20 +56,18 @@ public class SecurityConfig {
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.setContentType("application/json");
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                            response.getWriter()
-                                    .write("{\"error\": \"Unauthorized\", \"message\": \"Authentication required\"}");
+                            response.getWriter().write("{\"error\": \"Unauthorized\", \"message\": \"Authentication required\"}");
                         })
-
 
                 ).formLogin(form -> form
                         .loginProcessingUrl("/api/login")
                         .successHandler((request, response, authentication) -> {
-                            // Successo: restituisce 200 OK
+                            //restituisce 200 OK
                             response.setContentType("application/json");
                             response.setStatus(HttpServletResponse.SC_OK);
                             response.getWriter().write("{\"message\": \"Login successful\"}");                        })
                         .failureHandler((request, response, exception) -> {
-                            // Fallimento: restituisce 401 UNAUTHORIZED
+                            //restituisce 401 UNAUTHORIZED
                             response.setContentType("application/json");
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                             response.getWriter().write("{\"error\": \"Invalid credentials\"}");
@@ -82,14 +78,13 @@ public class SecurityConfig {
                         .logoutUrl("/api/logout")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
-                        // In caso di successo del logout, restituisce 200
+                        //In caso di successo del logout, restituisce 200
                         .logoutSuccessHandler((request, response, authentication) -> {
                             response.setContentType("application/json");
                             response.setStatus(HttpServletResponse.SC_OK);
                             response.getWriter().write("{\"message\": \"Logout successful\"}");                        })
                         .permitAll()
                 );
-
         return http.build();
     }
 

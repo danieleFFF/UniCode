@@ -22,16 +22,16 @@ export class PasswordRecover extends AuthForm implements OnInit, OnDestroy {
   protected showPasswordConfirmation: boolean = false;
   protected passwordConfirmation: string = '';
 
-  // Error messages per campo
+  //Error messages per campo
   protected passwordError: string = '';
   protected passwordConfirmationError: string = '';
   protected secretCodeError: string = '';
 
-  // Messaggi generali
+  //messaggi generali
   errorMessage: string = '';
   successMessage: string = '';
 
-  // Timer e stato
+  //Timer e stato
   countdown: number = 190;
   showResendButton: boolean = false;
   isSubmitting: boolean = false;

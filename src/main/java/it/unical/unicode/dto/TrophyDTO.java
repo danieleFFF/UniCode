@@ -9,7 +9,6 @@ public class TrophyDTO {
     private int points_trophy;
     private String cod_trophy;
     private boolean unlocked;
-
     public TrophyDTO() {}
 
     public TrophyDTO(int id, String name, String description, int points_trophy, String cod_trophy, boolean unlocked) {

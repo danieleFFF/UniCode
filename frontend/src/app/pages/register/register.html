@@ -1,7 +1,6 @@
 <div class="auth-page-container d-block p-0 overflow-hidden">
   <div class="container-fluid h-100 p-0">
     <div class="row h-100 m-0">
-      <!-- Left Section: Hidden on small screens (d-none), visible on large (d-lg-block) -->
       <div class="col-lg-6 d-none d-lg-block position-relative p-0 left-section">
         <div class="icons-grid">
       <div class="icon-tile"><img src="../../../assets/images/pythonimage.png" alt="Python"></div>
@@ -23,7 +22,6 @@
     </div>
       </div>
 
-      <!-- Right Section: Full width on mobile (col-12), half on large (col-lg-6) -->
       <div class="col-12 col-lg-6 d-flex align-items-center justify-content-center right-section">
         <form class="auth-form-container" (ngSubmit)="onSubmit()">
       <div class="back-link-container">
@@ -36,7 +34,7 @@
           <input type="text" class="auth-input-field" placeholder="Username" name="username" [(ngModel)]="username"
             required>
         </div>
-        <!-- Error Label -->
+
         <div *ngIf="usernameError" class="text-danger small mt-1 ps-2">{{ usernameError }}</div>
       </div>
       <div class="auth-input-group">
@@ -44,7 +42,7 @@
           <img src="../../../assets/images/emailicon.png" class="auth-input-icon" alt="Email icon">
           <input type="email" class="auth-input-field" placeholder="Email" name="email" [(ngModel)]="email" required>
         </div>
-        <!-- Error Label -->
+
         <div *ngIf="emailError" class="text-danger small mt-1 ps-2">{{ emailError }}</div>
       </div>
       <div class="auth-input-group">
@@ -56,7 +54,7 @@
           <img [src]="showPassword ? 'assets/images/openedeyeicon.png' : 'assets/images/closedeyeicon.png'"
             class="auth-password-eye" alt="Toggle password visibility" (click)="togglePassword()">
         </div>
-        <!-- Error Label -->
+
         <div *ngIf="passwordError" class="text-danger small mt-1 ps-2" style="white-space: pre-line;">
           {{ passwordError }}
         </div>
@@ -70,11 +68,11 @@
           <img [src]="showPassword ? 'assets/images/openedeyeicon.png' : 'assets/images/closedeyeicon.png'"
             class="auth-password-eye" alt="Toggle password visibility" (click)="togglePassword()">
         </div>
-        <!-- Error Label -->
+
         <div *ngIf="confirmPasswordError" class="text-danger small mt-1 ps-2">{{ confirmPasswordError }}</div>
       </div>
 
-      <!-- General Error -->
+
       <div *ngIf="generalError" class="alert alert-danger py-2 mt-2 text-center" role="alert">{{ generalError }}</div>
 
       <button type="submit" class="auth-submit-btn">Sign up</button>

@@ -5,7 +5,6 @@ import it.unical.unicode.model.UserTrophy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -16,9 +15,7 @@ public class UserTrophyDAOImpl implements UserTrophyDAO {
 
     private static final String ASSIGN_TROPHY = "INSERT INTO users_trophies (id_user, id_trophy) VALUES (?, ?)";
     private static final String CHECK_USER_TROPHY = "SELECT COUNT(*) FROM users_trophies WHERE id_user = ? AND id_trophy = ?";
-    private static final String GET_USER_TROPHIES = "SELECT t.* FROM trophies t " +
-            "JOIN users_trophies ut ON t.id = ut.id_trophy " +
-            "WHERE ut.id_user = ?";
+    private static final String GET_USER_TROPHIES = "SELECT t.* FROM trophies t " +"JOIN users_trophies ut ON t.id = ut.id_trophy " + "WHERE ut.id_user = ?";
 
     public UserTrophyDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

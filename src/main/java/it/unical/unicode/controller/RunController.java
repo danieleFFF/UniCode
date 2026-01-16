@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
-//Rest controller for frontend's requests when users click TEST
+//gestisce le richieste frontend quando l'utente clicca TEST
 
 @RestController
 @RequestMapping("/api/exercises")
@@ -13,7 +13,7 @@ public class RunController {
     @Autowired
     private Judge0Service judge0Service;
 
-    @PostMapping("/{id}/run") //Answers to POST /api/exercises/123/run
+    @PostMapping("/{id}/run") //Risponde alle POST /api/exercises/123/run
     public Map<String, Object> runCode(@PathVariable Integer id, @RequestBody Map<String, Object> payload){
         try {
             System.out.println("Received payload: " + payload);
@@ -21,7 +21,7 @@ public class RunController {
             Object codeObj = payload.get("code");
             Object stdinObj = payload.get("stdin");
 
-            //Missing important data
+            //mancano dati importanti
             if(langIdObj == null || codeObj == null){
                 Map<String, Object> errorResponse = new HashMap<>();
                 errorResponse.put("error", "Missing language_id or code");
@@ -35,9 +35,9 @@ public class RunController {
             String code = codeObj.toString();
             String stdin = stdinObj != null ? stdinObj.toString() : "";
 
-            //SQL special check
+            //controllo speciale per SQL
             if ("82".equals(languageId) && !stdin.isEmpty()){
-                code = stdin + "\n" + code; //Creates tables first, then execute query
+                code = stdin + "\n" + code; //Prima crea le tabelle poi esegue la query
                 stdin = "";
             }
 
@@ -45,10 +45,10 @@ public class RunController {
             System.out.println("Language ID: " + languageId);
             System.out.println("Code length: " + code.length());
             System.out.println("Input: " + stdin);
-            //Judge0 execution
+            //esecuzione di Judge0
             Map<String, Object> result = judge0Service.execute(languageId, code, stdin);
             System.out.println("Judge0 response: " + result);
-            //Judge0 response
+            //risposta di Judge0
             Map<String, Object> response = new HashMap<>();
             response.put("stdout", result.get("stdout"));
             response.put("stderr", result.get("stderr"));

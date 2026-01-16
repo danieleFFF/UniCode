@@ -33,7 +33,7 @@ describe('DropdownMenu', () => {
     ];
 
     component.items = mockItems;
-    fixture.detectChanges(); // Trigger change detection after setting input
+    fixture.detectChanges(); //trigger change detection after setting input
 
     const compiled = fixture.nativeElement as HTMLElement;
     const items = compiled.querySelectorAll('.dropdown-item');

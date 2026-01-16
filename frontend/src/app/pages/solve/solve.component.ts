@@ -15,8 +15,7 @@ interface CachedResult {
   programOutput: string;
 }
 
-//Loads exercise, shows code editor, executes tests, shows results, saves completed exercise and assign points to user
-
+//Carica esercizio, mostra console, esegue testcase, mostra riusltati, salva esercizio completato e assegna i punti all'utente
 @Component({
   selector: 'app-solve',
   standalone: true,

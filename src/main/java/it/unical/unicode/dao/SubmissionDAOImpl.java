@@ -21,7 +21,7 @@ public class SubmissionDAOImpl implements SubmissionDAO {
 
     @Override
     public boolean hasUserCompletedExercise(int idUser, int idExercise) {
-        //Returns if the exercise was already completed
+        //Ritorna se l'esercizio è gia stato completato
         Integer count = jdbcTemplate.queryForObject(COMPLETED_EXCERSIZE, Integer.class, idUser, idExercise);
 
         return count != null && count > 0;
@@ -29,13 +29,13 @@ public class SubmissionDAOImpl implements SubmissionDAO {
 
     @Override
     public void saveSubmission(Submission submission){
-        //Saves completed exercise
+        //salva esercizio completato
         jdbcTemplate.update(SAVE_SUBMISSION, submission.getIdUser(), submission.getIdExercise(), submission.getPointsEarned(), submission.getTimeTakenSeconds(), submission.getCode());
     }
 
     @Override
     public Submission getSubmission(int idUser, int idExercise){
-        //Returns a specific submission
+        //Ritorna una consegna specifica
         List<Submission> results = jdbcTemplate.query(GET_SUBMISSION, new BeanPropertyRowMapper<>(Submission.class), idUser, idExercise);
 
         return results.isEmpty() ? null : results.getFirst();
@@ -43,7 +43,7 @@ public class SubmissionDAOImpl implements SubmissionDAO {
 
     @Override
     public List<Submission> getUserSubmissions(int idUser){
-        //Returns all user's exercises.
+        //Ritorna tutti gli es dell'utente
         return jdbcTemplate.query("SELECT * FROM submissions WHERE id_user = ?", new BeanPropertyRowMapper<>(Submission.class), idUser);
     }
 }
