@@ -28,8 +28,8 @@ Insert the same credentials in the **pom.xml** file at line 126, in the flyway p
 ###
 Check for any thread running on ports 8080 and terminate it.
 
-### Judge0 API woth RapidAPI account (for code compilation, not necessary to run application correctly)
-Get a Judge0 plan and API key.
+### Judge0 API with RapidAPI account (not necessary to run application correctly, it only works on my computer)
+Get a Judge0 plan and API key (used for users' code execution).
 ###
 Create 'application-local.yml' file under 'application.yml' containing the code:
 ```bash
