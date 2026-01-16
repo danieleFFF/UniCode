@@ -37,7 +37,7 @@ judge0:
   api-key: YOUR_JUDGE0_API_KEY
 ```
 
-### Backend
+### Backend (from IntelliJ)
 ```bash
 mvn spring-boot:run
 ```
